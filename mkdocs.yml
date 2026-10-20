@@ -1,0 +1,154 @@
+site_name: Web UI Frontend Playbook
+site_description: HTML5, CSS3, Flexbox, Grid, responsive design and modern UI, from your first tag to 15+ years of frontend architecture. Every tag and property is shown with its code and its live output.
+site_author: Web UI Frontend Playbook
+repo_name: web-ui-frontend-playbook
+repo_url: https://github.com/khiruashish/grocery-startup
+edit_uri: edit/main/web-ui-frontend-playbook/docs/
+copyright: Copyright &copy; 2026 Web UI Frontend Playbook
+
+theme:
+  name: material
+  language: en
+  icon:
+    logo: material/language-html5
+    repo: fontawesome/brands/github
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep orange
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep orange
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to system preference
+  features:
+    - announce.dismiss
+    - content.code.annotate
+    - content.code.copy
+    - content.code.select
+    - content.tabs.link
+    - content.tooltips
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.path
+    - navigation.sections
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+
+plugins:
+  - search
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.betterem
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home:
+      - index.md
+      - How to Use This Playbook: how-to-use.md
+      - Learning Roadmap (0–15 yrs): career/roadmap.md
+  - HTML5:
+      - html/index.md
+      - Document Structure & Metadata: html/document-structure.md
+      - Text Content: html/text-content.md
+      - Inline Text Semantics: html/inline-semantics.md
+      - Sectioning & Landmarks: html/sectioning.md
+      - Images & Media: html/media.md
+      - Tables: html/tables.md
+      - Forms & Inputs: html/forms.md
+      - Interactive & Web Components: html/interactive.md
+      - Global Attributes: html/global-attributes.md
+      - A–Z Tag Reference (all tags): html/all-tags.md
+  - CSS & CSS3:
+      - css/index.md
+      - Cascade, Specificity & Box Model: css/fundamentals.md
+      - Selectors (CSS1 → Selectors 4): css/selectors.md
+      - Colors & Units: css/colors-units.md
+      - Typography: css/typography.md
+      - Backgrounds, Borders & Effects: css/effects.md
+      - Positioning & Stacking: css/positioning.md
+      - Transforms, Transitions & Animations: css/animations.md
+      - Custom Properties & Theming: css/custom-properties.md
+      - Modern CSS (2023–2026): css/modern-css.md
+      - Property Cheat Sheet: css/properties.md
+  - Layout & Responsive:
+      - layout/index.md
+      - Flexbox (complete): layout/flexbox.md
+      - CSS Grid (complete): layout/grid.md
+      - Responsive Design: layout/responsive.md
+      - Layout Patterns: layout/patterns.md
+      - Latest UI Trends: layout/ui-trends.md
+  - Reverse Engineering:
+      - reverse-engineering/index.md
+      - "See This → Write This": reverse-engineering/recipes.md
+      - Live Layout Gallery: reverse-engineering/gallery.md
+  - Cheat Sheets:
+      - cheatsheets/index.md
+      - HTML: cheatsheets/html.md
+      - CSS: cheatsheets/css.md
+      - CSS3 & Modern CSS: cheatsheets/css3.md
+      - Flexbox: cheatsheets/flexbox.md
+      - Grid: cheatsheets/grid.md
+      - Responsive: cheatsheets/responsive.md
+      - Units, Colours & Functions: cheatsheets/units-functions.md
+      - UI Components & Patterns: cheatsheets/ui-components.md
+  - Senior & Architect:
+      - career/index.md
+      - Accessibility: career/accessibility.md
+      - Performance: career/performance.md
+      - CSS Architecture at Scale: career/css-architecture.md
+      - Interview Questions: career/interview.md

@@ -1,0 +1,162 @@
+/* ------------------------------------------------------------------
+   Web UI Frontend Playbook: site extras
+   .demo  = the "Output" box under every code sample
+   .lvl-* = experience level badges
+------------------------------------------------------------------- */
+
+:root {
+  --demo-bg: #ffffff;
+  --demo-fg: #1f2329;
+  --demo-border: #d8dce3;
+  --demo-label: #e4572e;
+  --box-a: #ffb38a;
+  --box-b: #8ec5ff;
+  --box-c: #b8e986;
+  --box-d: #d9b8ff;
+  --box-e: #ffe48a;
+}
+
+[data-md-color-scheme="slate"] {
+  --demo-bg: #1d2129;
+  --demo-fg: #e6e8ec;
+  --demo-border: #3a404c;
+  --box-a: #a8532a;
+  --box-b: #2f5f93;
+  --box-c: #4c7a26;
+  --box-d: #6a46a0;
+  --box-e: #8a7322;
+}
+
+/* ---------- Output box ---------- */
+.md-typeset .demo {
+  position: relative;
+  margin: 0 0 1.5em;
+  padding: 2.2em 1.2em 1.2em;
+  background: var(--demo-bg);
+  color: var(--demo-fg);
+  border: 1px solid var(--demo-border);
+  border-radius: 0.6rem;
+  overflow: auto;
+}
+.md-typeset .demo::before {
+  content: "Output";
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 0.15em 0.8em;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--demo-label);
+  border-radius: 0.6rem 0 0.6rem 0;
+}
+.md-typeset .demo > :first-child { margin-top: 0; }
+.md-typeset .demo > :last-child  { margin-bottom: 0; }
+
+/* Coloured boxes used by layout demos */
+.md-typeset .demo .b {
+  padding: 0.6em 0.9em;
+  border-radius: 0.4em;
+  background: var(--box-a);
+  color: var(--demo-fg);
+  font-weight: 600;
+  text-align: center;
+}
+.md-typeset .demo .b:nth-child(5n + 2) { background: var(--box-b); }
+.md-typeset .demo .b:nth-child(5n + 3) { background: var(--box-c); }
+.md-typeset .demo .b:nth-child(5n + 4) { background: var(--box-d); }
+.md-typeset .demo .b:nth-child(5n + 5) { background: var(--box-e); }
+
+/* Outline of the container in flex / grid demos */
+.md-typeset .demo .c {
+  padding: 0.5em;
+  border: 2px dashed var(--demo-label);
+  border-radius: 0.5em;
+  gap: 0.5em;
+}
+
+/* ---------- Level badges ---------- */
+.md-typeset .lvl {
+  display: inline-block;
+  padding: 0.05em 0.6em;
+  margin-right: 0.3em;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: 1em;
+  color: #fff;
+  vertical-align: middle;
+}
+.md-typeset .lvl-1 { background: #2e9d4f; }  /* Beginner 0–2 yrs */
+.md-typeset .lvl-2 { background: #c99a06; }  /* Intermediate 2–5 */
+.md-typeset .lvl-3 { background: #e0701d; }  /* Advanced 5–10 */
+.md-typeset .lvl-4 { background: #c4302b; }  /* Expert 10–15+ */
+
+/* ---------- Home page cards ---------- */
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--md-accent-fg-color);
+}
+
+/* Tables: keep tag reference compact */
+.md-typeset table:not([class]) td code { white-space: nowrap; }
+
+/* Recipes render in an isolated iframe so the theme can't leak in */
+.md-typeset .demo--frame { padding: 2.2em 0 0; overflow: hidden; background: #fff; }
+.md-typeset .demo-frame { display: block; inline-size: 100%; border: 0; }
+
+/* ---------- Cheat sheets ---------- */
+/* Grid of small "value → mini output" cards (Flexbox / Grid visual sheets) */
+.md-typeset .cs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(190px, 100%), 1fr));
+  gap: .8rem;
+  margin: 0 0 1.5em;
+}
+.md-typeset .cs-card {
+  border: 1px solid var(--demo-border);
+  border-radius: .6rem;
+  background: var(--demo-bg);
+  color: var(--demo-fg);
+  padding: .55rem;
+  min-width: 0;
+  display: grid;
+  gap: .45rem;
+  align-content: start;
+}
+.md-typeset .cs-card > code {
+  font-size: .68rem;
+  white-space: normal;
+  word-break: break-word;
+}
+.md-typeset .cs-card .mini {
+  min-height: 84px;
+  padding: 4px;
+  gap: 4px;
+  border: 2px dashed var(--demo-label);
+  border-radius: .4rem;
+  overflow: auto;   /* the nowrap demo overflows its box, not the page */
+}
+.md-typeset .cs-card .m {
+  min-width: 18px;
+  min-height: 18px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font: 700 .62rem/1.4 system-ui, sans-serif;
+  text-align: center;
+  color: var(--demo-fg);
+  background: var(--box-a);
+}
+.md-typeset .cs-card .m:nth-child(5n + 2) { background: var(--box-b); }
+.md-typeset .cs-card .m:nth-child(5n + 3) { background: var(--box-c); }
+.md-typeset .cs-card .m:nth-child(5n + 4) { background: var(--box-d); }
+.md-typeset .cs-card .m:nth-child(5n + 5) { background: var(--box-e); }
+
+/* Print: cheat sheets print cleanly, no site chrome */
+@media print {
+  .md-header, .md-tabs, .md-sidebar, .md-footer, .md-source-file, .md-content__button { display: none !important; }
+  .md-main__inner { margin: 0; }
+  .md-content { max-width: none; }
+  .md-typeset .cs-grid { grid-template-columns: repeat(4, 1fr); }
+  .md-typeset .cs-card, .md-typeset table { break-inside: avoid; }
+}
