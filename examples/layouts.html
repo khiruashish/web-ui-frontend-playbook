@@ -1,0 +1,1365 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="18 responsive web layouts, each with live output, its exact HTML and CSS, and an explanation of why it works.">
+  <title>Layout Gallery · Web UI Frontend Playbook</title>
+  <style>
+    /* ============================================================
+       Page shell: tokens, reset, header, navigation, sections
+       ============================================================ */
+    :root {
+      color-scheme: light;
+      --brand: #e4572e;
+      --accent: #3f51b5;
+      --ok: #2e9d4f;
+      --bg: #f7f7f9;
+      --surface: #ffffff;
+      --text: #1f2329;
+      --muted: #5f6672;
+      --border: #e3e5ea;
+      --tile: #ffd9c9;
+      --tile-text: #5a1e0b;
+      --code-bg: #f1f2f5;
+      --radius: 14px;
+      --gap: 1rem;
+      --grad: linear-gradient(135deg, #e4572e, #f3a712);
+      --shadow: 0 6px 24px rgb(0 0 0 / .06);
+    }
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #111316;
+      --surface: #1b1e23;
+      --text: #e6e8ec;
+      --muted: #a2a8b3;
+      --border: #2d323a;
+      --tile: #5a2a1a;
+      --tile-text: #ffd9c9;
+      --code-bg: #15181c;
+      --shadow: 0 6px 24px rgb(0 0 0 / .4);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        color-scheme: dark;
+        --bg: #111316;
+        --surface: #1b1e23;
+        --text: #e6e8ec;
+        --muted: #a2a8b3;
+        --border: #2d323a;
+        --tile: #5a2a1a;
+        --tile-text: #ffd9c9;
+        --code-bg: #15181c;
+        --shadow: 0 6px 24px rgb(0 0 0 / .4);
+      }
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 5rem; -webkit-text-size-adjust: none; text-size-adjust: none; }
+    body {
+      margin: 0; min-height: 100dvh;
+      font: 400 1rem/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg); color: var(--text);
+    }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: var(--brand); }
+    input, button { font: inherit; }
+    input { padding: .5rem .7rem; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); width: 100%; }
+    button { padding: .55rem 1rem; border: 0; border-radius: 8px; background: var(--brand); color: #fff; font-weight: 700; cursor: pointer; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+    .skip { position: absolute; left: 1rem; top: -4rem; z-index: 100; padding: .6rem 1rem; background: var(--brand); color: #fff; border-radius: 8px; }
+    .skip:focus { top: 1rem; }
+
+    /* Header: sticky, blurred, nav collapses into a popover on small screens */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      display: flex; align-items: center; gap: 1rem;
+      padding: .8rem clamp(1rem, 4vw, 2rem);
+      background: color-mix(in srgb, var(--bg) 80%, transparent);
+      backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-weight: 800; text-decoration: none; color: var(--text); }
+    .logo span { color: var(--brand); }
+    .header-actions { margin-inline-start: auto; display: flex; gap: .5rem; align-items: center; }
+    .icon-btn { display: inline-grid; place-items: center; min-width: 44px; min-height: 44px; padding: 0 .7rem; font-size: 1.2rem; background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+    .site-nav { display: none; }
+    .site-nav a { color: var(--text); text-decoration: none; font-weight: 600; }
+    .site-nav a:hover { color: var(--brand); }
+    #menu:popover-open {
+      display: flex; flex-direction: column; gap: .3rem;
+      position: fixed; inset: 4.5rem 1rem auto auto; margin: 0;
+      padding: .6rem; min-width: 220px; max-height: 70vh; overflow: auto;
+      background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 14px; box-shadow: var(--shadow);
+    }
+    #menu a { padding: .5rem .8rem; border-radius: 8px; color: var(--text); text-decoration: none; }
+    #menu a:hover { background: var(--code-bg); }
+    @media (width >= 64em) {
+      .site-nav { display: flex; gap: 1.5rem; }
+    }
+
+    /* Intro + table of contents */
+    .wrap { width: min(100% - 2rem, 76rem); margin-inline: auto; }
+    .intro { padding-block: clamp(2rem, 6vw, 4rem) 1rem; }
+    .intro h1 { font-size: clamp(2rem, 1.2rem + 3.5vw, 3.6rem); line-height: 1.05; letter-spacing: -.03em; margin: 0 0 .8rem; text-wrap: balance; }
+    .intro p { max-width: 65ch; color: var(--muted); margin: 0 0 1rem; }
+    .toc {
+      list-style: none; padding: 0; margin: 1.5rem 0 0;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(min(15rem, 100%), 1fr)); gap: .4rem;
+    }
+    .toc a { display: block; padding: .55rem .8rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--border); text-decoration: none; color: var(--text); font-weight: 600; }
+    .toc a:hover { border-color: var(--brand); color: var(--brand); }
+
+    /* Layout sections */
+    .layout {
+      margin-block: 2rem; padding: clamp(1rem, 3vw, 2rem);
+      background: var(--surface); border: 1px solid var(--border); border-radius: 20px; box-shadow: var(--shadow);
+    }
+    .layout__head { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem; }
+    .layout__head h2 { margin: 0; font-size: clamp(1.3rem, 1rem + 1vw, 1.8rem); }
+    .num { color: var(--brand); font-variant-numeric: tabular-nums; }
+    .level { font-size: .75rem; font-weight: 700; padding: .15rem .7rem; border-radius: 99px; color: #fff; }
+    .level--b { background: #2e9d4f; } .level--i { background: #b8860b; } .level--a { background: #d0631c; }
+    .see { color: var(--muted); margin: .6rem 0 1rem; }
+    .stage { padding: clamp(.6rem, 2vw, 1.2rem); border: 2px dashed color-mix(in srgb, var(--brand) 45%, transparent); border-radius: var(--radius); background: var(--bg); }
+    .tile { padding: .8rem; border-radius: 10px; background: var(--tile); color: var(--tile-text); font-weight: 700; }
+    .tile ol { font-weight: 400; margin: .4rem 0 0; padding-left: 1.2rem; }
+
+    .code { margin-top: 1rem; border: 1px solid var(--border); border-radius: var(--radius); }
+    .code summary { cursor: pointer; padding: .8rem 1rem; font-weight: 700; }
+    .code__grid { display: grid; gap: 1rem; padding: 0 1rem 1rem; }
+    @media (width >= 64em) { .code__grid { grid-template-columns: 1fr 1fr; } }
+    .code h3 { margin: 0 0 .4rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+    .code pre { margin: 0; padding: 1rem; overflow: auto; border-radius: 10px; background: var(--code-bg); font: .82rem/1.55 ui-monospace, "Cascadia Code", Menlo, monospace; tab-size: 2; }
+    .why h3 { margin: 1.2rem 0 .3rem; font-size: 1rem; }
+    .why ul { margin: 0; padding-left: 1.2rem; color: var(--muted); }
+    .why li + li { margin-top: .3rem; }
+    .why code, .see code { background: var(--code-bg); padding: .1em .35em; border-radius: 4px; font-size: .9em; }
+
+    .btn { display: inline-block; padding: .75rem 1.3rem; border-radius: 99px; background: var(--brand); color: #fff; font-weight: 700; text-decoration: none; }
+    .btn--ghost { background: transparent; color: var(--text); border: 2px solid var(--border); }
+
+    .site-footer { padding: 2rem 0 3rem; color: var(--muted); text-align: center; }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+    }
+
+    /* ============================================================
+       Layout examples (identical to the code shown in each section)
+       ============================================================ */
+    /* 01 · Centering */
+    .center-demo {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+    }
+
+    /* 02 · Holy grail */
+    .holy {
+      display: grid;
+      gap: var(--gap);
+      grid-template-areas: "header" "nav" "main" "aside" "footer";
+    }
+    .holy > header { grid-area: header; }
+    .holy > nav    { grid-area: nav; }
+    .holy > .holy__main { grid-area: main; min-height: 160px; }
+    .holy > aside  { grid-area: aside; }
+    .holy > footer { grid-area: footer; }
+
+    @media (width >= 48em) {
+      .holy {
+        grid-template-columns: 160px 1fr 160px;
+        grid-template-areas:
+          "header header header"
+          "nav    main   aside"
+          "footer footer footer";
+      }
+    }
+
+    /* 03 · Sidebar that wraps (no media query) */
+    .with-sidebar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--gap);
+    }
+    .with-sidebar > :first-child { flex: 1 1 220px; }
+    .with-sidebar > :last-child  { flex: 999 1 0; min-inline-size: 55%; }
+
+    /* 04 · Pancake stack & sticky footer */
+    .pancake {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: var(--gap);
+      min-height: 280px;   /* on a real page: min-height: 100dvh on body */
+    }
+
+    /* 05 · Responsive card grid (RAM) */
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+      gap: var(--gap);
+    }
+    .card {
+      display: grid; gap: .4rem; padding: .8rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .card h3, .card p { margin: 0; }
+    .card__img { aspect-ratio: 4 / 3; border-radius: calc(var(--radius) - 4px); background: var(--grad); }
+
+    /* 06 · 12-column grid */
+    .row12 {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: var(--gap);
+    }
+    .row12 > * { grid-column: 1 / -1; }     /* mobile: full width */
+    @media (width >= 40em) {
+      .span-12 { grid-column: span 12; }
+      .span-8  { grid-column: span 8; }
+      .span-6  { grid-column: span 6; }
+      .span-4  { grid-column: span 4; }
+      .span-3  { grid-column: span 3; }
+    }
+
+    /* 07 · Bento grid */
+    .bento {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      grid-auto-rows: 110px;
+      grid-auto-flow: dense;
+      gap: var(--gap);
+    }
+    .bento .big  { grid-column: span 2; grid-row: span 2; }
+    .bento .wide { grid-column: span 2; }
+    .bento .tall { grid-row: span 2; }
+    .bento > *   { border-radius: 20px; }
+    @media (width >= 48em) {
+      .bento { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    /* 08 · Masonry */
+    .masonry {
+      columns: 4 160px;          /* up to 4 columns, each at least 160px */
+      column-gap: var(--gap);
+    }
+    .masonry > * {
+      break-inside: avoid;       /* never split a tile across columns */
+      margin-bottom: var(--gap);
+    }
+
+    /* 09 · Split screen */
+    .split {
+      display: grid;
+      border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+    }
+    .split__brand {
+      display: grid; place-content: center; text-align: center;
+      padding: 2rem; min-height: 140px;
+      background: var(--grad); color: #fff; font: 800 1.6rem/1.2 inherit;
+    }
+    .split__form { display: grid; gap: .8rem; padding: 2rem; align-content: center; }
+    .split__form label { display: grid; gap: .3rem; }
+    @media (width >= 48em) {
+      .split { grid-template-columns: 1fr 1fr; min-height: 320px; }
+    }
+
+    /* 10 · Media object */
+    .media-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); }
+    .media { display: flex; gap: 1rem; align-items: flex-start; }
+    .media__img {
+      flex-shrink: 0;                      /* never squash the avatar */
+      inline-size: 48px; aspect-ratio: 1; border-radius: 50%;
+      background: var(--grad);
+    }
+    .media p { margin: .2rem 0 0; color: var(--muted); }
+
+    /* 11 · Magazine / editorial */
+    .mag {
+      display: grid;
+      gap: var(--gap);
+      grid-template-columns: 1fr;
+      grid-auto-rows: minmax(90px, auto);
+    }
+    @media (width >= 40em) {
+      .mag { grid-template-columns: 1fr 1fr; }
+      .mag .lead { grid-column: 1 / -1; }
+    }
+    @media (width >= 64em) {
+      .mag { grid-template-columns: 2fr 1fr 1fr; }
+      .mag .lead { grid-column: 1; grid-row: span 2; }
+      .mag .list { grid-column: 3; grid-row: 1 / span 2; }
+    }
+
+    /* 12 · Dashboard */
+    .dash {
+      display: grid; gap: var(--gap);
+      grid-template-areas: "top" "kpis" "panels";
+    }
+    .dash__side { display: none; }
+    .dash__top    { grid-area: top; }
+    .dash__kpis   { grid-area: kpis; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--gap); }
+    .dash__panels { grid-area: panels; display: grid; gap: var(--gap); }
+    .dash :is(.dash__top, .dash__kpis > *, .dash__panels > *) {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .8rem;
+    }
+    .dash__kpis b { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+    .bars { display: flex; align-items: flex-end; gap: 6px; height: 120px; margin-top: .5rem; }
+    .bars i { flex: 1; height: var(--h); border-radius: 4px 4px 0 0; background: var(--grad); }
+    @media (width >= 56em) {
+      .dash {
+        grid-template-columns: 180px 1fr;
+        grid-template-areas: "side top" "side kpis" "side panels";
+      }
+      .dash__side { display: block; grid-area: side; padding: 1rem; border-radius: var(--radius); background: #1f2329; color: #fff; }
+      .dash__panels { grid-template-columns: 2fr 1fr; }
+    }
+
+    /* 13 · Pricing table */
+    .plans {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: 1.5rem; align-items: center; padding-block: 1rem;
+    }
+    .plan {
+      position: relative; display: flex; flex-direction: column; gap: .5rem;
+      padding: 1.5rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border);
+    }
+    .plan h3, .plan p { margin: 0; }
+    .price { font-size: 2rem; font-weight: 800; }
+    .price small { font-size: .9rem; font-weight: 400; color: var(--muted); }
+    .plan ul { list-style: none; padding: 0; margin: .5rem 0 1rem; display: grid; gap: .3rem; }
+    .plan li::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+    .plan a { margin-top: auto; text-align: center; padding: .7rem; border-radius: 8px; border: 2px solid var(--brand); color: var(--brand); font-weight: 700; text-decoration: none; }
+    .plan--hot { border: 2px solid var(--brand); scale: 1.04; box-shadow: 0 20px 40px color-mix(in srgb, var(--brand) 25%, transparent); }
+    .plan--hot a { background: var(--brand); color: #fff; }
+    .badge { position: absolute; top: 0; left: 50%; translate: -50% -50%; padding: .2rem .8rem; border-radius: 99px; background: var(--brand); color: #fff; font-size: .75rem; font-weight: 700; }
+
+    /* 14 · Container-query card */
+    .cq-demo { display: grid; gap: var(--gap); }
+    @media (width >= 48em) { .cq-demo { grid-template-columns: 240px 1fr; } }
+
+    .cq-slot { container-type: inline-size; }    /* make each slot a container */
+
+    .product {
+      display: grid; gap: .8rem; padding: .8rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    }
+    .product h3, .product p { margin: 0; }
+    .product__img { min-height: 110px; border-radius: 10px; background: var(--grad); }
+
+    @container (width >= 26rem) {            /* the CARD's slot is wide, not the screen */
+      .product { grid-template-columns: 160px 1fr; align-items: center; }
+    }
+
+    /* 15 · Full-bleed article */
+    .article {
+      display: grid;
+      grid-template-columns:
+        [full-start] minmax(1rem, 1fr)
+        [content-start] minmax(0, 60ch) [content-end]
+        minmax(1rem, 1fr) [full-end];
+      row-gap: .8rem;
+    }
+    .article > *     { grid-column: content; margin: 0; }
+    .article > .full { grid-column: full; }
+    .bleed-img { min-height: 160px; display: grid; place-items: center; background: var(--grad); color: #fff; font-weight: 700; }
+
+    /* 16 · Alternating features (Z-pattern) */
+    .features { display: grid; gap: 2rem; }
+    .feature { display: grid; gap: 1rem; align-items: center; }
+    .feature h3, .feature p { margin: 0 0 .3rem; }
+    .feature__img { min-height: 140px; border-radius: var(--radius); background: var(--grad); }
+    @media (width >= 48em) {
+      .feature { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      .feature:nth-child(even) .feature__img { order: -1; }   /* image first on every other row */
+    }
+
+    /* 17 · Landing hero */
+    .hero {
+      display: grid; gap: 2rem; align-items: center;
+      padding: clamp(1.5rem, 4vw, 3rem); border-radius: 24px;
+      background: radial-gradient(at 0% 0%, color-mix(in srgb, var(--brand) 25%, transparent), transparent 60%),
+                  radial-gradient(at 100% 100%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 60%),
+                  var(--surface);
+    }
+    .hero__title { font-size: clamp(1.8rem, 1rem + 3.5vw, 3.2rem); line-height: 1.05; letter-spacing: -.03em; margin: .3rem 0 .8rem; text-wrap: balance; }
+    .hero__text > p { margin: 0; }
+    .eyebrow { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--brand); }
+    .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.2rem; }
+    .hero__img { min-height: 220px; border-radius: 20px; background: url("https://picsum.photos/id/1080/800/600") center / cover; }
+    @media (width >= 48em) { .hero { grid-template-columns: 1.1fr 1fr; } }
+
+    /* 18 · Docs layout with sticky sidebar */
+    .docs-scroll { max-height: 300px; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+    .docs { display: grid; gap: 1.5rem; padding: 1rem; }
+    .docs__toc { display: flex; flex-wrap: wrap; gap: .4rem 1rem; }
+    .docs__body h3 { margin: 1.2rem 0 .4rem; }
+    .docs__body p { margin: 0 0 1rem; }
+    @media (width >= 48em) {
+      .docs { grid-template-columns: 180px 1fr; }
+      .docs__toc {
+        position: sticky; top: 1rem;
+        align-self: start;                 /* don't stretch, or sticky has no room to move */
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-header">
+    <a class="logo" href="#top">◆ Layout <span>Gallery</span></a>
+    <nav class="site-nav" aria-label="Sections">
+      <a href="#holy-grail">Page layouts</a>
+      <a href="#cards">Grids</a>
+      <a href="#dashboard">App UI</a>
+      <a href="#container-query">Modern CSS</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="theme-toggle" type="button" aria-label="Toggle dark mode"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg></button>
+      <button class="icon-btn" type="button" popovertarget="menu" aria-label="All layouts">☰</button>
+    </div>
+    <nav id="menu" popover aria-label="All layouts">
+      <a href="#centering">1. Centering</a>
+      <a href="#holy-grail">2. Holy grail</a>
+      <a href="#sidebar">3. Sidebar that wraps (no media query)</a>
+      <a href="#pancake">4. Pancake stack &amp; sticky footer</a>
+      <a href="#cards">5. Responsive card grid (RAM)</a>
+      <a href="#twelve">6. 12-column grid</a>
+      <a href="#bento">7. Bento grid</a>
+      <a href="#masonry">8. Masonry</a>
+      <a href="#split">9. Split screen</a>
+      <a href="#media">10. Media object</a>
+      <a href="#magazine">11. Magazine / editorial</a>
+      <a href="#dashboard">12. Dashboard</a>
+      <a href="#pricing">13. Pricing table</a>
+      <a href="#container-query">14. Container-query card</a>
+      <a href="#full-bleed">15. Full-bleed article</a>
+      <a href="#z-pattern">16. Alternating features (Z-pattern)</a>
+      <a href="#hero">17. Landing hero</a>
+      <a href="#docs">18. Docs layout with sticky sidebar</a>
+    </nav>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="intro" id="top">
+      <h1>18 responsive layouts, decoded.</h1>
+      <p>Every section shows a live layout, describes <strong>what you see</strong>, gives the <strong>exact HTML and CSS</strong> running it, and explains <strong>why it works</strong>. Resize your browser (or rotate your phone) to watch each one adapt.</p>
+      <p>This page is itself a responsive layout: a sticky blurred header, a navigation that collapses into a menu on small screens, an auto-fill table of contents, light/dark themes and reduced-motion support. View the source to see how.</p>
+      <ol class="toc">
+        <li><a href="#centering">1. Centering</a></li>
+        <li><a href="#holy-grail">2. Holy grail</a></li>
+        <li><a href="#sidebar">3. Sidebar that wraps (no media query)</a></li>
+        <li><a href="#pancake">4. Pancake stack &amp; sticky footer</a></li>
+        <li><a href="#cards">5. Responsive card grid (RAM)</a></li>
+        <li><a href="#twelve">6. 12-column grid</a></li>
+        <li><a href="#bento">7. Bento grid</a></li>
+        <li><a href="#masonry">8. Masonry</a></li>
+        <li><a href="#split">9. Split screen</a></li>
+        <li><a href="#media">10. Media object</a></li>
+        <li><a href="#magazine">11. Magazine / editorial</a></li>
+        <li><a href="#dashboard">12. Dashboard</a></li>
+        <li><a href="#pricing">13. Pricing table</a></li>
+        <li><a href="#container-query">14. Container-query card</a></li>
+        <li><a href="#full-bleed">15. Full-bleed article</a></li>
+        <li><a href="#z-pattern">16. Alternating features (Z-pattern)</a></li>
+        <li><a href="#hero">17. Landing hero</a></li>
+        <li><a href="#docs">18. Docs layout with sticky sidebar</a></li>
+      </ol>
+    </section>
+
+    <section class="layout" id="centering" aria-labelledby="centering-h">
+      <div class="layout__head">
+        <h2 id="centering-h"><span class="num">01</span> Centering</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A box sitting dead-centre, horizontally and vertically, inside a larger area.</p>
+      <div class="stage">
+        <div class="center-demo">
+          <div class="tile">Perfectly centred</div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="center-demo"&gt;
+  &lt;div class="tile"&gt;Perfectly centred&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.center-demo {
+  display: grid;
+  place-items: center;
+  min-height: 220px;
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>display: grid</code> turns the container into a one-cell grid.</li>
+          <li><code>place-items: center</code> centres the item on both axes inside that cell.</li>
+          <li>Flexbox equivalent: <code>display:flex; justify-content:center; align-items:center</code>.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="holy-grail" aria-labelledby="holy-grail-h">
+      <div class="layout__head">
+        <h2 id="holy-grail-h"><span class="num">02</span> Holy grail</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Header across the top, footer across the bottom, main content in the middle with a nav on the left and a sidebar on the right. On phones everything stacks.</p>
+      <div class="stage">
+        <div class="holy">
+          <header class="tile">Header</header>
+          <nav class="tile">Nav</nav>
+          <div class="tile holy__main">Main content</div>
+          <aside class="tile">Aside</aside>
+          <footer class="tile">Footer</footer>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="holy"&gt;
+  &lt;header class="tile"&gt;Header&lt;/header&gt;
+  &lt;nav class="tile"&gt;Nav&lt;/nav&gt;
+  &lt;div class="tile holy__main"&gt;Main content&lt;/div&gt;
+  &lt;aside class="tile"&gt;Aside&lt;/aside&gt;
+  &lt;footer class="tile"&gt;Footer&lt;/footer&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.holy {
+  display: grid;
+  gap: var(--gap);
+  grid-template-areas: "header" "nav" "main" "aside" "footer";
+}
+.holy &gt; header { grid-area: header; }
+.holy &gt; nav    { grid-area: nav; }
+.holy &gt; .holy__main { grid-area: main; min-height: 160px; }
+.holy &gt; aside  { grid-area: aside; }
+.holy &gt; footer { grid-area: footer; }
+
+@media (width &gt;= 48em) {
+  .holy {
+    grid-template-columns: 160px 1fr 160px;
+    grid-template-areas:
+      "header header header"
+      "nav    main   aside"
+      "footer footer footer";
+  }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>Mobile-first: the base CSS is a single column in reading order.</li>
+          <li><code>grid-template-areas</code> draws the desktop layout as text. Changing the layout means redrawing the map, not moving HTML.</li>
+          <li>Semantic elements (<code>header</code>, <code>nav</code>, <code>aside</code>, <code>footer</code>) describe each region. On a real page the middle area is your one <code>&lt;main&gt;</code>; it's a <code>div</code> here only because this demo already sits inside the page's <code>main</code>.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="sidebar" aria-labelledby="sidebar-h">
+      <div class="layout__head">
+        <h2 id="sidebar-h"><span class="num">03</span> Sidebar that wraps (no media query)</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A narrow sidebar next to wide content. When there's not enough room, the sidebar drops above the content on its own.</p>
+      <div class="stage">
+        <div class="with-sidebar">
+          <aside class="tile">Sidebar (ideal 220px)</aside>
+          <div class="tile">Content: takes all remaining space, and wraps below the sidebar when it would get narrower than 55% of the row.</div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="with-sidebar"&gt;
+  &lt;aside class="tile"&gt;Sidebar (ideal 220px)&lt;/aside&gt;
+  &lt;div class="tile"&gt;Content: takes all remaining space, and wraps below the sidebar when it would get narrower than 55% of the row.&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.with-sidebar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap);
+}
+.with-sidebar &gt; :first-child { flex: 1 1 220px; }
+.with-sidebar &gt; :last-child  { flex: 999 1 0; min-inline-size: 55%; }</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>The content's huge <code>flex-grow</code> (999) means it takes almost all the spare space, so the sidebar stays near 220px.</li>
+          <li><code>min-inline-size: 55%</code> on the content forces a wrap once the row is too narrow for both.</li>
+          <li>This is an <em>intrinsic</em> layout: it responds to its container, not the viewport, so it works in any slot.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="pancake" aria-labelledby="pancake-h">
+      <div class="layout__head">
+        <h2 id="pancake-h"><span class="num">04</span> Pancake stack &amp; sticky footer</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Header, content, footer stacked vertically. The footer stays at the very bottom even when there's little content.</p>
+      <div class="stage">
+        <div class="pancake">
+          <header class="tile">Header</header>
+          <div class="tile">Main grows to fill the space</div>
+          <footer class="tile">Footer stays at the bottom</footer>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="pancake"&gt;
+  &lt;header class="tile"&gt;Header&lt;/header&gt;
+  &lt;div class="tile"&gt;Main grows to fill the space&lt;/div&gt;
+  &lt;footer class="tile"&gt;Footer stays at the bottom&lt;/footer&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.pancake {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: var(--gap);
+  min-height: 280px;   /* on a real page: min-height: 100dvh on body */
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>auto</code> rows are as tall as their content; the <code>1fr</code> row takes everything left over.</li>
+          <li>Use <code>100dvh</code> rather than <code>100vh</code> on mobile so the footer isn't hidden behind the browser's URL bar.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="cards" aria-labelledby="cards-h">
+      <div class="layout__head">
+        <h2 id="cards-h"><span class="num">05</span> Responsive card grid (RAM)</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A grid of equal cards: 1 per row on phones, 2–4 per row on bigger screens, always filling the row.</p>
+      <div class="stage">
+        <div class="card-grid">
+          <article class="card"><div class="card__img"></div><h3>Mangoes</h3><p>Sweet Alphonso, 1 kg.</p></article>
+          <article class="card"><div class="card__img"></div><h3>Bananas</h3><p>Robusta, 1 dozen.</p></article>
+          <article class="card"><div class="card__img"></div><h3>Spinach</h3><p>Fresh bunch, 250 g.</p></article>
+          <article class="card"><div class="card__img"></div><h3>Tomatoes</h3><p>Farm fresh, 500 g.</p></article>
+          <article class="card"><div class="card__img"></div><h3>Milk</h3><p>Toned, 1 litre.</p></article>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="card-grid"&gt;
+  &lt;article class="card"&gt;&lt;div class="card__img"&gt;&lt;/div&gt;&lt;h3&gt;Mangoes&lt;/h3&gt;&lt;p&gt;Sweet Alphonso, 1 kg.&lt;/p&gt;&lt;/article&gt;
+  &lt;article class="card"&gt;&lt;div class="card__img"&gt;&lt;/div&gt;&lt;h3&gt;Bananas&lt;/h3&gt;&lt;p&gt;Robusta, 1 dozen.&lt;/p&gt;&lt;/article&gt;
+  &lt;article class="card"&gt;&lt;div class="card__img"&gt;&lt;/div&gt;&lt;h3&gt;Spinach&lt;/h3&gt;&lt;p&gt;Fresh bunch, 250 g.&lt;/p&gt;&lt;/article&gt;
+  &lt;article class="card"&gt;&lt;div class="card__img"&gt;&lt;/div&gt;&lt;h3&gt;Tomatoes&lt;/h3&gt;&lt;p&gt;Farm fresh, 500 g.&lt;/p&gt;&lt;/article&gt;
+  &lt;article class="card"&gt;&lt;div class="card__img"&gt;&lt;/div&gt;&lt;h3&gt;Milk&lt;/h3&gt;&lt;p&gt;Toned, 1 litre.&lt;/p&gt;&lt;/article&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: var(--gap);
+}
+.card {
+  display: grid; gap: .4rem; padding: .8rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.card h3, .card p { margin: 0; }
+.card__img { aspect-ratio: 4 / 3; border-radius: calc(var(--radius) - 4px); background: var(--grad); }</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><b>R</b>epeat, <b>A</b>uto-fit, <b>M</b>inmax: "as many columns as fit, each at least 180px, stretched to fill".</li>
+          <li><code>min(180px, 100%)</code> stops overflow on screens narrower than 180px.</li>
+          <li>No media queries: the number of columns follows the available width.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="twelve" aria-labelledby="twelve-h">
+      <div class="layout__head">
+        <h2 id="twelve-h"><span class="num">06</span> 12-column grid</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Rows of boxes with different widths (full, two-thirds + one-third, halves, quarters) that all line up to the same invisible columns. On phones they stack.</p>
+      <div class="stage">
+        <div class="row12">
+          <div class="tile span-12">12</div>
+          <div class="tile span-8">8</div><div class="tile span-4">4</div>
+          <div class="tile span-6">6</div><div class="tile span-6">6</div>
+          <div class="tile span-3">3</div><div class="tile span-3">3</div><div class="tile span-3">3</div><div class="tile span-3">3</div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="row12"&gt;
+  &lt;div class="tile span-12"&gt;12&lt;/div&gt;
+  &lt;div class="tile span-8"&gt;8&lt;/div&gt;&lt;div class="tile span-4"&gt;4&lt;/div&gt;
+  &lt;div class="tile span-6"&gt;6&lt;/div&gt;&lt;div class="tile span-6"&gt;6&lt;/div&gt;
+  &lt;div class="tile span-3"&gt;3&lt;/div&gt;&lt;div class="tile span-3"&gt;3&lt;/div&gt;&lt;div class="tile span-3"&gt;3&lt;/div&gt;&lt;div class="tile span-3"&gt;3&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.row12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap);
+}
+.row12 &gt; * { grid-column: 1 / -1; }     /* mobile: full width */
+@media (width &gt;= 40em) {
+  .span-12 { grid-column: span 12; }
+  .span-8  { grid-column: span 8; }
+  .span-6  { grid-column: span 6; }
+  .span-4  { grid-column: span 4; }
+  .span-3  { grid-column: span 3; }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>12 divides evenly by 2, 3, 4 and 6, so it supports halves, thirds and quarters.</li>
+          <li><code>minmax(0, 1fr)</code> instead of <code>1fr</code> stops long content from making one column wider than the others.</li>
+          <li><code>1 / -1</code> means "from the first line to the last": full width.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="bento" aria-labelledby="bento-h">
+      <div class="layout__head">
+        <h2 id="bento-h"><span class="num">07</span> Bento grid</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Feature tiles of mixed sizes, one big, some wide, some tall, packed tightly with rounded corners.</p>
+      <div class="stage">
+        <div class="bento">
+          <div class="tile big">Big feature</div>
+          <div class="tile tall">Tall</div>
+          <div class="tile">Small</div>
+          <div class="tile">Small</div>
+          <div class="tile wide">Wide tile</div>
+          <div class="tile">Small</div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="bento"&gt;
+  &lt;div class="tile big"&gt;Big feature&lt;/div&gt;
+  &lt;div class="tile tall"&gt;Tall&lt;/div&gt;
+  &lt;div class="tile"&gt;Small&lt;/div&gt;
+  &lt;div class="tile"&gt;Small&lt;/div&gt;
+  &lt;div class="tile wide"&gt;Wide tile&lt;/div&gt;
+  &lt;div class="tile"&gt;Small&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.bento {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 110px;
+  grid-auto-flow: dense;
+  gap: var(--gap);
+}
+.bento .big  { grid-column: span 2; grid-row: span 2; }
+.bento .wide { grid-column: span 2; }
+.bento .tall { grid-row: span 2; }
+.bento &gt; *   { border-radius: 20px; }
+@media (width &gt;= 48em) {
+  .bento { grid-template-columns: repeat(4, 1fr); }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>grid-auto-rows</code> gives every row the same height, so <code>span</code> creates exact 1×1, 2×1, 1×2 and 2×2 tiles.</li>
+          <li><code>grid-auto-flow: dense</code> fills holes left by big tiles. Be careful: it can change the visual order away from the DOM order.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="masonry" aria-labelledby="masonry-h">
+      <div class="layout__head">
+        <h2 id="masonry-h"><span class="num">08</span> Masonry</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Columns of boxes with different heights, packed with no gaps, like Pinterest.</p>
+      <div class="stage">
+        <div class="masonry">
+          <div class="tile" style="height:90px">1</div>
+          <div class="tile" style="height:150px">2</div>
+          <div class="tile" style="height:70px">3</div>
+          <div class="tile" style="height:120px">4</div>
+          <div class="tile" style="height:100px">5</div>
+          <div class="tile" style="height:140px">6</div>
+          <div class="tile" style="height:80px">7</div>
+          <div class="tile" style="height:110px">8</div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="masonry"&gt;
+  &lt;div class="tile" style="height:90px"&gt;1&lt;/div&gt;
+  &lt;div class="tile" style="height:150px"&gt;2&lt;/div&gt;
+  &lt;div class="tile" style="height:70px"&gt;3&lt;/div&gt;
+  &lt;div class="tile" style="height:120px"&gt;4&lt;/div&gt;
+  &lt;div class="tile" style="height:100px"&gt;5&lt;/div&gt;
+  &lt;div class="tile" style="height:140px"&gt;6&lt;/div&gt;
+  &lt;div class="tile" style="height:80px"&gt;7&lt;/div&gt;
+  &lt;div class="tile" style="height:110px"&gt;8&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.masonry {
+  columns: 4 160px;          /* up to 4 columns, each at least 160px */
+  column-gap: var(--gap);
+}
+.masonry &gt; * {
+  break-inside: avoid;       /* never split a tile across columns */
+  margin-bottom: var(--gap);
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>CSS multi-column flows items top-to-bottom, then into the next column, which naturally packs uneven heights.</li>
+          <li>Order runs down each column (1, 2 in column one…), not across. Fine for galleries; not for ranked lists.</li>
+          <li>Native masonry for Grid (CSS Grid Lanes) is coming; until it's Baseline this is the zero-JS approach.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="split" aria-labelledby="split-h">
+      <div class="layout__head">
+        <h2 id="split-h"><span class="num">09</span> Split screen</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Two halves side by side, a brand panel and a form. On phones the brand panel goes on top.</p>
+      <div class="stage">
+        <div class="split">
+          <div class="split__brand">◆ Brand<br><small>Groceries in minutes</small></div>
+          <form class="split__form" onsubmit="return false">
+            <label>Email <input type="email" autocomplete="email"></label>
+            <label>Password <input type="password" autocomplete="current-password"></label>
+            <button>Sign in</button>
+          </form>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="split"&gt;
+  &lt;div class="split__brand"&gt;◆ Brand&lt;br&gt;&lt;small&gt;Groceries in minutes&lt;/small&gt;&lt;/div&gt;
+  &lt;form class="split__form" onsubmit="return false"&gt;
+    &lt;label&gt;Email &lt;input type="email" autocomplete="email"&gt;&lt;/label&gt;
+    &lt;label&gt;Password &lt;input type="password" autocomplete="current-password"&gt;&lt;/label&gt;
+    &lt;button&gt;Sign in&lt;/button&gt;
+  &lt;/form&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.split {
+  display: grid;
+  border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border);
+}
+.split__brand {
+  display: grid; place-content: center; text-align: center;
+  padding: 2rem; min-height: 140px;
+  background: var(--grad); color: #fff; font: 800 1.6rem/1.2 inherit;
+}
+.split__form { display: grid; gap: .8rem; padding: 2rem; align-content: center; }
+.split__form label { display: grid; gap: .3rem; }
+@media (width &gt;= 48em) {
+  .split { grid-template-columns: 1fr 1fr; min-height: 320px; }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>One grid; on wide screens it gets two equal <code>1fr</code> columns.</li>
+          <li>Each <code>label</code> is a small grid too, stacking the text above its input.</li>
+          <li><code>autocomplete</code> tokens let password managers fill the form.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="media" aria-labelledby="media-h">
+      <div class="layout__head">
+        <h2 id="media-h"><span class="num">10</span> Media object</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> An image (or avatar) on the left, a block of text on the right. Used for comments, notifications and list rows.</p>
+      <div class="stage">
+        <ul class="media-list">
+          <li class="media"><span class="media__img"></span><div><b>Asha</b> commented<p>The new grid layout looks great on mobile.</p></div></li>
+          <li class="media"><span class="media__img"></span><div><b>Ravi</b> merged a PR<p>Fix sticky header overlap on iOS Safari.</p></div></li>
+        </ul>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;ul class="media-list"&gt;
+  &lt;li class="media"&gt;&lt;span class="media__img"&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;Asha&lt;/b&gt; commented&lt;p&gt;The new grid layout looks great on mobile.&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+  &lt;li class="media"&gt;&lt;span class="media__img"&gt;&lt;/span&gt;&lt;div&gt;&lt;b&gt;Ravi&lt;/b&gt; merged a PR&lt;p&gt;Fix sticky header overlap on iOS Safari.&lt;/p&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.media-list { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--gap); }
+.media { display: flex; gap: 1rem; align-items: flex-start; }
+.media__img {
+  flex-shrink: 0;                      /* never squash the avatar */
+  inline-size: 48px; aspect-ratio: 1; border-radius: 50%;
+  background: var(--grad);
+}
+.media p { margin: .2rem 0 0; color: var(--muted); }</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>Flexbox puts image and text in a row; the text takes the remaining width automatically.</li>
+          <li><code>flex-shrink: 0</code> keeps the avatar a perfect circle when text is long.</li>
+          <li><code>align-items: flex-start</code> aligns the avatar with the first line of text instead of stretching it.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="magazine" aria-labelledby="magazine-h">
+      <div class="layout__head">
+        <h2 id="magazine-h"><span class="num">11</span> Magazine / editorial</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A big lead story, smaller stories next to it, and a "most read" list down the side.</p>
+      <div class="stage">
+        <div class="mag">
+          <article class="tile lead">Lead story</article>
+          <article class="tile">Story</article>
+          <article class="tile">Story</article>
+          <aside class="tile list">Most read<ol><li>One</li><li>Two</li><li>Three</li></ol></aside>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="mag"&gt;
+  &lt;article class="tile lead"&gt;Lead story&lt;/article&gt;
+  &lt;article class="tile"&gt;Story&lt;/article&gt;
+  &lt;article class="tile"&gt;Story&lt;/article&gt;
+  &lt;aside class="tile list"&gt;Most read&lt;ol&gt;&lt;li&gt;One&lt;/li&gt;&lt;li&gt;Two&lt;/li&gt;&lt;li&gt;Three&lt;/li&gt;&lt;/ol&gt;&lt;/aside&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.mag {
+  display: grid;
+  gap: var(--gap);
+  grid-template-columns: 1fr;
+  grid-auto-rows: minmax(90px, auto);
+}
+@media (width &gt;= 40em) {
+  .mag { grid-template-columns: 1fr 1fr; }
+  .mag .lead { grid-column: 1 / -1; }
+}
+@media (width &gt;= 64em) {
+  .mag { grid-template-columns: 2fr 1fr 1fr; }
+  .mag .lead { grid-column: 1; grid-row: span 2; }
+  .mag .list { grid-column: 3; grid-row: 1 / span 2; }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>Three steps: one column → lead on top of two columns → lead on the left spanning two rows.</li>
+          <li>Placing items by line number lets the layout change without changing the HTML order.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="dashboard" aria-labelledby="dashboard-h">
+      <div class="layout__head">
+        <h2 id="dashboard-h"><span class="num">12</span> Dashboard</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A dark sidebar, a top bar, a row of KPI tiles, and a large chart panel next to a smaller activity panel.</p>
+      <div class="stage">
+        <div class="dash">
+          <nav class="dash__side">☰ Menu<br><br>Overview<br>Orders<br>Products<br>Customers</nav>
+          <header class="dash__top">Dashboard · <input type="search" placeholder="Search" aria-label="Search"></header>
+          <section class="dash__kpis">
+            <div><small>Revenue</small><b>₹4.2L</b></div>
+            <div><small>Orders</small><b>932</b></div>
+            <div><small>Users</small><b>12.4k</b></div>
+            <div><small>NPS</small><b>61</b></div>
+          </section>
+          <section class="dash__panels">
+            <div class="dash__chart"><small>Sales (7 days)</small><div class="bars"><i style="--h:40%"></i><i style="--h:65%"></i><i style="--h:50%"></i><i style="--h:80%"></i><i style="--h:70%"></i><i style="--h:95%"></i><i style="--h:60%"></i></div></div>
+            <div><small>Activity</small><p>New order #1042<br>Refund #1038<br>New user signup</p></div>
+          </section>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="dash"&gt;
+  &lt;nav class="dash__side"&gt;☰ Menu&lt;br&gt;&lt;br&gt;Overview&lt;br&gt;Orders&lt;br&gt;Products&lt;br&gt;Customers&lt;/nav&gt;
+  &lt;header class="dash__top"&gt;Dashboard · &lt;input type="search" placeholder="Search" aria-label="Search"&gt;&lt;/header&gt;
+  &lt;section class="dash__kpis"&gt;
+    &lt;div&gt;&lt;small&gt;Revenue&lt;/small&gt;&lt;b&gt;₹4.2L&lt;/b&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;small&gt;Orders&lt;/small&gt;&lt;b&gt;932&lt;/b&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;small&gt;Users&lt;/small&gt;&lt;b&gt;12.4k&lt;/b&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;small&gt;NPS&lt;/small&gt;&lt;b&gt;61&lt;/b&gt;&lt;/div&gt;
+  &lt;/section&gt;
+  &lt;section class="dash__panels"&gt;
+    &lt;div class="dash__chart"&gt;&lt;small&gt;Sales (7 days)&lt;/small&gt;&lt;div class="bars"&gt;&lt;i style="--h:40%"&gt;&lt;/i&gt;&lt;i style="--h:65%"&gt;&lt;/i&gt;&lt;i style="--h:50%"&gt;&lt;/i&gt;&lt;i style="--h:80%"&gt;&lt;/i&gt;&lt;i style="--h:70%"&gt;&lt;/i&gt;&lt;i style="--h:95%"&gt;&lt;/i&gt;&lt;i style="--h:60%"&gt;&lt;/i&gt;&lt;/div&gt;&lt;/div&gt;
+    &lt;div&gt;&lt;small&gt;Activity&lt;/small&gt;&lt;p&gt;New order #1042&lt;br&gt;Refund #1038&lt;br&gt;New user signup&lt;/p&gt;&lt;/div&gt;
+  &lt;/section&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.dash {
+  display: grid; gap: var(--gap);
+  grid-template-areas: "top" "kpis" "panels";
+}
+.dash__side { display: none; }
+.dash__top    { grid-area: top; }
+.dash__kpis   { grid-area: kpis; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: var(--gap); }
+.dash__panels { grid-area: panels; display: grid; gap: var(--gap); }
+.dash :is(.dash__top, .dash__kpis &gt; *, .dash__panels &gt; *) {
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: .8rem;
+}
+.dash__kpis b { display: block; font-size: 1.5rem; font-variant-numeric: tabular-nums; }
+.bars { display: flex; align-items: flex-end; gap: 6px; height: 120px; margin-top: .5rem; }
+.bars i { flex: 1; height: var(--h); border-radius: 4px 4px 0 0; background: var(--grad); }
+@media (width &gt;= 56em) {
+  .dash {
+    grid-template-columns: 180px 1fr;
+    grid-template-areas: "side top" "side kpis" "side panels";
+  }
+  .dash__side { display: block; grid-area: side; padding: 1rem; border-radius: var(--radius); background: #1f2329; color: #fff; }
+  .dash__panels { grid-template-columns: 2fr 1fr; }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>The outer grid places the regions; nested grids lay out the KPI tiles and panels.</li>
+          <li>The sidebar only appears at ≥ 56em. On phones a real app would show it as a drawer (a <code>popover</code> or <code>dialog</code>).</li>
+          <li>The bar chart is plain flexbox: each bar's height comes from a <code>--h</code> custom property set inline.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="pricing" aria-labelledby="pricing-h">
+      <div class="layout__head">
+        <h2 id="pricing-h"><span class="num">13</span> Pricing table</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Three plan cards; the middle one is highlighted, slightly bigger, and has a "Popular" badge.</p>
+      <div class="stage">
+        <div class="plans">
+          <section class="plan"><h3>Starter</h3><p class="price">₹0<small>/mo</small></p><ul><li>3 projects</li><li>1 GB</li></ul><a href="#pricing">Start free</a></section>
+          <section class="plan plan--hot"><span class="badge">Popular</span><h3>Pro</h3><p class="price">₹499<small>/mo</small></p><ul><li>Unlimited projects</li><li>100 GB</li><li>Priority support</li></ul><a href="#pricing">Go Pro</a></section>
+          <section class="plan"><h3>Team</h3><p class="price">₹1,999<small>/mo</small></p><ul><li>Everything in Pro</li><li>SSO</li></ul><a href="#pricing">Contact us</a></section>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="plans"&gt;
+  &lt;section class="plan"&gt;&lt;h3&gt;Starter&lt;/h3&gt;&lt;p class="price"&gt;₹0&lt;small&gt;/mo&lt;/small&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;3 projects&lt;/li&gt;&lt;li&gt;1 GB&lt;/li&gt;&lt;/ul&gt;&lt;a href="#pricing"&gt;Start free&lt;/a&gt;&lt;/section&gt;
+  &lt;section class="plan plan--hot"&gt;&lt;span class="badge"&gt;Popular&lt;/span&gt;&lt;h3&gt;Pro&lt;/h3&gt;&lt;p class="price"&gt;₹499&lt;small&gt;/mo&lt;/small&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Unlimited projects&lt;/li&gt;&lt;li&gt;100 GB&lt;/li&gt;&lt;li&gt;Priority support&lt;/li&gt;&lt;/ul&gt;&lt;a href="#pricing"&gt;Go Pro&lt;/a&gt;&lt;/section&gt;
+  &lt;section class="plan"&gt;&lt;h3&gt;Team&lt;/h3&gt;&lt;p class="price"&gt;₹1,999&lt;small&gt;/mo&lt;/small&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Everything in Pro&lt;/li&gt;&lt;li&gt;SSO&lt;/li&gt;&lt;/ul&gt;&lt;a href="#pricing"&gt;Contact us&lt;/a&gt;&lt;/section&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.plans {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+  gap: 1.5rem; align-items: center; padding-block: 1rem;
+}
+.plan {
+  position: relative; display: flex; flex-direction: column; gap: .5rem;
+  padding: 1.5rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border);
+}
+.plan h3, .plan p { margin: 0; }
+.price { font-size: 2rem; font-weight: 800; }
+.price small { font-size: .9rem; font-weight: 400; color: var(--muted); }
+.plan ul { list-style: none; padding: 0; margin: .5rem 0 1rem; display: grid; gap: .3rem; }
+.plan li::before { content: "✓ "; color: var(--ok); font-weight: 700; }
+.plan a { margin-top: auto; text-align: center; padding: .7rem; border-radius: 8px; border: 2px solid var(--brand); color: var(--brand); font-weight: 700; text-decoration: none; }
+.plan--hot { border: 2px solid var(--brand); scale: 1.04; box-shadow: 0 20px 40px color-mix(in srgb, var(--brand) 25%, transparent); }
+.plan--hot a { background: var(--brand); color: #fff; }
+.badge { position: absolute; top: 0; left: 50%; translate: -50% -50%; padding: .2rem .8rem; border-radius: 99px; background: var(--brand); color: #fff; font-size: .75rem; font-weight: 700; }</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>Cards are flex columns, and <code>margin-top: auto</code> pushes each button to the bottom so buttons line up.</li>
+          <li><code>scale</code> makes the featured card bigger without disturbing the grid.</li>
+          <li>The badge is centred on the card's top edge with <code>translate: -50% -50%</code>.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="container-query" aria-labelledby="container-query-h">
+      <div class="layout__head">
+        <h2 id="container-query-h"><span class="num">14</span> Container-query card</h2>
+        <span class="level level--a">Advanced</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> The same product card shown in a narrow slot (stacked) and a wide slot (side by side), at the same time, on the same screen.</p>
+      <div class="stage">
+        <div class="cq-demo">
+          <div class="cq-slot cq-slot--narrow"><article class="product"><div class="product__img"></div><div><h3>Organic honey</h3><p>Raw, unfiltered, 500 g.</p><b>₹349</b></div></article></div>
+          <div class="cq-slot"><article class="product"><div class="product__img"></div><div><h3>Organic honey</h3><p>Raw, unfiltered, 500 g.</p><b>₹349</b></div></article></div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="cq-demo"&gt;
+  &lt;div class="cq-slot cq-slot--narrow"&gt;&lt;article class="product"&gt;&lt;div class="product__img"&gt;&lt;/div&gt;&lt;div&gt;&lt;h3&gt;Organic honey&lt;/h3&gt;&lt;p&gt;Raw, unfiltered, 500 g.&lt;/p&gt;&lt;b&gt;₹349&lt;/b&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;
+  &lt;div class="cq-slot"&gt;&lt;article class="product"&gt;&lt;div class="product__img"&gt;&lt;/div&gt;&lt;div&gt;&lt;h3&gt;Organic honey&lt;/h3&gt;&lt;p&gt;Raw, unfiltered, 500 g.&lt;/p&gt;&lt;b&gt;₹349&lt;/b&gt;&lt;/div&gt;&lt;/article&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.cq-demo { display: grid; gap: var(--gap); }
+@media (width &gt;= 48em) { .cq-demo { grid-template-columns: 240px 1fr; } }
+
+.cq-slot { container-type: inline-size; }    /* make each slot a container */
+
+.product {
+  display: grid; gap: .8rem; padding: .8rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.product h3, .product p { margin: 0; }
+.product__img { min-height: 110px; border-radius: 10px; background: var(--grad); }
+
+@container (width &gt;= 26rem) {            /* the CARD's slot is wide, not the screen */
+  .product { grid-template-columns: 160px 1fr; align-items: center; }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>container-type: inline-size</code> lets descendants query the slot's width.</li>
+          <li><code>@container</code> works like <code>@media</code> but measures the container, so one component adapts to wherever it's placed.</li>
+          <li>Use media queries for page layout and container queries for component layout.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="full-bleed" aria-labelledby="full-bleed-h">
+      <div class="layout__head">
+        <h2 id="full-bleed-h"><span class="num">15</span> Full-bleed article</h2>
+        <span class="level level--a">Advanced</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Article text in a narrow readable column, with an image that breaks out to the full width of the page.</p>
+      <div class="stage">
+        <div class="article">
+          <h3>Why readable line length matters</h3>
+          <p>Lines of about 45–75 characters are the easiest to read. Longer lines make it hard to find the start of the next line.</p>
+          <div class="full bleed-img">Full-bleed image</div>
+          <p>After the image, the text returns to its comfortable column, with no extra wrapper elements.</p>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="article"&gt;
+  &lt;h3&gt;Why readable line length matters&lt;/h3&gt;
+  &lt;p&gt;Lines of about 45–75 characters are the easiest to read. Longer lines make it hard to find the start of the next line.&lt;/p&gt;
+  &lt;div class="full bleed-img"&gt;Full-bleed image&lt;/div&gt;
+  &lt;p&gt;After the image, the text returns to its comfortable column, with no extra wrapper elements.&lt;/p&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.article {
+  display: grid;
+  grid-template-columns:
+    [full-start] minmax(1rem, 1fr)
+    [content-start] minmax(0, 60ch) [content-end]
+    minmax(1rem, 1fr) [full-end];
+  row-gap: .8rem;
+}
+.article &gt; *     { grid-column: content; margin: 0; }
+.article &gt; .full { grid-column: full; }
+.bleed-img { min-height: 160px; display: grid; place-items: center; background: var(--grad); color: #fff; font-weight: 700; }</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li>Named grid lines (<code>[content-start]</code>, <code>[full-end]</code>) create two "lanes".</li>
+          <li>By default every child sits in the <code>content</code> lane; adding <code>.full</code> moves an element to the <code>full</code> lane.</li>
+          <li>The outer <code>minmax(1rem, 1fr)</code> tracks act as both centring margins and minimum gutters on phones.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="z-pattern" aria-labelledby="z-pattern-h">
+      <div class="layout__head">
+        <h2 id="z-pattern-h"><span class="num">16</span> Alternating features (Z-pattern)</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> Feature rows where the image and text swap sides on every row, so the eye moves in a zig-zag.</p>
+      <div class="stage">
+        <div class="features">
+          <section class="feature"><div><h3>Fast delivery</h3><p>Groceries at your door in 10 minutes.</p></div><div class="feature__img"></div></section>
+          <section class="feature"><div><h3>Fresh guarantee</h3><p>Not fresh? Full refund, no questions.</p></div><div class="feature__img"></div></section>
+          <section class="feature"><div><h3>Fair prices</h3><p>Direct from farms, no middlemen.</p></div><div class="feature__img"></div></section>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="features"&gt;
+  &lt;section class="feature"&gt;&lt;div&gt;&lt;h3&gt;Fast delivery&lt;/h3&gt;&lt;p&gt;Groceries at your door in 10 minutes.&lt;/p&gt;&lt;/div&gt;&lt;div class="feature__img"&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class="feature"&gt;&lt;div&gt;&lt;h3&gt;Fresh guarantee&lt;/h3&gt;&lt;p&gt;Not fresh? Full refund, no questions.&lt;/p&gt;&lt;/div&gt;&lt;div class="feature__img"&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class="feature"&gt;&lt;div&gt;&lt;h3&gt;Fair prices&lt;/h3&gt;&lt;p&gt;Direct from farms, no middlemen.&lt;/p&gt;&lt;/div&gt;&lt;div class="feature__img"&gt;&lt;/div&gt;&lt;/section&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.features { display: grid; gap: 2rem; }
+.feature { display: grid; gap: 1rem; align-items: center; }
+.feature h3, .feature p { margin: 0 0 .3rem; }
+.feature__img { min-height: 140px; border-radius: var(--radius); background: var(--grad); }
+@media (width &gt;= 48em) {
+  .feature { grid-template-columns: 1fr 1fr; gap: 2rem; }
+  .feature:nth-child(even) .feature__img { order: -1; }   /* image first on every other row */
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>:nth-child(even)</code> selects every second row; <code>order: -1</code> moves its image before the text visually.</li>
+          <li>The HTML order (text, then image) stays the same, so screen readers and keyboard users always get the text first.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="hero" aria-labelledby="hero-h">
+      <div class="layout__head">
+        <h2 id="hero-h"><span class="num">17</span> Landing hero</h2>
+        <span class="level level--b">Beginner</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A big headline with a subtitle and two buttons on one side, an image on the other, over a soft gradient background.</p>
+      <div class="stage">
+        <section class="hero">
+          <div class="hero__text">
+            <p class="eyebrow">New in Bengaluru</p>
+            <h3 class="hero__title">Fresh groceries, delivered in minutes.</h3>
+            <p>Fruits, vegetables and daily essentials from local farms.</p>
+            <div class="hero__cta"><a class="btn" href="#hero">Start shopping</a><a class="btn btn--ghost" href="#hero">How it works</a></div>
+          </div>
+          <div class="hero__img" role="img" aria-label="Basket of vegetables"></div>
+        </section>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;section class="hero"&gt;
+  &lt;div class="hero__text"&gt;
+    &lt;p class="eyebrow"&gt;New in Bengaluru&lt;/p&gt;
+    &lt;h3 class="hero__title"&gt;Fresh groceries, delivered in minutes.&lt;/h3&gt;
+    &lt;p&gt;Fruits, vegetables and daily essentials from local farms.&lt;/p&gt;
+    &lt;div class="hero__cta"&gt;&lt;a class="btn" href="#hero"&gt;Start shopping&lt;/a&gt;&lt;a class="btn btn--ghost" href="#hero"&gt;How it works&lt;/a&gt;&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class="hero__img" role="img" aria-label="Basket of vegetables"&gt;&lt;/div&gt;
+&lt;/section&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.hero {
+  display: grid; gap: 2rem; align-items: center;
+  padding: clamp(1.5rem, 4vw, 3rem); border-radius: 24px;
+  background: radial-gradient(at 0% 0%, color-mix(in srgb, var(--brand) 25%, transparent), transparent 60%),
+              radial-gradient(at 100% 100%, color-mix(in srgb, var(--accent) 25%, transparent), transparent 60%),
+              var(--surface);
+}
+.hero__title { font-size: clamp(1.8rem, 1rem + 3.5vw, 3.2rem); line-height: 1.05; letter-spacing: -.03em; margin: .3rem 0 .8rem; text-wrap: balance; }
+.hero__text &gt; p { margin: 0; }
+.eyebrow { font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; color: var(--brand); }
+.hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 1.2rem; }
+.hero__img { min-height: 220px; border-radius: 20px; background: url("https://picsum.photos/id/1080/800/600") center / cover; }
+@media (width &gt;= 48em) { .hero { grid-template-columns: 1.1fr 1fr; } }</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>clamp()</code> makes the headline and padding scale smoothly from phone to desktop.</li>
+          <li>Two stacked radial gradients over a surface colour create the soft "aurora" background.</li>
+          <li><code>text-wrap: balance</code> keeps the headline lines even.</li>
+        </ul>
+      </div>
+    </section>
+    <section class="layout" id="docs" aria-labelledby="docs-h">
+      <div class="layout__head">
+        <h2 id="docs-h"><span class="num">18</span> Docs layout with sticky sidebar</h2>
+        <span class="level level--i">Intermediate</span>
+      </div>
+      <p class="see"><strong>What you see:</strong> A table of contents on the left that stays visible while the long article on the right scrolls.</p>
+      <div class="stage">
+        <div class="docs-scroll">
+          <div class="docs">
+            <nav class="docs__toc"><b>On this page</b><a href="#docs">Intro</a><a href="#docs">Install</a><a href="#docs">Usage</a><a href="#docs">API</a></nav>
+            <article class="docs__body">
+              <h3>Intro</h3><p>Scroll inside this box. The table of contents stays in view.</p>
+              <h3>Install</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
+              <h3>Usage</h3><p>Sed posuere consectetur est at lobortis. Vestibulum id ligula porta felis euismod semper.</p>
+              <h3>API</h3><p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+              <p>Maecenas faucibus mollis interdum. Cras justo odio, dapibus ac facilisis in.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+      <details class="code">
+        <summary>Show the HTML &amp; CSS</summary>
+        <div class="code__grid">
+          <div><h3>HTML</h3><pre><code>&lt;div class="docs-scroll"&gt;
+  &lt;div class="docs"&gt;
+    &lt;nav class="docs__toc"&gt;&lt;b&gt;On this page&lt;/b&gt;&lt;a href="#docs"&gt;Intro&lt;/a&gt;&lt;a href="#docs"&gt;Install&lt;/a&gt;&lt;a href="#docs"&gt;Usage&lt;/a&gt;&lt;a href="#docs"&gt;API&lt;/a&gt;&lt;/nav&gt;
+    &lt;article class="docs__body"&gt;
+      &lt;h3&gt;Intro&lt;/h3&gt;&lt;p&gt;Scroll inside this box. The table of contents stays in view.&lt;/p&gt;
+      &lt;h3&gt;Install&lt;/h3&gt;&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.&lt;/p&gt;
+      &lt;h3&gt;Usage&lt;/h3&gt;&lt;p&gt;Sed posuere consectetur est at lobortis. Vestibulum id ligula porta felis euismod semper.&lt;/p&gt;
+      &lt;h3&gt;API&lt;/h3&gt;&lt;p&gt;Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.&lt;/p&gt;
+      &lt;p&gt;Maecenas faucibus mollis interdum. Cras justo odio, dapibus ac facilisis in.&lt;/p&gt;
+    &lt;/article&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
+          <div><h3>CSS</h3><pre><code>.docs-scroll { max-height: 300px; overflow: auto; border: 1px solid var(--border); border-radius: var(--radius); }
+.docs { display: grid; gap: 1.5rem; padding: 1rem; }
+.docs__toc { display: flex; flex-wrap: wrap; gap: .4rem 1rem; }
+.docs__body h3 { margin: 1.2rem 0 .4rem; }
+.docs__body p { margin: 0 0 1rem; }
+@media (width &gt;= 48em) {
+  .docs { grid-template-columns: 180px 1fr; }
+  .docs__toc {
+    position: sticky; top: 1rem;
+    align-self: start;                 /* don't stretch, or sticky has no room to move */
+    flex-direction: column;
+  }
+}</code></pre></div>
+        </div>
+      </details>
+      <div class="why">
+        <h3>Why this works</h3>
+        <ul>
+          <li><code>position: sticky; top: 1rem</code> keeps the TOC in view while its scroll container scrolls.</li>
+          <li><code>align-self: start</code> is essential: grid items stretch to the row's height by default, which leaves a sticky element no room to stick.</li>
+          <li>On phones the TOC becomes a horizontal wrapping row above the article.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Part of the <a href="../">Web UI Frontend Playbook</a>. Plain HTML and CSS, plus a few lines of JavaScript for the theme toggle.</p>
+  </footer>
+
+  <script>
+    // Theme toggle: system preference by default, remembered per browser when the user picks one.
+    (function () {
+      var root = document.documentElement;
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (e) {}
+      if (saved === 'light' || saved === 'dark') root.dataset.theme = saved;
+
+      document.getElementById('theme-toggle').addEventListener('click', function () {
+        var isDark = root.dataset.theme
+          ? root.dataset.theme === 'dark'
+          : matchMedia('(prefers-color-scheme: dark)').matches;
+        root.dataset.theme = isDark ? 'light' : 'dark';
+        try { localStorage.setItem('theme', root.dataset.theme); } catch (e) {}
+      });
+
+      // Close the menu popover after choosing a section.
+      var menu = document.getElementById('menu');
+      menu.addEventListener('click', function (e) {
+        if (e.target.closest('a') && menu.hidePopover) menu.hidePopover();
+      });
+    })();
+  </script>
+</body>
+</html>

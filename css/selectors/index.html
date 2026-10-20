@@ -1,0 +1,3292 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="HTML5, CSS3, Flexbox, Grid, responsive design and modern UI, from your first tag to 15+ years of frontend architecture. Every tag and property is shown with its code and its live output.">
+      
+      
+        <meta name="author" content="Web UI Frontend Playbook">
+      
+      
+      
+        <link rel="prev" href="../fundamentals/">
+      
+      
+        <link rel="next" href="../colors-units/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Selectors (CSS1 → Selectors 4) - Web UI Frontend Playbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#selectors-css1-selectors-level-4" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Web UI Frontend Playbook" class="md-header__button md-logo" aria-label="Web UI Frontend Playbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 17.56 4.07-1.13.55-6.1H9.38L9.2 8.3h7.6l.2-1.99H7l.56 6.01h6.89l-.23 2.58-2.22.6-2.22-.6-.14-1.66h-2l.29 3.19zM4.07 3h15.86L18.5 19.2 12 21l-6.5-1.8z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Web UI Frontend Playbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Selectors (CSS1 → Selectors 4)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/grocery-startup" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    web-ui-frontend-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../html/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  HTML5
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  CSS & CSS3
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../layout/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Layout & Responsive
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reverse-engineering/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reverse Engineering
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../cheatsheets/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cheat Sheets
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../career/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Senior & Architect
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Web UI Frontend Playbook" class="md-nav__button md-logo" aria-label="Web UI Frontend Playbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 17.56 4.07-1.13.55-6.1H9.38L9.2 8.3h7.6l.2-1.99H7l.56 6.01h6.89l-.23 2.58-2.22.6-2.22-.6-.14-1.66h-2l.29 3.19zM4.07 3h15.86L18.5 19.2 12 21l-6.5-1.8z"/></svg>
+
+    </a>
+    Web UI Frontend Playbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/grocery-startup" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    web-ui-frontend-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-use/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to Use This Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learning Roadmap (0–15 yrs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../html/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTML5
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HTML5
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/document-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document Structure & Metadata
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/text-content/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Text Content
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/inline-semantics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inline Text Semantics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/sectioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sectioning & Landmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/media/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Images & Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forms & Inputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive & Web Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/global-attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Global Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/all-tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A–Z Tag Reference (all tags)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS & CSS3
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CSS & CSS3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cascade, Specificity & Box Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Selectors (CSS1 → Selectors 4)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Selectors (CSS1 → Selectors 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-selectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic selectors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combinators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combinators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribute-selectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribute selectors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-action-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User-action pseudo-classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structural-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structural pseudo-classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural pseudo-classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantity-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantity queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#form-state-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Form-state pseudo-classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logical-pseudo-classes-is-where-not-has" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical pseudo-classes: :is(), :where(), :not(), :has()
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logical pseudo-classes: :is(), :where(), :not(), :has()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#has-the-parent-selector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        :has(), the &quot;parent selector&quot;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other pseudo-classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pseudo-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pseudo-elements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nesting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selector-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selector performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../colors-units/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Colors & Units
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../typography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backgrounds, Borders & Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../positioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Positioning & Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../animations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transforms, Transitions & Animations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Properties & Theming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modern-css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern CSS (2023–2026)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Property Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../layout/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout & Responsive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Layout & Responsive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/flexbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flexbox (complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/grid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS Grid (complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/responsive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Responsive Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/ui-trends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latest UI Trends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../reverse-engineering/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reverse Engineering
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reverse Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverse-engineering/recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    See This → Write This
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverse-engineering/gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live Layout Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cheatsheets/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheets
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cheat Sheets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/css3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS3 & Modern CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/flexbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flexbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/grid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Grid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/responsive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Responsive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/units-functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Units, Colours & Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cheatsheets/ui-components/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI Components & Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../career/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Senior & Architect
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Senior & Architect
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accessibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/css-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS Architecture at Scale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/interview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview Questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#basic-selectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic selectors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#combinators" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Combinators
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attribute-selectors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Attribute selectors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-action-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        User-action pseudo-classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#structural-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Structural pseudo-classes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Structural pseudo-classes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quantity-queries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quantity queries
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#form-state-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Form-state pseudo-classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logical-pseudo-classes-is-where-not-has" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical pseudo-classes: :is(), :where(), :not(), :has()
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logical pseudo-classes: :is(), :where(), :not(), :has()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#has-the-parent-selector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        :has(), the &quot;parent selector&quot;
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-pseudo-classes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Other pseudo-classes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pseudo-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pseudo-elements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nesting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nesting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selector-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Selector performance
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="selectors-css1-selectors-level-4">Selectors (CSS1 → Selectors Level 4)<a class="headerlink" href="#selectors-css1-selectors-level-4" title="Permanent link">&para;</a></h1>
+<p>Every demo on this page is live: the Output box uses the exact selector shown, scoped to that demo.</p>
+<h2 id="basic-selectors">Basic selectors <span class="lvl lvl-1">Beginner</span><a class="headerlink" href="#basic-selectors" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Example</th>
+<th>Selects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Type</td>
+<td><code>p</code></td>
+<td>Every <code>&lt;p&gt;</code></td>
+</tr>
+<tr>
+<td>Class</td>
+<td><code>.card</code></td>
+<td>Elements with <code>class="card"</code> (or <code>class="big card"</code>)</td>
+</tr>
+<tr>
+<td>ID</td>
+<td><code>#header</code></td>
+<td>The element with <code>id="header"</code></td>
+</tr>
+<tr>
+<td>Universal</td>
+<td><code>*</code></td>
+<td>Every element</td>
+</tr>
+<tr>
+<td>Grouping</td>
+<td><code>h1, h2, h3</code></td>
+<td>All of the listed selectors</td>
+</tr>
+<tr>
+<td>Compound</td>
+<td><code>button.primary</code></td>
+<td><code>&lt;button&gt;</code> that also has class <code>primary</code> (no space!)</td>
+</tr>
+</tbody>
+</table>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Type selector<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;hl&quot;</span><span class="p">&gt;</span>Class selector<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">&lt;</span><span class="nt">p</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;special&quot;</span><span class="p">&gt;</span>ID selector<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">&lt;</span><span class="nt">button</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;primary&quot;</span><span class="p">&gt;</span>Compound: button.primary<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">p</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">gray</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">.</span><span class="nc">hl</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="kc">yellow</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">#</span><span class="nn">special</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">crimson</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nt">button</span><span class="p">.</span><span class="nc">primary</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="kc">royalblue</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo sel-basic">
+<p>Type selector</p>
+<p class="hl">Class selector</p>
+<p id="sel-special">ID selector</p>
+<button class="primary">Compound: button.primary</button>
+<style>
+  .sel-basic p { color: gray; }
+  .sel-basic .hl { background: yellow; color: #222; }
+  .sel-basic #sel-special { font-weight: bold; color: crimson; }
+  .sel-basic button.primary { background: royalblue; color: white; border: 0; padding: .4em .9em; border-radius: 6px; }
+</style>
+</div>
+
+<h2 id="combinators">Combinators <span class="lvl lvl-1">Beginner</span><a class="headerlink" href="#combinators" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Combinator</th>
+<th>Example</th>
+<th>Selects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Descendant (space)</td>
+<td><code>nav a</code></td>
+<td>Every <code>a</code> anywhere inside <code>nav</code></td>
+</tr>
+<tr>
+<td>Child <code>&gt;</code></td>
+<td><code>ul &gt; li</code></td>
+<td>Only <code>li</code> that are direct children of <code>ul</code></td>
+</tr>
+<tr>
+<td>Next sibling <code>+</code></td>
+<td><code>h2 + p</code></td>
+<td>The <code>p</code> immediately after an <code>h2</code></td>
+</tr>
+<tr>
+<td>Subsequent siblings <code>~</code></td>
+<td><code>h2 ~ p</code></td>
+<td>Every <code>p</code> after an <code>h2</code>, same parent</td>
+</tr>
+</tbody>
+</table>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;tree&quot;</span><span class="p">&gt;</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  <span class="p">&lt;</span><span class="nt">h4</span><span class="p">&gt;</span>Heading<span class="p">&lt;/</span><span class="nt">h4</span><span class="p">&gt;</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>1st p (h4 + p → orange)<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  <span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>2nd p (h4 ~ p → underlined)<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Nested p (descendant only → italic)<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">.</span><span class="nc">tree</span><span class="w"> </span><span class="nt">p</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="k">font-style</span><span class="p">:</span><span class="w"> </span><span class="kc">italic</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">       </span><span class="c">/* descendant: all 3 */</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">.</span><span class="nc">tree</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nt">p</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">        </span><span class="c">/* child: only first 2 */</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">.</span><span class="nc">tree</span><span class="w"> </span><span class="nt">h4</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nt">p</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">orange</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">            </span><span class="c">/* next sibling: 1st */</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">.</span><span class="nc">tree</span><span class="w"> </span><span class="nt">h4</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nt">p</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">text-decoration</span><span class="p">:</span><span class="w"> </span><span class="kc">underline</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="c">/* subsequent siblings: 1st and 2nd */</span>
+</span></code></pre></div>
+<div class="demo">
+<div class="sel-tree">
+  <h4 style="margin:0">Heading</h4>
+  <p>1st p (h4 + p → orange)</p>
+  <p>2nd p (h4 ~ p → underlined)</p>
+  <div><p>Nested p (descendant only → italic)</p></div>
+</div>
+<style>
+  .sel-tree p { font-style: italic; margin: .2em 0; }
+  .sel-tree > p { font-weight: bold; }
+  .sel-tree h4 + p { color: orange; }
+  .sel-tree h4 ~ p { text-decoration: underline; }
+</style>
+</div>
+
+<h2 id="attribute-selectors">Attribute selectors <span class="lvl lvl-2">Intermediate</span><a class="headerlink" href="#attribute-selectors" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Matches when the attribute…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>[href]</code></td>
+<td>exists</td>
+</tr>
+<tr>
+<td><code>[type="email"]</code></td>
+<td>equals exactly</td>
+</tr>
+<tr>
+<td><code>[class~="card"]</code></td>
+<td>is a space-separated list containing the word</td>
+</tr>
+<tr>
+<td><code>[lang\|="en"]</code></td>
+<td>equals <code>en</code> or starts with <code>en-</code></td>
+</tr>
+<tr>
+<td><code>[href^="https"]</code></td>
+<td>starts with</td>
+</tr>
+<tr>
+<td><code>[href$=".pdf"]</code></td>
+<td>ends with</td>
+</tr>
+<tr>
+<td><code>[href*="example"]</code></td>
+<td>contains</td>
+</tr>
+<tr>
+<td><code>[data-state="open" i]</code></td>
+<td>case-insensitive match</td>
+</tr>
+</tbody>
+</table>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">a</span><span class="o">[</span><span class="nt">href</span><span class="o">^=</span><span class="s2">&quot;http&quot;</span><span class="o">]</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; ↗&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nt">a</span><span class="o">[</span><span class="nt">href</span><span class="o">$=</span><span class="s2">&quot;.pdf&quot;</span><span class="o">]</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; (PDF)&quot;</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nt">a</span><span class="o">[</span><span class="nt">href</span><span class="o">^=</span><span class="s2">&quot;mailto:&quot;</span><span class="o">]</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">seagreen</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo sel-attr">
+<a href="https://example.com">External link</a> ·
+<a href="#attribute-selectors">guide.pdf</a> ·
+<a href="mailto:hi@example.com">Email us</a>
+<style>
+  .sel-attr a[href^="http"]::after { content: " ↗"; }
+  .sel-attr a[href="#attribute-selectors"]::after { content: " (PDF)"; }
+  .sel-attr a[href^="mailto:"] { color: seagreen; }
+</style>
+</div>
+
+<p>(The PDF demo matches on its <code>href</code> directly, so the link stays clickable inside this site.)</p>
+<h2 id="user-action-pseudo-classes">User-action pseudo-classes <span class="lvl lvl-1">Beginner</span><a class="headerlink" href="#user-action-pseudo-classes" title="Permanent link">&para;</a></h2>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">a</span><span class="p">:</span><span class="nd">link</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* unvisited */</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">a</span><span class="p">:</span><span class="nd">visited</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* visited (only colour properties allowed: privacy) */</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="nt">a</span><span class="p">:</span><span class="nd">hover</span><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* pointer over it */</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="nt">a</span><span class="p">:</span><span class="nd">active</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* being pressed */</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">:</span><span class="nd">focus</span><span class="w">     </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* has focus (any method) */</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">:</span><span class="nd">focus-visible</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* has focus AND the browser thinks a ring should show (keyboard) */</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">:</span><span class="nd">focus-within</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* it or any descendant has focus */</span>
+</span></code></pre></div>
+<p>Order for links: <strong>L</strong>o<strong>V</strong>e <strong>HA</strong>te (<code>:link</code>, <code>:visited</code>, <code>:hover</code>, <code>:active</code>).</p>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="p">&lt;</span><span class="nt">form</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;ff&quot;</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">&quot;Click or tab into me&quot;</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">button</span><span class="p">&gt;</span>Hover / focus me<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">.</span><span class="nc">ff</span><span class="p">:</span><span class="nd">focus-within</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#fff1ea</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">.</span><span class="nc">ff</span><span class="w"> </span><span class="nt">button</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#e4572e</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="p">.</span><span class="nc">ff</span><span class="w"> </span><span class="nt">button</span><span class="p">:</span><span class="nd">active</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">transform</span><span class="p">:</span><span class="w"> </span><span class="nb">scale</span><span class="p">(</span><span class="mf">.95</span><span class="p">);</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">.</span><span class="nc">ff</span><span class="w"> </span><span class="p">:</span><span class="nd">focus-visible</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">outline</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">royalblue</span><span class="p">;</span><span class="w"> </span><span class="k">outline-offset</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo">
+<form class="sel-ff" onsubmit="return false"><input placeholder="Click or tab into me"> <button>Hover / focus me</button></form>
+<style>
+  .sel-ff { padding: .8em; border-radius: 8px; transition: background .2s; }
+  .sel-ff:focus-within { background: #fff1ea; }
+  .sel-ff button { transition: transform .1s; }
+  .sel-ff button:hover { background: #e4572e; color: white; }
+  .sel-ff button:active { transform: scale(.95); }
+  .sel-ff :focus-visible { outline: 3px solid royalblue; outline-offset: 2px; }
+</style>
+</div>
+
+<div class="admonition warning">
+<p class="admonition-title">Never remove focus outlines without a replacement</p>
+<p><code>*:focus { outline: none }</code> makes the site unusable by keyboard. Use <code>:focus-visible</code> to show a strong ring for keyboard users without showing it on mouse click.</p>
+</div>
+<h2 id="structural-pseudo-classes">Structural pseudo-classes <span class="lvl lvl-1">Beginner</span> → <span class="lvl lvl-2">Intermediate</span><a class="headerlink" href="#structural-pseudo-classes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Selects</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:first-child</code> / <code>:last-child</code></td>
+<td>First / last child of its parent</td>
+</tr>
+<tr>
+<td><code>:only-child</code></td>
+<td>The only child</td>
+</tr>
+<tr>
+<td><code>:nth-child(2)</code></td>
+<td>The 2nd child</td>
+</tr>
+<tr>
+<td><code>:nth-child(odd)</code> / <code>(even)</code></td>
+<td>Odd / even children</td>
+</tr>
+<tr>
+<td><code>:nth-child(3n+1)</code></td>
+<td>1st, 4th, 7th…</td>
+</tr>
+<tr>
+<td><code>:nth-child(-n+3)</code></td>
+<td>First three</td>
+</tr>
+<tr>
+<td><code>:nth-last-child(2)</code></td>
+<td>2nd from the end</td>
+</tr>
+<tr>
+<td><code>:nth-child(2 of .done)</code></td>
+<td>The 2nd element that has <code>.done</code> (Selectors 4, Baseline 2023)</td>
+</tr>
+<tr>
+<td><code>:first-of-type</code>, <code>:nth-of-type()</code></td>
+<td>Same, but counting only elements of the same tag</td>
+</tr>
+<tr>
+<td><code>:empty</code></td>
+<td>No children (not even text)</td>
+</tr>
+<tr>
+<td><code>:root</code></td>
+<td>The <code>&lt;html&gt;</code> element</td>
+</tr>
+</tbody>
+</table>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">.</span><span class="nc">list</span><span class="w"> </span><span class="nt">li</span><span class="p">:</span><span class="nd">nth-child</span><span class="o">(</span><span class="nt">odd</span><span class="o">)</span><span class="w">   </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#f2f2f2</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">.</span><span class="nc">list</span><span class="w"> </span><span class="nt">li</span><span class="p">:</span><span class="nd">first-child</span><span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">.</span><span class="nc">list</span><span class="w"> </span><span class="nt">li</span><span class="p">:</span><span class="nd">nth-child</span><span class="o">(</span><span class="nt">-n</span><span class="o">+</span><span class="nt">3</span><span class="o">)</span><span class="w">  </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#e4572e</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">.</span><span class="nc">list</span><span class="w"> </span><span class="nt">li</span><span class="p">:</span><span class="nd">last-child</span><span class="w">       </span><span class="p">{</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo">
+<ul class="sel-list">
+  <li>One</li><li>Two</li><li>Three</li><li>Four</li><li>Five</li><li>Six</li>
+</ul>
+<style>
+  .sel-list { list-style: none; padding: 0; margin: 0; max-width: 260px; }
+  .sel-list li { padding: .25em .5em; margin: 0; }
+  .sel-list li:nth-child(odd) { background: rgba(128,128,128,.15); }
+  .sel-list li:first-child { font-weight: bold; }
+  .sel-list li:nth-child(-n+3) { color: #e4572e; }
+  .sel-list li:last-child { border-bottom: 2px solid; }
+</style>
+</div>
+
+<h3 id="quantity-queries">Quantity queries <span class="lvl lvl-3">Advanced</span><a class="headerlink" href="#quantity-queries" title="Permanent link">&para;</a></h3>
+<p>Style a list differently depending on how many items it has:</p>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c">/* If there are 4 or more items, make them all smaller */</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="nt">li</span><span class="p">:</span><span class="nd">nth-last-child</span><span class="o">(</span><span class="nt">n</span><span class="o">+</span><span class="nt">4</span><span class="o">),</span><span class="w"> </span><span class="nt">li</span><span class="p">:</span><span class="nd">nth-last-child</span><span class="o">(</span><span class="nt">n</span><span class="o">+</span><span class="nt">4</span><span class="o">)</span><span class="w"> </span><span class="o">~</span><span class="w"> </span><span class="nt">li</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">.85</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c">/* Same idea, much easier, with :has() */</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="nt">ul</span><span class="p">:</span><span class="nd">has</span><span class="o">(&gt;</span><span class="w"> </span><span class="nt">li</span><span class="p">:</span><span class="nd">nth-child</span><span class="o">(</span><span class="nt">4</span><span class="o">))</span><span class="w"> </span><span class="nt">li</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mf">.85</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="form-state-pseudo-classes">Form-state pseudo-classes <span class="lvl lvl-2">Intermediate</span><a class="headerlink" href="#form-state-pseudo-classes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Matches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:checked</code></td>
+<td>Checked checkbox / radio / selected option</td>
+</tr>
+<tr>
+<td><code>:disabled</code> / <code>:enabled</code></td>
+<td>Disabled or enabled control</td>
+</tr>
+<tr>
+<td><code>:required</code> / <code>:optional</code></td>
+<td>Has / lacks <code>required</code></td>
+</tr>
+<tr>
+<td><code>:valid</code> / <code>:invalid</code></td>
+<td>Passes / fails validation (immediately)</td>
+</tr>
+<tr>
+<td><code>:user-valid</code> / <code>:user-invalid</code></td>
+<td>Same, but only after user interaction (Baseline 2023)</td>
+</tr>
+<tr>
+<td><code>:placeholder-shown</code></td>
+<td>Input is showing its placeholder (i.e. empty)</td>
+</tr>
+<tr>
+<td><code>:in-range</code> / <code>:out-of-range</code></td>
+<td>Number/date within <code>min</code>/<code>max</code></td>
+</tr>
+<tr>
+<td><code>:read-only</code> / <code>:read-write</code></td>
+<td>Editable or not</td>
+</tr>
+<tr>
+<td><code>:indeterminate</code></td>
+<td>Indeterminate checkbox, radio group with nothing chosen, progress without value</td>
+</tr>
+<tr>
+<td><code>:default</code></td>
+<td>Default button / option / checked box</td>
+</tr>
+<tr>
+<td><code>:autofill</code></td>
+<td>Field filled by the browser</td>
+</tr>
+<tr>
+<td><code>:open</code></td>
+<td>Open <code>details</code>, <code>dialog</code>, <code>select</code> picker (2025)</td>
+</tr>
+<tr>
+<td><code>:popover-open</code></td>
+<td>A popover that's showing</td>
+</tr>
+</tbody>
+</table>
+<div class="language-html highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;todo&quot;</span><span class="p">&gt;&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;checkbox&quot;</span><span class="p">&gt;</span> Buy milk<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">&lt;</span><span class="nt">input</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;age&quot;</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;number&quot;</span> <span class="na">min</span><span class="o">=</span><span class="s">&quot;18&quot;</span> <span class="na">max</span><span class="o">=</span><span class="s">&quot;99&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;12&quot;</span><span class="p">&gt;</span>
+</span></code></pre></div>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="p">.</span><span class="nc">todo</span><span class="p">:</span><span class="nd">has</span><span class="o">(</span><span class="p">:</span><span class="nd">checked</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">text-decoration</span><span class="p">:</span><span class="w"> </span><span class="kc">line-through</span><span class="p">;</span><span class="w"> </span><span class="k">opacity</span><span class="p">:</span><span class="w"> </span><span class="mf">.6</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">.</span><span class="nc">age</span><span class="p">:</span><span class="nd">out-of-range</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">crimson</span><span class="p">;</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#ffecec</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo sel-form">
+<label class="todo"><input type="checkbox"> Buy milk (tick me)</label><br><br>
+<label>Age (18–99): <input class="age" type="number" min="18" max="99" value="12"></label>
+<style>
+  .sel-form .todo:has(:checked) { text-decoration: line-through; opacity: .6; }
+  .sel-form .age:out-of-range { border: 2px solid crimson; background: #ffecec; color: #222; }
+  .sel-form .age:in-range { border: 2px solid seagreen; }
+</style>
+</div>
+
+<h2 id="logical-pseudo-classes-is-where-not-has">Logical pseudo-classes: <code>:is()</code>, <code>:where()</code>, <code>:not()</code>, <code>:has()</code> <span class="lvl lvl-2">Intermediate</span> → <span class="lvl lvl-3">Advanced</span><a class="headerlink" href="#logical-pseudo-classes-is-where-not-has" title="Permanent link">&para;</a></h2>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c">/* :is(): shorter selectors. Specificity = most specific argument */</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">:</span><span class="nd">is</span><span class="o">(</span><span class="nt">h1</span><span class="o">,</span><span class="w"> </span><span class="nt">h2</span><span class="o">,</span><span class="w"> </span><span class="nt">h3</span><span class="o">)</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#e4572e</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="nt">article</span><span class="w"> </span><span class="p">:</span><span class="nd">is</span><span class="o">(</span><span class="nt">h2</span><span class="o">,</span><span class="w"> </span><span class="nt">h3</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin-top</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c">/* :where(): same as :is() but specificity 0. Perfect for resets and libraries */</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">:</span><span class="nd">where</span><span class="o">(</span><span class="nt">ul</span><span class="o">,</span><span class="w"> </span><span class="nt">ol</span><span class="o">)[</span><span class="nt">role</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="o">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">list-style</span><span class="p">:</span><span class="w"> </span><span class="kc">none</span><span class="p">;</span><span class="w"> </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="c">/* :not(): exclude. Accepts a selector list */</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">.</span><span class="nc">btn</span><span class="p">:</span><span class="nd">not</span><span class="o">(</span><span class="p">.</span><span class="nc">primary</span><span class="o">,</span><span class="w"> </span><span class="p">.</span><span class="nc">danger</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#eee</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="nt">li</span><span class="p">:</span><span class="nd">not</span><span class="o">(</span><span class="p">:</span><span class="nd">last-child</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="mh">#ddd</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<h3 id="has-the-parent-selector"><code>:has()</code>, the "parent selector" <span class="lvl lvl-3">Advanced</span> <small>Baseline 2023</small><a class="headerlink" href="#has-the-parent-selector" title="Permanent link">&para;</a></h3>
+<p><code>:has()</code> selects an element based on what's <strong>inside it</strong> or <strong>after it</strong>. It replaces a huge amount of JavaScript "add a class to the parent" code.</p>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="c">/* A card that contains an image gets a different layout */</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">.</span><span class="nc">card</span><span class="p">:</span><span class="nd">has</span><span class="o">(</span><span class="nt">img</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">display</span><span class="p">:</span><span class="w"> </span><span class="k">grid</span><span class="p">;</span><span class="w"> </span><span class="k">grid-template-columns</span><span class="p">:</span><span class="w"> </span><span class="mi">80</span><span class="kt">px</span><span class="w"> </span><span class="mi">1</span><span class="n">fr</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="c">/* A form field whose input is invalid gets a red label */</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="p">.</span><span class="nc">field</span><span class="p">:</span><span class="nd">has</span><span class="o">(</span><span class="nt">input</span><span class="p">:</span><span class="nd">user-invalid</span><span class="o">)</span><span class="w"> </span><span class="nt">label</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">crimson</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="c">/* Highlight the h2 that&#39;s directly followed by a p */</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="nt">h2</span><span class="p">:</span><span class="nd">has</span><span class="o">(+</span><span class="w"> </span><span class="nt">p</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">margin-bottom</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="c">/* Dark mode toggle with no JS */</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="p">:</span><span class="nd">root</span><span class="p">:</span><span class="nd">has</span><span class="o">(</span><span class="p">#</span><span class="nn">dark</span><span class="p">:</span><span class="nd">checked</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">color-scheme</span><span class="p">:</span><span class="w"> </span><span class="n">dark</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="c">/* Dim siblings of the hovered card */</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="p">.</span><span class="nc">grid</span><span class="p">:</span><span class="nd">has</span><span class="o">(</span><span class="p">.</span><span class="nc">card</span><span class="p">:</span><span class="nd">hover</span><span class="o">)</span><span class="w"> </span><span class="p">.</span><span class="nc">card</span><span class="p">:</span><span class="nd">not</span><span class="o">(</span><span class="p">:</span><span class="nd">hover</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">opacity</span><span class="p">:</span><span class="w"> </span><span class="mf">.5</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo">
+<div class="sel-has">
+  <div class="cardx"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Crect width='60' height='60' rx='8' fill='%23e4572e'/%3E%3C/svg%3E" alt="" width="60" height="60"><span>Card with an image → becomes a grid</span></div>
+  <div class="cardx"><span>Card without an image → stays a block</span></div>
+  <div class="cardx"><span>Hover any card: the others dim</span></div>
+</div>
+<style>
+  .sel-has { display: flex; flex-wrap: wrap; gap: .6em; }
+  .sel-has .cardx { flex: 1 1 180px; padding: .7em; border: 1px solid #c9ced6; border-radius: 10px; transition: opacity .2s; }
+  .sel-has .cardx:has(img) { display: grid; grid-template-columns: 60px 1fr; gap: .7em; align-items: center; }
+  .sel-has:has(.cardx:hover) .cardx:not(:hover) { opacity: .4; }
+</style>
+</div>
+
+<h2 id="other-pseudo-classes">Other pseudo-classes <span class="lvl lvl-2">Intermediate</span><a class="headerlink" href="#other-pseudo-classes" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:target</code></td>
+<td>The element whose id matches the URL <code>#hash</code></td>
+</tr>
+<tr>
+<td><code>:lang(fr)</code></td>
+<td>Elements in a language</td>
+</tr>
+<tr>
+<td><code>:dir(rtl)</code></td>
+<td>Elements by text direction</td>
+</tr>
+<tr>
+<td><code>:any-link</code></td>
+<td>Any <code>a</code>/<code>area</code> with <code>href</code></td>
+</tr>
+<tr>
+<td><code>:defined</code></td>
+<td>Custom elements that have been defined (hide un-upgraded ones)</td>
+</tr>
+<tr>
+<td><code>:fullscreen</code>, <code>:modal</code></td>
+<td>Fullscreen element; modal dialog</td>
+</tr>
+<tr>
+<td><code>:state(checked)</code></td>
+<td>Custom element internal state (Baseline 2024)</td>
+</tr>
+<tr>
+<td><code>:host</code>, <code>:host()</code>, <code>:host-context()</code></td>
+<td>Shadow DOM host</td>
+</tr>
+</tbody>
+</table>
+<h2 id="pseudo-elements">Pseudo-elements <span class="lvl lvl-1">Beginner</span> → <span class="lvl lvl-2">Intermediate</span><a class="headerlink" href="#pseudo-elements" title="Permanent link">&para;</a></h2>
+<p>Pseudo-elements style a <strong>part</strong> of an element, or insert generated content. They use <strong>two colons</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Pseudo-element</th>
+<th>Styles</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>::before</code> / <code>::after</code></td>
+<td>Generated box before/after the content (needs <code>content</code>)</td>
+</tr>
+<tr>
+<td><code>::first-letter</code></td>
+<td>First letter (drop caps)</td>
+</tr>
+<tr>
+<td><code>::first-line</code></td>
+<td>First rendered line</td>
+</tr>
+<tr>
+<td><code>::marker</code></td>
+<td>List bullet / number, <code>summary</code> triangle</td>
+</tr>
+<tr>
+<td><code>::placeholder</code></td>
+<td>Input placeholder text</td>
+</tr>
+<tr>
+<td><code>::selection</code></td>
+<td>Text the user selected</td>
+</tr>
+<tr>
+<td><code>::file-selector-button</code></td>
+<td>The button inside <code>input[type=file]</code></td>
+</tr>
+<tr>
+<td><code>::backdrop</code></td>
+<td>The layer behind a modal dialog / popover / fullscreen element</td>
+</tr>
+<tr>
+<td><code>::part(name)</code></td>
+<td>A shadow-DOM part exposed by a web component</td>
+</tr>
+<tr>
+<td><code>::slotted()</code></td>
+<td>Slotted content (inside shadow CSS)</td>
+</tr>
+<tr>
+<td><code>::cue</code></td>
+<td>Video captions</td>
+</tr>
+<tr>
+<td><code>::details-content</code></td>
+<td>The collapsible part of <code>&lt;details&gt;</code> (2025)</td>
+</tr>
+<tr>
+<td><code>::picker(select)</code></td>
+<td>The drop-down of a customizable select (2025)</td>
+</tr>
+<tr>
+<td><code>::view-transition-*</code></td>
+<td>View transition snapshots</td>
+</tr>
+<tr>
+<td><code>::scroll-marker</code>, <code>::scroll-button()</code></td>
+<td>CSS carousels (Chromium 135+)</td>
+</tr>
+</tbody>
+</table>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">.</span><span class="nc">quote</span><span class="p">::</span><span class="nd">before</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;“&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#e4572e</span><span class="p">;</span><span class="w"> </span><span class="k">line-height</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="k">vertical-align</span><span class="p">:</span><span class="w"> </span><span class="mf">-.4</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">.</span><span class="nc">drop</span><span class="p">::</span><span class="nd">first-letter</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">float</span><span class="p">:</span><span class="w"> </span><span class="kc">left</span><span class="p">;</span><span class="w"> </span><span class="k">font-size</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="k">line-height</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="k">padding-right</span><span class="p">:</span><span class="w"> </span><span class="mf">.1</span><span class="kt">em</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="mh">#3f51b5</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="p">.</span><span class="nc">tick</span><span class="w"> </span><span class="nt">li</span><span class="p">::</span><span class="nd">marker</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;✔ &quot;</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">seagreen</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">.</span><span class="nc">sel</span><span class="p">::</span><span class="nd">selection</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#e4572e</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">.</span><span class="nc">req</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot; *&quot;</span><span class="p">;</span><span class="w"> </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">crimson</span><span class="p">;</span><span class="w"> </span><span class="p">}</span>
+</span></code></pre></div>
+<div class="demo sel-pe">
+<p class="quote">Design is how it works.</p>
+<p class="drop">Once upon a time, the web was mostly text. Drop caps were one of the first typographic tricks that CSS made easy.</p>
+<ul class="tick"><li>Semantic HTML</li><li>Accessible forms</li></ul>
+<p class="sel">Select this text to see a custom highlight.</p>
+<label class="req">Email</label>
+<style>
+  .sel-pe .quote::before { content: "\201C"; font-size: 3em; color: #e4572e; line-height: 0; vertical-align: -.4em; margin-right: .05em; }
+  .sel-pe .drop::first-letter { float: left; font-size: 3em; line-height: 1; padding-right: .1em; color: #3f51b5; }
+  .sel-pe .tick li::marker { content: "\2714  "; color: seagreen; }
+  .sel-pe .sel::selection { background: #e4572e; color: white; }
+  .sel-pe .req::after { content: " *"; color: crimson; }
+</style>
+</div>
+
+<div class="admonition tip">
+<p class="admonition-title">Senior note · 🟠 Advanced</p>
+<p>Text inside <code>content</code> on <code>::before</code>/<code>::after</code> <strong>is</strong> read by most screen readers. For decorative icons, use the alt-text syntax <code>content: "★" / "";</code> to give it an empty accessible name.</p>
+</div>
+<h2 id="nesting">Nesting <span class="lvl lvl-2">Intermediate</span> <small>Baseline 2023</small><a class="headerlink" href="#nesting" title="Permanent link">&para;</a></h2>
+<p>Native CSS nesting works like Sass nesting:</p>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="p">.</span><span class="nc">card</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">  </span><span class="k">padding</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">  </span><span class="err">&amp;</span><span class="w"> </span><span class="err">h3</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="k">margin</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">          </span><span class="c">/* .card h3 */</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">  </span><span class="o">&amp;</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">box-shadow</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="w"> </span><span class="mh">#0002</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">   </span><span class="c">/* .card:hover */</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">  </span><span class="o">&amp;</span><span class="p">.</span><span class="nc">featured</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">border</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="kc">solid</span><span class="w"> </span><span class="kc">gold</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">      </span><span class="c">/* .card.featured */</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">  </span><span class="p">.</span><span class="nc">theme-dark</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">background</span><span class="p">:</span><span class="w"> </span><span class="mh">#222</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w">         </span><span class="c">/* .theme-dark .card */</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">  </span><span class="p">@</span><span class="k">media</span><span class="w"> </span><span class="o">(</span><span class="nt">width</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="nt">600px</span><span class="o">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">padding</span><span class="o">:</span><span class="w"> </span><span class="nt">2rem</span><span class="o">;</span><span class="w"> </span><span class="p">}</span><span class="w">  </span><span class="c">/* media query inside */</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="err">}</span>
+</span></code></pre></div>
+<p>The <code>&amp;</code> is optional before a nested type selector in current browsers (<code>h3 { }</code> works), but keep it for clarity and older-browser safety.</p>
+<h2 id="selector-performance">Selector performance <span class="lvl lvl-4">Expert</span><a class="headerlink" href="#selector-performance" title="Permanent link">&para;</a></h2>
+<p>Browsers match selectors <strong>right to left</strong>: for <code>.nav li a</code>, they find every <code>a</code>, then check if it's inside an <code>li</code>, inside <code>.nav</code>. In practice, selector matching is rarely a bottleneck on modern engines. What actually costs time is <strong>style invalidation</strong>: a change that forces re-matching for many elements, such as toggling a class on <code>&lt;body&gt;</code> that a large <code>:has()</code> selector depends on. Keep <code>:has()</code> arguments narrow (<code>.card:has(&gt; img)</code> rather than <code>body:has(.x)</code>), and use the DevTools Performance panel's "Selector stats" to find the expensive ones.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../fundamentals/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Cascade, Specificity &amp; Box Model">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Cascade, Specificity & Box Model
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../colors-units/" class="md-footer__link md-footer__link--next" aria-label="Next: Colors &amp; Units">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Colors & Units
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Web UI Frontend Playbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

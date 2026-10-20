@@ -1,0 +1,3098 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="HTML5, CSS3, Flexbox, Grid, responsive design and modern UI, from your first tag to 15+ years of frontend architecture. Every tag and property is shown with its code and its live output.">
+      
+      
+        <meta name="author" content="Web UI Frontend Playbook">
+      
+      
+      
+        <link rel="prev" href="../units-functions/">
+      
+      
+        <link rel="next" href="../../career/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>UI Components & Patterns - Web UI Frontend Playbook</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Inter";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ui-components-patterns-cheat-sheet" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Web UI Frontend Playbook" class="md-header__button md-logo" aria-label="Web UI Frontend Playbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 17.56 4.07-1.13.55-6.1H9.38L9.2 8.3h7.6l.2-1.99H7l.56 6.01h6.89l-.23 2.58-2.22.6-2.22-.6-.14-1.66h-2l.29 3.19zM4.07 3h15.86L18.5 19.2 12 21l-6.5-1.8z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Web UI Frontend Playbook
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              UI Components & Patterns
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="indigo"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/khiruashish/grocery-startup" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    web-ui-frontend-playbook
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../.." class="md-tabs__link">
+          
+  
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../html/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  HTML5
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../css/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  CSS & CSS3
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../layout/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Layout & Responsive
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../reverse-engineering/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Reverse Engineering
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Cheat Sheets
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../career/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Senior & Architect
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Web UI Frontend Playbook" class="md-nav__button md-logo" aria-label="Web UI Frontend Playbook" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 17.56 4.07-1.13.55-6.1H9.38L9.2 8.3h7.6l.2-1.99H7l.56 6.01h6.89l-.23 2.58-2.22.6-2.22-.6-.14-1.66h-2l.29 3.19zM4.07 3h15.86L18.5 19.2 12 21l-6.5-1.8z"/></svg>
+
+    </a>
+    Web UI Frontend Playbook
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/khiruashish/grocery-startup" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    web-ui-frontend-playbook
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_1" id="__nav_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Home
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../how-to-use/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to Use This Playbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Learning Roadmap (0–15 yrs)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../html/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTML5
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    HTML5
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/document-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Document Structure & Metadata
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/text-content/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Text Content
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/inline-semantics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inline Text Semantics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/sectioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Sectioning & Landmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/media/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Images & Media
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/tables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/forms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Forms & Inputs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/interactive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interactive & Web Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/global-attributes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Global Attributes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../html/all-tags/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    A–Z Tag Reference (all tags)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../css/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS & CSS3
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    CSS & CSS3
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/fundamentals/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cascade, Specificity & Box Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/selectors/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Selectors (CSS1 → Selectors 4)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/colors-units/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Colors & Units
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/typography/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Typography
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/effects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Backgrounds, Borders & Effects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/positioning/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Positioning & Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/animations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transforms, Transitions & Animations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/custom-properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Properties & Theming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/modern-css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Modern CSS (2023–2026)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../css/properties/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Property Cheat Sheet
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../layout/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout & Responsive
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Layout & Responsive
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/flexbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flexbox (complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/grid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS Grid (complete)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/responsive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Responsive Design
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/patterns/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Layout Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../layout/ui-trends/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Latest UI Trends
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../reverse-engineering/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reverse Engineering
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Reverse Engineering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverse-engineering/recipes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    See This → Write This
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverse-engineering/gallery/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live Layout Gallery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cheat Sheets
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Cheat Sheets
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../html/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    HTML
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../css/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../css3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS3 & Modern CSS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../flexbox/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Flexbox
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../grid/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Grid
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../responsive/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Responsive
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../units-functions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Units, Colours & Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI Components & Patterns
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    UI Components & Patterns
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#components-html-css-a11y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components: HTML + CSS + a11y
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-one-liners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout one-liners
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-token-scales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design token scales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colour-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colour roles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessibility-quick-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility quick checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-quick-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance quick checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-ui-styles-in-a-few-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current UI styles in a few lines
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../career/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Senior & Architect
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Senior & Architect
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/accessibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Accessibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/css-architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CSS Architecture at Scale
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../career/interview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interview Questions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#components-html-css-a11y" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Components: HTML + CSS + a11y
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#layout-one-liners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Layout one-liners
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#design-token-scales" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Design token scales
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#colour-roles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Colour roles
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard patterns
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessibility-quick-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessibility quick checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-quick-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance quick checklist
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#current-ui-styles-in-a-few-lines" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Current UI styles in a few lines
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="ui-components-patterns-cheat-sheet">UI Components &amp; Patterns Cheat Sheet<a class="headerlink" href="#ui-components-patterns-cheat-sheet" title="Permanent link">&para;</a></h1>
+<p>For each common UI piece: the right HTML, the key CSS, and the keyboard and accessibility rules. Live versions: <a href="../../reverse-engineering/recipes/">See This → Write This</a> and the <a href="../../examples/layouts.html">Layout Gallery</a>.</p>
+<h2 id="components-html-css-a11y">Components: HTML + CSS + a11y<a class="headerlink" href="#components-html-css-a11y" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>HTML</th>
+<th>Key CSS</th>
+<th>Accessibility &amp; keyboard</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Button</strong></td>
+<td><code>&lt;button type="button"&gt;</code></td>
+<td><code>padding: .7em 1.2em; border-radius: 8px;</code> <code>:hover</code> <code>:active { scale: .97 }</code> <code>:focus-visible</code> ring</td>
+<td><span class="keys"><kbd class="key-enter">Enter</kbd></span> / <span class="keys"><kbd class="key-space">Space</kbd></span> activate. Icon-only needs <code>aria-label</code>. 44×44px target</td>
+</tr>
+<tr>
+<td><strong>Link button</strong></td>
+<td><code>&lt;a href class="btn"&gt;</code></td>
+<td>Same as button</td>
+<td>Only when it navigates</td>
+</tr>
+<tr>
+<td><strong>Toggle button</strong></td>
+<td><code>&lt;button aria-pressed="false"&gt;</code></td>
+<td><code>[aria-pressed=true] { … }</code></td>
+<td>State announced as "pressed"</td>
+</tr>
+<tr>
+<td><strong>Switch</strong></td>
+<td><code>&lt;input type="checkbox" role="switch"&gt;</code></td>
+<td><code>appearance: none</code> + <code>::before</code> knob + <code>translate</code></td>
+<td><span class="keys"><kbd class="key-space">Space</kbd></span> toggles; announced "on/off"</td>
+</tr>
+<tr>
+<td><strong>Badge / pill</strong></td>
+<td><code>&lt;span class="pill"&gt;</code></td>
+<td><code>border-radius: 999px; padding: .2em .7em; font-size: .75rem</code></td>
+<td>Don't rely on colour alone</td>
+</tr>
+<tr>
+<td><strong>Avatar</strong></td>
+<td><code>&lt;img alt="Name"&gt;</code> or initials <code>&lt;span&gt;</code></td>
+<td><code>aspect-ratio: 1; border-radius: 50%; object-fit: cover</code></td>
+<td><code>alt=""</code> if the name is next to it</td>
+</tr>
+<tr>
+<td><strong>Card</strong></td>
+<td><code>&lt;article&gt;</code> + heading</td>
+<td><code>display: flex; flex-direction: column;</code> <code>overflow: hidden; border-radius</code> · footer <code>margin-top: auto</code></td>
+<td>Whole-card link: put the link on the heading and stretch it with <code>::after { inset: 0 }</code></td>
+</tr>
+<tr>
+<td><strong>Navbar</strong></td>
+<td><code>&lt;header&gt;&lt;nav aria-label="Primary"&gt;&lt;ul&gt;</code></td>
+<td><code>display: flex; align-items: center; gap</code> · push actions with <code>margin-inline-start: auto</code></td>
+<td><code>aria-current="page"</code> on the current link</td>
+</tr>
+<tr>
+<td><strong>Mobile menu</strong></td>
+<td><code>&lt;button popovertarget="m"&gt;</code> + <code>&lt;nav id="m" popover&gt;</code></td>
+<td><code>:popover-open { display: flex; flex-direction: column }</code></td>
+<td><span class="keys"><kbd class="key-escape">Esc</kbd></span> closes; focus returns to the button</td>
+</tr>
+<tr>
+<td><strong>Breadcrumbs</strong></td>
+<td><code>&lt;nav aria-label="Breadcrumb"&gt;&lt;ol&gt;</code></td>
+<td><code>display: flex; gap</code> · separators via <code>li + li::before</code></td>
+<td>Last item <code>aria-current="page"</code></td>
+</tr>
+<tr>
+<td><strong>Tabs</strong></td>
+<td><code>role="tablist"</code> &gt; <code>button role="tab" aria-selected aria-controls</code> + <code>role="tabpanel"</code></td>
+<td>Underline on <code>[aria-selected=true]</code></td>
+<td><span class="keys"><kbd class="key-arrow-left">Left</kbd></span> / <span class="keys"><kbd class="key-arrow-right">Right</kbd></span> move between tabs; <span class="keys"><kbd class="key-tab">Tab</kbd></span> goes into the panel</td>
+</tr>
+<tr>
+<td><strong>Accordion</strong></td>
+<td><code>&lt;details name="g"&gt;&lt;summary&gt;</code></td>
+<td><code>summary { list-style: none }</code> · rotate a chevron on <code>[open]</code></td>
+<td>Native: <span class="keys"><kbd class="key-enter">Enter</kbd></span> / <span class="keys"><kbd class="key-space">Space</kbd></span></td>
+</tr>
+<tr>
+<td><strong>Modal</strong></td>
+<td><code>&lt;dialog&gt;</code> + <code>showModal()</code></td>
+<td><code>::backdrop { background: rgb(0 0 0/.5) }</code> · <code>@starting-style</code> for entry</td>
+<td>Focus moves in, <span class="keys"><kbd class="key-escape">Esc</kbd></span> closes, page inert. <code>aria-labelledby</code> the heading</td>
+</tr>
+<tr>
+<td><strong>Drawer / off-canvas</strong></td>
+<td><code>&lt;dialog&gt;</code> positioned at the side</td>
+<td><code>margin: 0 0 0 auto; height: 100dvh;</code> slide with <code>translate</code></td>
+<td>Same as modal</td>
+</tr>
+<tr>
+<td><strong>Dropdown menu</strong></td>
+<td><code>&lt;button popovertarget&gt;</code> + <code>[popover]</code> list of buttons/links</td>
+<td>Anchor positioning or <code>position: fixed</code></td>
+<td><span class="keys"><kbd class="key-arrow-down">Down</kbd></span> / <span class="keys"><kbd class="key-arrow-up">Up</kbd></span> for menu items if using <code>role="menu"</code></td>
+</tr>
+<tr>
+<td><strong>Tooltip</strong></td>
+<td><code>[popover="hint"]</code> or CSS <code>:hover/:focus-visible</code></td>
+<td><code>position: absolute; bottom: calc(100% + 8px)</code> · arrow via borders</td>
+<td>Show on focus too; <code>aria-describedby</code>; never hide essential info in tooltips</td>
+</tr>
+<tr>
+<td><strong>Toast</strong></td>
+<td><code>&lt;div role="status" popover="manual"&gt;</code></td>
+<td><code>position: fixed; inset: auto 1rem 1rem auto</code></td>
+<td><code>role="status"</code> (polite) or <code>role="alert"</code>; don't auto-dismiss errors</td>
+</tr>
+<tr>
+<td><strong>Alert / banner</strong></td>
+<td><code>&lt;div role="alert"&gt;</code> or <code>role="region" aria-label</code></td>
+<td>Coloured left border + icon + text</td>
+<td>Text, not colour only</td>
+</tr>
+<tr>
+<td><strong>Form field</strong></td>
+<td><code>&lt;label for&gt;</code> + <code>&lt;input&gt;</code> + hint <code>&lt;p id&gt;</code></td>
+<td><code>display: grid; gap: .3rem</code></td>
+<td><code>aria-describedby</code> → hint + error; <code>aria-invalid</code></td>
+</tr>
+<tr>
+<td><strong>Floating label</strong></td>
+<td><code>&lt;input placeholder=" "&gt;</code> + <code>&lt;label&gt;</code> after it</td>
+<td><code>input:not(:placeholder-shown) + label { top: 0; font-size: .75rem }</code></td>
+<td>Still a real <code>&lt;label&gt;</code></td>
+</tr>
+<tr>
+<td><strong>Search</strong></td>
+<td><code>&lt;search&gt;&lt;form&gt;&lt;label&gt;&lt;input type="search"&gt;</code></td>
+<td><code>:focus-within</code> on the wrapper</td>
+<td>Label can be visually hidden</td>
+</tr>
+<tr>
+<td><strong>Select</strong></td>
+<td><code>&lt;select&gt;</code></td>
+<td><code>appearance: base-select</code> (Chromium) or native</td>
+<td>Native keyboard</td>
+</tr>
+<tr>
+<td><strong>Checkbox / radio</strong></td>
+<td><code>&lt;input type="checkbox"&gt;</code> / radios in <code>&lt;fieldset&gt;&lt;legend&gt;</code></td>
+<td><code>accent-color: var(--brand)</code></td>
+<td>Radios: arrow keys move within the group</td>
+</tr>
+<tr>
+<td><strong>Range slider</strong></td>
+<td><code>&lt;input type="range"&gt;</code> + <code>&lt;output&gt;</code></td>
+<td><code>accent-color</code></td>
+<td>Arrow keys; label it</td>
+</tr>
+<tr>
+<td><strong>Progress</strong></td>
+<td><code>&lt;progress value max&gt;</code></td>
+<td><code>accent-color</code> or <code>::-webkit-progress-value</code></td>
+<td>Label it</td>
+</tr>
+<tr>
+<td><strong>Meter</strong></td>
+<td><code>&lt;meter value low high optimum&gt;</code></td>
+<td>—</td>
+<td>For measurements, not tasks</td>
+</tr>
+<tr>
+<td><strong>Pagination</strong></td>
+<td><code>&lt;nav aria-label="Pagination"&gt;&lt;ul&gt;</code></td>
+<td><code>display: flex; gap</code> · current page filled</td>
+<td><code>aria-current="page"</code></td>
+</tr>
+<tr>
+<td><strong>Stepper</strong></td>
+<td><code>&lt;ol&gt;</code></td>
+<td><code>counter-reset</code> + <code>::before</code> circles + <code>::after</code> lines</td>
+<td><code>aria-current="step"</code></td>
+</tr>
+<tr>
+<td><strong>Table</strong></td>
+<td><code>&lt;table&gt;</code> + <code>&lt;caption&gt;</code> + <code>&lt;th scope&gt;</code></td>
+<td><code>border-collapse: collapse</code> · zebra <code>tr:nth-child(even)</code> · <code>position: sticky</code> header</td>
+<td>Wrap in <code>role="region" tabindex="0"</code> if scrollable</td>
+</tr>
+<tr>
+<td><strong>Skeleton</strong></td>
+<td><code>&lt;div aria-busy="true"&gt;</code></td>
+<td>Shimmer gradient + <code>@keyframes</code></td>
+<td>Respect reduced motion</td>
+</tr>
+<tr>
+<td><strong>Empty state</strong></td>
+<td>Illustration + heading + text + one action</td>
+<td><code>display: grid; justify-items: center; text-align: center</code></td>
+<td>Decorative art <code>aria-hidden</code></td>
+</tr>
+<tr>
+<td><strong>Carousel</strong></td>
+<td><code>&lt;ul&gt;</code> in a scroll container</td>
+<td><code>display: flex; overflow-x: auto; scroll-snap-type: x mandatory</code></td>
+<td>Visible prev/next buttons, pause for autoplay</td>
+</tr>
+<tr>
+<td><strong>Sticky header</strong></td>
+<td><code>&lt;header&gt;</code></td>
+<td><code>position: sticky; top: 0; backdrop-filter: blur(10px)</code></td>
+<td><code>html { scroll-padding-top }</code> so focus isn't hidden</td>
+</tr>
+<tr>
+<td><strong>Skip link</strong></td>
+<td><code>&lt;a class="skip" href="#main"&gt;</code></td>
+<td>Hidden until <code>:focus</code></td>
+<td>First focusable element on the page</td>
+</tr>
+</tbody>
+</table>
+<h2 id="layout-one-liners">Layout one-liners<a class="headerlink" href="#layout-one-liners" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>CSS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Centre anything</td>
+<td><code>display: grid; place-items: center;</code></td>
+</tr>
+<tr>
+<td>Centre a block horizontally</td>
+<td><code>max-width: 60rem; margin-inline: auto;</code></td>
+</tr>
+<tr>
+<td>Row with spacing</td>
+<td><code>display: flex; gap: 1rem; align-items: center;</code></td>
+</tr>
+<tr>
+<td>Push last item to the end</td>
+<td><code>margin-inline-start: auto;</code></td>
+</tr>
+<tr>
+<td>Equal columns</td>
+<td><code>display: grid; grid-template-columns: repeat(3, 1fr);</code></td>
+</tr>
+<tr>
+<td>Responsive card grid</td>
+<td><code>grid-template-columns: repeat(auto-fit, minmax(min(16rem, 100%), 1fr));</code></td>
+</tr>
+<tr>
+<td>Sidebar + content</td>
+<td><code>grid-template-columns: 16rem 1fr;</code></td>
+</tr>
+<tr>
+<td>Sticky footer page</td>
+<td><code>body { display: grid; grid-template-rows: auto 1fr auto; min-height: 100dvh; }</code></td>
+</tr>
+<tr>
+<td>Full-bleed child</td>
+<td><code>width: 100vw; margin-inline: calc(50% - 50vw);</code></td>
+</tr>
+<tr>
+<td>Stack with even spacing</td>
+<td><code>.stack &gt; * + * { margin-block-start: 1rem; }</code> or <code>display: flex; flex-direction: column; gap: 1rem;</code></td>
+</tr>
+<tr>
+<td>Overlay on image</td>
+<td>Parent <code>display: grid;</code> children <code>grid-area: 1 / 1;</code></td>
+</tr>
+<tr>
+<td>Aspect-ratio box</td>
+<td><code>aspect-ratio: 16 / 9;</code></td>
+</tr>
+<tr>
+<td>Truncate one line</td>
+<td><code>white-space: nowrap; overflow: hidden; text-overflow: ellipsis;</code></td>
+</tr>
+<tr>
+<td>Clamp to 3 lines</td>
+<td><code>display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden;</code></td>
+</tr>
+<tr>
+<td>Hide visually, keep for screen readers</td>
+<td><code>position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;</code></td>
+</tr>
+<tr>
+<td>Scroll horizontally</td>
+<td><code>overflow-x: auto; overscroll-behavior-x: contain;</code></td>
+</tr>
+<tr>
+<td>No layout jump from scrollbar</td>
+<td><code>scrollbar-gutter: stable;</code></td>
+</tr>
+<tr>
+<td>Smooth anchor scrolling</td>
+<td><code>html { scroll-behavior: smooth; scroll-padding-top: 5rem; }</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="design-token-scales">Design token scales<a class="headerlink" href="#design-token-scales" title="Permanent link">&para;</a></h2>
+<div class="language-css highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">:</span><span class="nd">root</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="c">/* Spacing: 4px base */</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nv">--space-1</span><span class="p">:</span><span class="w"> </span><span class="mf">.25</span><span class="kt">rem</span><span class="p">;</span><span class="w">  </span><span class="nv">--space-2</span><span class="p">:</span><span class="w"> </span><span class="mf">.5</span><span class="kt">rem</span><span class="p">;</span><span class="w">  </span><span class="nv">--space-3</span><span class="p">:</span><span class="w"> </span><span class="mf">.75</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--space-4</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nv">--space-5</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="kt">rem</span><span class="p">;</span><span class="w">  </span><span class="nv">--space-6</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="kt">rem</span><span class="p">;</span><span class="w">   </span><span class="nv">--space-7</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="kt">rem</span><span class="p">;</span><span class="w">   </span><span class="nv">--space-8</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">rem</span><span class="p">;</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span><span class="c">/* Type scale: ratio 1.25 */</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span><span class="nv">--text-xs</span><span class="p">:</span><span class="w"> </span><span class="mf">.8</span><span class="kt">rem</span><span class="p">;</span><span class="w">  </span><span class="nv">--text-sm</span><span class="p">:</span><span class="w"> </span><span class="mf">.875</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--text-base</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--text-lg</span><span class="p">:</span><span class="w"> </span><span class="mf">1.25</span><span class="kt">rem</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span><span class="nv">--text-xl</span><span class="p">:</span><span class="w"> </span><span class="mf">1.563</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--text-2xl</span><span class="p">:</span><span class="w"> </span><span class="mf">1.953</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--text-3xl</span><span class="p">:</span><span class="w"> </span><span class="mf">2.441</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--text-4xl</span><span class="p">:</span><span class="w"> </span><span class="mf">3.052</span><span class="kt">rem</span><span class="p">;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span><span class="c">/* Radius */</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span><span class="nv">--radius-sm</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="nv">--radius-md</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="nv">--radius-lg</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="kt">px</span><span class="p">;</span><span class="w"> </span><span class="nv">--radius-full</span><span class="p">:</span><span class="w"> </span><span class="mi">999</span><span class="kt">px</span><span class="p">;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">  </span><span class="c">/* Elevation (shadows) */</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">  </span><span class="nv">--shadow-1</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mi">2</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgb</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">.06</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="kt">px</span><span class="w"> </span><span class="mi">3</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgb</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">.1</span><span class="p">);</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">  </span><span class="nv">--shadow-2</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">4</span><span class="kt">px</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgb</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">.08</span><span class="p">);</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">  </span><span class="nv">--shadow-3</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">12</span><span class="kt">px</span><span class="w"> </span><span class="mi">32</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgb</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">.12</span><span class="p">);</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">  </span><span class="nv">--shadow-4</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">24</span><span class="kt">px</span><span class="w"> </span><span class="mi">64</span><span class="kt">px</span><span class="w"> </span><span class="nb">rgb</span><span class="p">(</span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">.18</span><span class="p">);</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">  </span><span class="c">/* Z-index */</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">  </span><span class="nv">--z-dropdown</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="nv">--z-sticky</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">;</span><span class="w"> </span><span class="nv">--z-overlay</span><span class="p">:</span><span class="w"> </span><span class="mi">300</span><span class="p">;</span><span class="w"> </span><span class="nv">--z-modal</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">;</span><span class="w"> </span><span class="nv">--z-toast</span><span class="p">:</span><span class="w"> </span><span class="mi">500</span><span class="p">;</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">  </span><span class="c">/* Motion */</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="nv">--dur-fast</span><span class="p">:</span><span class="w"> </span><span class="mi">120</span><span class="kt">ms</span><span class="p">;</span><span class="w"> </span><span class="nv">--dur-base</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="kt">ms</span><span class="p">;</span><span class="w"> </span><span class="nv">--dur-slow</span><span class="p">:</span><span class="w"> </span><span class="mi">320</span><span class="kt">ms</span><span class="p">;</span>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">  </span><span class="nv">--ease-out</span><span class="p">:</span><span class="w"> </span><span class="nb">cubic-bezier</span><span class="p">(</span><span class="mf">.16</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">.3</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">  </span><span class="nv">--ease-in-out</span><span class="p">:</span><span class="w"> </span><span class="nb">cubic-bezier</span><span class="p">(</span><span class="mf">.65</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mf">.35</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">  </span><span class="c">/* Layout */</span>
+</span><span id="__span-0-28"><a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">  </span><span class="nv">--content</span><span class="p">:</span><span class="w"> </span><span class="mi">70</span><span class="kt">rem</span><span class="p">;</span><span class="w"> </span><span class="nv">--measure</span><span class="p">:</span><span class="w"> </span><span class="mi">65</span><span class="kt">ch</span><span class="p">;</span>
+</span><span id="__span-0-29"><a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="p">}</span>
+</span></code></pre></div>
+<h2 id="colour-roles">Colour roles<a class="headerlink" href="#colour-roles" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Light</th>
+<th>Dark</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--bg</code></td>
+<td><code>#ffffff</code></td>
+<td><code>#121417</code></td>
+<td>Page background</td>
+</tr>
+<tr>
+<td><code>--surface</code></td>
+<td><code>#f6f7f9</code></td>
+<td><code>#1d2129</code></td>
+<td>Cards, panels</td>
+</tr>
+<tr>
+<td><code>--text</code></td>
+<td><code>#1f2329</code></td>
+<td><code>#e6e8ec</code></td>
+<td>Body text</td>
+</tr>
+<tr>
+<td><code>--muted</code></td>
+<td><code>#5f6672</code></td>
+<td><code>#a2a8b3</code></td>
+<td>Secondary text (still ≥ 4.5:1)</td>
+</tr>
+<tr>
+<td><code>--border</code></td>
+<td><code>#e3e5ea</code></td>
+<td><code>#2d323a</code></td>
+<td>Dividers</td>
+</tr>
+<tr>
+<td><code>--brand</code></td>
+<td><code>#e4572e</code></td>
+<td><code>#ff7a50</code></td>
+<td>Primary actions, links</td>
+</tr>
+<tr>
+<td><code>--success</code> · <code>--warning</code> · <code>--danger</code></td>
+<td>green · amber · red</td>
+<td>lighter variants</td>
+<td>Status, always with icon + text</td>
+</tr>
+<tr>
+<td><code>--focus</code></td>
+<td><code>#3f51b5</code></td>
+<td><code>#8ea2ff</code></td>
+<td>Focus rings (≥ 3:1 against neighbours)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="keyboard-patterns">Keyboard patterns<a class="headerlink" href="#keyboard-patterns" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Widget</th>
+<th>Keys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any page</td>
+<td><span class="keys"><kbd class="key-tab">Tab</kbd></span> / <span class="keys"><kbd class="key-shift">Shift</kbd><span>+</span><kbd class="key-tab">Tab</kbd></span> move focus · <span class="keys"><kbd class="key-enter">Enter</kbd></span> activates links and buttons · <span class="keys"><kbd class="key-space">Space</kbd></span> activates buttons, toggles checkboxes</td>
+</tr>
+<tr>
+<td>Dialog</td>
+<td><span class="keys"><kbd class="key-escape">Esc</kbd></span> closes · <span class="keys"><kbd class="key-tab">Tab</kbd></span> stays inside</td>
+</tr>
+<tr>
+<td>Menu / listbox</td>
+<td><span class="keys"><kbd class="key-arrow-up">Up</kbd></span> <span class="keys"><kbd class="key-arrow-down">Down</kbd></span> move · <span class="keys"><kbd class="key-home">Home</kbd></span> <span class="keys"><kbd class="key-end">End</kbd></span> first/last · <span class="keys"><kbd class="key-enter">Enter</kbd></span> select · <span class="keys"><kbd class="key-escape">Esc</kbd></span> close · type-ahead</td>
+</tr>
+<tr>
+<td>Tabs</td>
+<td><span class="keys"><kbd class="key-arrow-left">Left</kbd></span> <span class="keys"><kbd class="key-arrow-right">Right</kbd></span> switch · <span class="keys"><kbd class="key-home">Home</kbd></span> <span class="keys"><kbd class="key-end">End</kbd></span></td>
+</tr>
+<tr>
+<td>Radio group</td>
+<td>Arrow keys move and select</td>
+</tr>
+<tr>
+<td>Accordion</td>
+<td><span class="keys"><kbd class="key-enter">Enter</kbd></span> / <span class="keys"><kbd class="key-space">Space</kbd></span> toggle</td>
+</tr>
+<tr>
+<td>Slider</td>
+<td>Arrow keys step · <span class="keys"><kbd class="key-page-up">Page Up</kbd></span> <span class="keys"><kbd class="key-page-down">Page Down</kbd></span> big step · <span class="keys"><kbd class="key-home">Home</kbd></span> <span class="keys"><kbd class="key-end">End</kbd></span></td>
+</tr>
+<tr>
+<td>Combobox</td>
+<td><span class="keys"><kbd class="key-arrow-down">Down</kbd></span> opens list · <span class="keys"><kbd class="key-enter">Enter</kbd></span> selects · <span class="keys"><kbd class="key-escape">Esc</kbd></span> clears/closes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="accessibility-quick-checklist">Accessibility quick checklist<a class="headerlink" href="#accessibility-quick-checklist" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Semantic elements and landmarks (<code>header</code>, <code>nav</code>, <code>main</code>, <code>footer</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> One <code>h1</code>; headings never skip levels</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every image has <code>alt</code> (empty for decorative)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Every input has a visible <code>&lt;label&gt;</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Text contrast ≥ 4.5:1; UI and focus contrast ≥ 3:1</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Everything works with the keyboard; focus is always visible</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Targets ≥ 24×24px (44×44 for primary actions)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> No information conveyed by colour alone</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Errors described in text, linked with <code>aria-describedby</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Respects <code>prefers-reduced-motion</code>; nothing auto-moves for &gt; 5s without a pause button</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Works at 400% zoom without horizontal scrolling</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>lang</code> set on <code>&lt;html&gt;</code>; page <code>&lt;title&gt;</code> is meaningful</li>
+</ul>
+<h2 id="performance-quick-checklist">Performance quick checklist<a class="headerlink" href="#performance-quick-checklist" title="Permanent link">&para;</a></h2>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> LCP image: <code>fetchpriority="high"</code>, not lazy, preloaded if it's a CSS background</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> All other images: <code>loading="lazy"</code>, <code>width</code>/<code>height</code>, AVIF/WebP, <code>srcset</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Scripts: <code>defer</code> or <code>type="module"</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Fonts: WOFF2, 1–2 files, <code>font-display: swap</code> or <code>optional</code>, preload the main one</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Animate only <code>transform</code> and <code>opacity</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> <code>content-visibility: auto</code> on long below-the-fold sections</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Reserve space for ads/embeds (<code>min-height</code>, <code>aspect-ratio</code>)</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Targets: LCP ≤ 2.5s · INP ≤ 200ms · CLS ≤ 0.1</li>
+</ul>
+<h2 id="current-ui-styles-in-a-few-lines">Current UI styles in a few lines<a class="headerlink" href="#current-ui-styles-in-a-few-lines" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Style</th>
+<th>Core CSS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Glassmorphism</strong></td>
+<td><code>background: rgb(255 255 255 / .15); backdrop-filter: blur(16px) saturate(1.6); border: 1px solid rgb(255 255 255 / .3);</code></td>
+</tr>
+<tr>
+<td><strong>Bento grid</strong></td>
+<td><code>display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-rows: 160px;</code> + <code>span 2</code> tiles + <code>border-radius: 20px</code></td>
+</tr>
+<tr>
+<td><strong>Neumorphism</strong></td>
+<td><code>background: #e6e9ef; box-shadow: 8px 8px 16px #c4c7cc, -8px -8px 16px #fff;</code> (low contrast: use sparingly)</td>
+</tr>
+<tr>
+<td><strong>Aurora / mesh gradient</strong></td>
+<td>Several <code>radial-gradient(at x y, color, transparent 50%)</code> layers</td>
+</tr>
+<tr>
+<td><strong>Big bold type</strong></td>
+<td><code>font-size: clamp(2.5rem, 1rem + 7vw, 7rem); letter-spacing: -.04em; line-height: .95;</code></td>
+</tr>
+<tr>
+<td><strong>Gradient border</strong></td>
+<td><code>border: 2px solid transparent; background: linear-gradient(#fff,#fff) padding-box, linear-gradient(135deg, a, b) border-box;</code></td>
+</tr>
+<tr>
+<td><strong>Soft cards</strong></td>
+<td><code>border-radius: 16px; box-shadow: 0 12px 32px rgb(0 0 0 / .08); border: 1px solid rgb(0 0 0 / .04);</code></td>
+</tr>
+<tr>
+<td><strong>Dark mode</strong></td>
+<td>Tokens + <code>color-scheme: light dark</code> + <code>light-dark()</code></td>
+</tr>
+<tr>
+<td><strong>Micro-interaction</strong></td>
+<td><code>transition: scale .15s cubic-bezier(.34,1.56,.64,1); :active { scale: .95 }</code></td>
+</tr>
+<tr>
+<td><strong>Scroll reveal</strong></td>
+<td><code>animation: reveal linear both; animation-timeline: view(); animation-range: entry;</code></td>
+</tr>
+<tr>
+<td><strong>Page transitions</strong></td>
+<td><code>@view-transition { navigation: auto; }</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../units-functions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Units, Colours &amp; Functions">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Units, Colours & Functions
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../career/" class="md-footer__link md-footer__link--next" aria-label="Next: Senior &amp;amp; Architect Track">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Senior &amp; Architect Track
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2026 Web UI Frontend Playbook
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["announce.dismiss", "content.code.annotate", "content.code.copy", "content.code.select", "content.tabs.link", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.instant", "navigation.instant.progress", "navigation.path", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
