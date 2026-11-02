@@ -1,11 +1,40 @@
 ---
+title: Home
 hide:
   - navigation
 ---
 
-# Web UI Frontend Playbook
+<div class="pb-hero" markdown>
+<div markdown>
 
-**HTML5, CSS3, Flexbox, Grid and responsive design, from your first tag to 15+ years of frontend architecture.**
+<span class="pb-kicker">HTML5 · CSS3 · Flexbox · Grid · responsive</span>
+
+<h1>Web UI Frontend Playbook</h1>
+
+<p class="pb-lead">HTML5, CSS3, Flexbox, Grid and responsive design, from your first tag to 15+ years of frontend architecture. Every element and property is shown with its code and its live output.</p>
+
+[Start with HTML5](html/index.md){ .md-button .md-button--primary }
+[CSS &amp; CSS3](css/index.md){ .md-button }
+[Reverse engineering](reverse-engineering/index.md){ .md-button }
+
+</div>
+<div class="pb-stack" aria-hidden="true">
+<div class="pb-stack-plane">
+<div class="pb-layer l-cpu">Browser engine<small>parse · style · layout · paint</small></div>
+<div class="pb-layer l-car">HTML5 semantics<small>structure · forms · a11y</small></div>
+<div class="pb-layer l-fjp">CSS layout<small>Flexbox · Grid · responsive</small></div>
+<div class="pb-layer l-vt">Components &amp; UI<small>what users actually see</small></div>
+</div>
+<div class="pb-stack-legend">From markup to pixels:<br>the layers of every web page</div>
+</div>
+</div>
+
+<div class="pb-stats">
+<div class="pb-stat"><b>48</b><span>pages</span></div>
+<div class="pb-stat"><b>6</b><span>sections</span></div>
+<div class="pb-stat"><b>10</b><span>diagrams</span></div>
+</div>
+
 
 Every element and property here is shown three ways: what it's **for**, the **code**, and the **live output** rendered right under the code. Then the [Reverse Engineering](reverse-engineering/index.md) section works backwards: you look at a UI and get the code that builds it.
 

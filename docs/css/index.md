@@ -44,7 +44,7 @@ timeline
     1998 : CSS2 : positioning, z-index, media types
     2011 : CSS2.1 : the stable base everyone implemented
     2011–2017 : "CSS3" modules : rounded corners, shadows, gradients, transforms, transitions, animations, media queries, flexbox, grid
-    2018–2026 : Living modules : custom properties, :is/:where/:has, nesting, @layer, container queries, subgrid, view transitions, anchor positioning
+    2018–2026 : Living modules : custom properties, is() where() has() selectors, nesting, @layer, container queries, subgrid, view transitions, anchor positioning
 ```
 
 After CSS2.1, CSS was split into **independent modules** (Selectors, Color, Flexbox, Grid…), each with its own level number. "CSS3" is just a marketing label for that first wave. There will never be a "CSS4"; the CSS Working Group publishes yearly snapshots instead, and developers track **Baseline** to see what's safe to use.
