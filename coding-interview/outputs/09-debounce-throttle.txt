@@ -1,0 +1,5 @@
+09-debounce-throttle: 4 checks, 0 failures
+  ✔ debounce: 5 rapid calls -> 1 call with the LAST arguments
+  ✔ debounce leading: fires immediately, then once more at the end
+  ✔ debounce keeps `this` and cancel() drops the pending call
+  ✔ throttle: calls every 10 ms -> first call, then the LATEST call at each 50 ms window end

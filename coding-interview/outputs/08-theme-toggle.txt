@@ -1,0 +1,4 @@
+08-theme-toggle: 3 checks, 0 failures
+  ✔ follows the OS preference when nothing is saved
+  ✔ toggle overrides the OS and updates aria-pressed
+  ✔ the choice survives a reload and is applied before first paint

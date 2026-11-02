@@ -1,0 +1,6 @@
+11-deep-clone: 5 checks, 0 failures
+  ✔ clones nested objects, arrays, Date, RegExp, Map, Set and symbol keys
+  ✔ mutating the clone never affects the original
+  ✔ handles cycles and shared references
+  ✔ keeps the prototype (class instances stay instances)
+  ✔ deepEqual: NaN, different types, missing keys, Map values

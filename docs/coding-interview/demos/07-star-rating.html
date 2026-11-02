@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Star rating (CSS only)</title>
+<style>
+  :root { font-family: system-ui, sans-serif; }
+  body { margin: 0; padding: 24px; }
+  /* Real radio inputs: keyboard (arrow keys), forms and screen readers work for free. No JavaScript. */
+  .rating { border: 0; padding: 0; display: inline-flex; flex-direction: row-reverse; }   /* reversed so ~ selects LOWER stars */
+  .rating legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }  /* visually hidden */
+  .rating { position: relative; }
+  /* Visually hidden but focusable. NOT opacity:0 at full size: invisible inputs stacked on the stars steal clicks. */
+  .rating input { position: absolute; width: 1px; height: 1px; margin: 0; overflow: hidden; clip-path: inset(50%); }
+  .rating label { font-size: 2rem; color: #cbd5e1; cursor: pointer; padding: 0 2px; }
+  .rating label::before { content: "★" / ""; }                  /* "/ ''": decorative, not read aloud */
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+  /* Checked star and every star after it in DOM order (= before it visually) light up */
+  .rating input:checked ~ label { color: #f59e0b; }
+  /* Hover preview overrides: hovered star and lower ones */
+  .rating:hover label { color: #cbd5e1; }
+  .rating label:hover, .rating label:hover ~ label { color: #fbbf24; }
+  .rating input:focus-visible + label { outline: 3px solid #a5b4fc; border-radius: 4px; }
+</style>
+</head>
+<body>
+  <form id="review">
+    <fieldset class="rating">
+      <legend>Rate this product</legend>
+      <input type="radio" id="s5" name="stars" value="5"><label for="s5"><span class="sr-only">5 stars</span></label>
+      <input type="radio" id="s4" name="stars" value="4"><label for="s4"><span class="sr-only">4 stars</span></label>
+      <input type="radio" id="s3" name="stars" value="3"><label for="s3"><span class="sr-only">3 stars</span></label>
+      <input type="radio" id="s2" name="stars" value="2"><label for="s2"><span class="sr-only">2 stars</span></label>
+      <input type="radio" id="s1" name="stars" value="1"><label for="s1"><span class="sr-only">1 star</span></label>
+    </fieldset>
+  </form>
+</body>
+</html>

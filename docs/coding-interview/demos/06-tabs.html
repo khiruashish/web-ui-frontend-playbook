@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Accessible tabs</title>
+<style>
+  :root { font-family: system-ui, sans-serif; }
+  body { margin: 0; padding: 24px; }
+  [role="tablist"] { display: flex; gap: 4px; border-bottom: 2px solid #e2e8f0; }
+  [role="tab"] { padding: 10px 16px; border: 0; background: none; font: inherit; border-bottom: 3px solid transparent; margin-bottom: -2px; cursor: pointer; }
+  [role="tab"][aria-selected="true"] { border-bottom-color: #4f46e5; color: #4f46e5; font-weight: 600; }
+  [role="tab"]:focus-visible { outline: 3px solid #a5b4fc; outline-offset: 2px; border-radius: 6px; }
+  [role="tabpanel"] { padding: 16px 0; }
+</style>
+</head>
+<body>
+  <div class="tabs">
+    <div role="tablist" aria-label="Account settings">
+      <button role="tab" id="tab-profile" aria-controls="panel-profile" aria-selected="true">Profile</button>
+      <button role="tab" id="tab-security" aria-controls="panel-security" aria-selected="false" tabindex="-1">Security</button>
+      <button role="tab" id="tab-billing" aria-controls="panel-billing" aria-selected="false" tabindex="-1">Billing</button>
+    </div>
+    <div role="tabpanel" id="panel-profile" aria-labelledby="tab-profile" tabindex="0">Profile settings</div>
+    <div role="tabpanel" id="panel-security" aria-labelledby="tab-security" tabindex="0" hidden>Security settings</div>
+    <div role="tabpanel" id="panel-billing" aria-labelledby="tab-billing" tabindex="0" hidden>Billing settings</div>
+  </div>
+  <script>
+    // WAI-ARIA tabs pattern: ONE tab stop for the whole tablist (roving tabindex); arrows move; Home/End jump.
+    const tabs = [...document.querySelectorAll('[role="tab"]')];
+    function select(tab) {
+      for (const t of tabs) {
+        const on = t === tab;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute("aria-controls")).hidden = !on;
+      }
+      tab.focus();
+    }
+    document.querySelector('[role="tablist"]').addEventListener("keydown", (e) => {
+      const i = tabs.indexOf(document.activeElement);
+      const next = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (next === undefined) return;
+      e.preventDefault();
+      select(tabs[(next + tabs.length) % tabs.length]);   // wrap around
+    });
+    tabs.forEach((t) => t.addEventListener("click", () => select(t)));
+  </script>
+</body>
+</html>

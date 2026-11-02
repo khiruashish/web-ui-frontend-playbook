@@ -82,6 +82,9 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.mark
+  - pymdownx.snippets:
+      base_path: ["."]
+      check_paths: true       # build fails if an included solution file is missing
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -147,6 +150,21 @@ nav:
       - Responsive: cheatsheets/responsive.md
       - Units, Colours & Functions: cheatsheets/units-functions.md
       - UI Components & Patterns: cheatsheets/ui-components.md
+  - Coding Interview:
+      - coding-interview/index.md
+      - "1. Center Anything: Three Ways": coding-interview/01-centering.md
+      - "2. Holy Grail Layout with Grid Areas": coding-interview/02-holy-grail.md
+      - "3. Responsive Card Grid (No Media Queries)": coding-interview/03-card-grid.md
+      - "4. Sticky Header & Sticky Table Header": coding-interview/04-sticky-header.md
+      - "5. Accessible Modal Dialog": coding-interview/05-modal-dialog.md
+      - "6. Accessible Tabs (Roving Tabindex)": coding-interview/06-tabs.md
+      - "7. Star Rating with Zero JavaScript": coding-interview/07-star-rating.md
+      - "8. Dark Mode with Custom Properties": coding-interview/08-theme-toggle.md
+      - "9. Debounce & Throttle from Scratch": coding-interview/09-debounce-throttle.md
+      - "10. Promise.all, allSettled & a Concurrency Pool": coding-interview/10-promise-utils.md
+      - "11. deepClone & deepEqual (Cycles, Map, Set, Date)": coding-interview/11-deep-clone.md
+      - "12. Infinite Scroll with IntersectionObserver": coding-interview/12-infinite-scroll.md
+
   - Senior & Architect:
       - career/index.md
       - Accessibility: career/accessibility.md

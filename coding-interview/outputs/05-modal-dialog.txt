@@ -1,0 +1,5 @@
+05-modal-dialog: 4 checks, 0 failures
+  ✔ opening moves focus into the dialog and makes it modal
+  ✔ Escape closes it and focus returns to the opener
+  ✔ clicking the backdrop cancels
+  ✔ typing DELETE and confirming deletes

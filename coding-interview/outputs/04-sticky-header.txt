@@ -1,0 +1,4 @@
+04-sticky-header: 3 checks, 0 failures
+  ✔ site header stays at the top after scrolling 1000 px
+  ✔ table header sticks inside its own scroll container
+  ✔ jump links land below the header (scroll-padding-top)

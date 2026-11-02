@@ -1,0 +1,4 @@
+02-holy-grail: 3 checks, 0 failures
+  ✔ desktop: nav | main | aside in one row under a full-width header
+  ✔ footer sits at the bottom of the viewport even with little content
+  ✔ mobile: everything stacks in source order, full width

@@ -1,0 +1,5 @@
+12-infinite-scroll: 4 checks, 0 failures
+  ✔ first page of 20 loads on open
+  ✔ scrolling to the bottom loads the next page; never loads twice at once
+  ✔ keeps going to the end: 75 unique posts, then stops
+  ✔ a very tall screen keeps loading without any scroll (observer only fires on change)

@@ -1,0 +1,388 @@
+// Runs every coding-interview check and writes one report per problem to outputs/ (shown on the docs pages).
+//   node run-tests.mjs          run all checks, (re)write outputs/
+//   node run-tests.mjs --check  CI: fail on any failing check or a report that differs from the committed one
+// Browser problems run in real Chromium (Playwright) against docs/coding-interview/demos/*.html.
+import assert from "node:assert/strict";
+import { mock } from "node:test";
+import { createRequire } from "node:module";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import path from "node:path";
+import { debounce, throttle } from "./js/debounce-throttle.mjs";
+import { promiseAll, promiseAllSettled, pool } from "./js/promise-utils.mjs";
+import { deepClone, deepEqual } from "./js/deep-clone.mjs";
+
+const { chromium } = createRequire(import.meta.url)("playwright");   // CommonJS resolution: local node_modules or NODE_PATH
+const here = path.dirname(fileURLToPath(import.meta.url));
+const demo = (file) => pathToFileURL(path.join(here, "..", "docs", "coding-interview", "demos", file)).href;
+const CHECK = process.argv.includes("--check");
+
+const browser = await chromium.launch();
+async function open(file, { width = 1200, height = 800, colorScheme = "light", context } = {}) {
+  const ctx = context ?? (await browser.newContext({ viewport: { width, height }, colorScheme }));
+  const page = await ctx.newPage();
+  await page.goto(demo(file));
+  return { page, ctx };
+}
+const rect = (page, sel) => page.locator(sel).first().evaluate((el) => el.getBoundingClientRect().toJSON());
+const near = (a, b, tol = 1.5) => Math.abs(a - b) <= tol;
+
+const problems = [
+  ["01-centering", [
+    ["grid, flex and absolute centre the item on both axes (desktop)", async () => {
+      const { page, ctx } = await open("01-centering.html");
+      for (const kind of ["grid", "flex", "absolute"]) {
+        const box = await rect(page, `[data-test=${kind}]`), item = await rect(page, `[data-test=${kind}] .item`);
+        assert.ok(near(item.x + item.width / 2, box.x + box.width / 2) && near(item.y + item.height / 2, box.y + box.height / 2), kind);
+      }
+      await ctx.close();
+    }],
+    ["still centred at phone width (boxes stack)", async () => {
+      const { page, ctx } = await open("01-centering.html", { width: 375 });
+      const a = await rect(page, "[data-test=grid]"), b = await rect(page, "[data-test=flex]");
+      assert.ok(b.y > a.y + a.height - 1, "stacked");
+      const item = await rect(page, "[data-test=flex] .item");
+      assert.ok(near(item.x + item.width / 2, b.x + b.width / 2));
+      await ctx.close();
+    }],
+  ]],
+  ["02-holy-grail", [
+    ["desktop: nav | main | aside in one row under a full-width header", async () => {
+      const { page, ctx } = await open("02-holy-grail.html", { width: 1200 });
+      const [h, n, m, a] = await Promise.all(["header", "nav", "main", "aside"].map((s) => rect(page, s)));
+      assert.ok(near(h.width, 1200) && near(n.width, 200) && near(a.width, 240));
+      assert.ok(n.x < m.x && m.x < a.x && near(n.y, m.y) && near(m.y, a.y));
+      await ctx.close();
+    }],
+    ["footer sits at the bottom of the viewport even with little content", async () => {
+      const { page, ctx } = await open("02-holy-grail.html", { width: 1200, height: 900 });
+      const f = await rect(page, "footer");
+      assert.ok(near(f.y + f.height, 900));
+      await ctx.close();
+    }],
+    ["mobile: everything stacks in source order, full width", async () => {
+      const { page, ctx } = await open("02-holy-grail.html", { width: 400 });
+      const rs = await Promise.all(["header", "nav", "main", "aside", "footer"].map((s) => rect(page, s)));
+      rs.forEach((r, i) => { assert.ok(near(r.width, 400)); if (i) assert.ok(r.y >= rs[i - 1].y + rs[i - 1].height - 1); });
+      await ctx.close();
+    }],
+  ]],
+  ["03-card-grid", [
+    ["4 columns at 1200 px, 2 at 700 px, 1 at 375 px", async () => {
+      for (const [width, cols] of [[1200, 4], [700, 2], [375, 1]]) {
+        const { page, ctx } = await open("03-card-grid.html", { width });
+        const tops = await page.locator(".card").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().top)));
+        assert.equal(tops.filter((t) => t === tops[0]).length, cols, `width ${width}`);
+        await ctx.close();
+      }
+    }],
+    ["no horizontal overflow on a 320 px screen", async () => {
+      const { page, ctx } = await open("03-card-grid.html", { width: 320 });
+      assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth));
+      await ctx.close();
+    }],
+    ["buttons line up at the bottom of every card in a row", async () => {
+      const { page, ctx } = await open("03-card-grid.html", { width: 1200 });
+      const bottoms = await page.locator(".card a").evaluateAll((els) => els.map((e) => Math.round(e.getBoundingClientRect().bottom)));
+      assert.equal(new Set(bottoms).size, 1);
+      await ctx.close();
+    }],
+  ]],
+  ["04-sticky-header", [
+    ["site header stays at the top after scrolling 1000 px", async () => {
+      const { page, ctx } = await open("04-sticky-header.html");
+      await page.evaluate(() => scrollTo(0, 1000));
+      assert.ok(near((await rect(page, ".site-header")).y, 0));
+      await ctx.close();
+    }],
+    ["table header sticks inside its own scroll container", async () => {
+      const { page, ctx } = await open("04-sticky-header.html");
+      await page.locator(".scroll").evaluate((el) => (el.scrollTop = 300));
+      const box = await rect(page, ".scroll"), th = await rect(page, "th");
+      assert.ok(near(th.y, box.y + 1, 2));                 // + 1 px border
+      await ctx.close();
+    }],
+    ["jump links land below the header (scroll-padding-top)", async () => {
+      const { page, ctx } = await open("04-sticky-header.html");
+      await page.evaluate(() => document.getElementById("faq").scrollIntoView());
+      const header = await rect(page, ".site-header"), faq = await rect(page, "#faq");
+      assert.ok(faq.y >= header.height - 1, `faq at ${faq.y}, header ${header.height}`);
+      await ctx.close();
+    }],
+  ]],
+  ["05-modal-dialog", [
+    ["opening moves focus into the dialog and makes it modal", async () => {
+      const { page, ctx } = await open("05-modal-dialog.html");
+      await page.click("#open");
+      assert.ok(await page.evaluate(() => document.getElementById("confirm").matches(":modal")));
+      assert.equal(await page.evaluate(() => document.activeElement.name), "confirm");
+      await ctx.close();
+    }],
+    ["Escape closes it and focus returns to the opener", async () => {
+      const { page, ctx } = await open("05-modal-dialog.html");
+      await page.click("#open");
+      await page.keyboard.press("Escape");
+      assert.equal(await page.evaluate(() => document.getElementById("confirm").open), false);
+      assert.equal(await page.evaluate(() => document.activeElement.id), "open");
+      await ctx.close();
+    }],
+    ["clicking the backdrop cancels", async () => {
+      const { page, ctx } = await open("05-modal-dialog.html");
+      await page.click("#open");
+      await page.mouse.click(5, 5);
+      await page.waitForFunction(() => document.getElementById("result").textContent !== "");   // "close" fires asynchronously
+      assert.equal(await page.textContent("#result"), "Cancelled");
+      await ctx.close();
+    }],
+    ["typing DELETE and confirming deletes", async () => {
+      const { page, ctx } = await open("05-modal-dialog.html");
+      await page.click("#open");
+      await page.keyboard.type("DELETE");
+      await page.getByRole("button", { name: "Delete", exact: true }).click();
+      await page.waitForFunction(() => document.getElementById("result").textContent !== "");
+      assert.equal(await page.textContent("#result"), "Account deleted");
+      await ctx.close();
+    }],
+  ]],
+  ["06-tabs", [
+    ["the tablist is ONE tab stop (roving tabindex)", async () => {
+      const { page, ctx } = await open("06-tabs.html");
+      await page.keyboard.press("Tab");
+      assert.equal(await page.evaluate(() => document.activeElement.id), "tab-profile");
+      await page.keyboard.press("Tab");
+      assert.equal(await page.evaluate(() => document.activeElement.id), "panel-profile");   // next stop is the panel, not another tab
+      await ctx.close();
+    }],
+    ["ArrowRight selects the next tab and shows only its panel", async () => {
+      const { page, ctx } = await open("06-tabs.html");
+      await page.focus("#tab-profile");
+      await page.keyboard.press("ArrowRight");
+      assert.equal(await page.getAttribute("#tab-security", "aria-selected"), "true");
+      assert.ok(await page.isVisible("#panel-security"));
+      assert.ok(await page.isHidden("#panel-profile"));
+      await ctx.close();
+    }],
+    ["End jumps to the last tab, ArrowRight wraps to the first", async () => {
+      const { page, ctx } = await open("06-tabs.html");
+      await page.focus("#tab-profile");
+      await page.keyboard.press("End");
+      assert.equal(await page.evaluate(() => document.activeElement.id), "tab-billing");
+      await page.keyboard.press("ArrowRight");
+      assert.equal(await page.evaluate(() => document.activeElement.id), "tab-profile");
+      assert.equal(await page.locator('[role=tab][tabindex="0"]').count(), 1);
+      await ctx.close();
+    }],
+  ]],
+  ["07-star-rating", [
+    ["clicking the 4th star checks 4 and lights up exactly 4 stars", async () => {
+      const { page, ctx } = await open("07-star-rating.html");
+      await page.click('label[for="s4"]');
+      await page.mouse.move(600, 600);                     // remove the hover preview
+      assert.ok(await page.isChecked("#s4"));
+      const lit = await page.locator(".rating label").evaluateAll((els) => els.filter((e) => getComputedStyle(e).color === "rgb(245, 158, 11)").length);
+      assert.equal(lit, 4);
+      await ctx.close();
+    }],
+    ["each star has an accessible name and the stars ARE native radios", async () => {
+      const { page, ctx } = await open("07-star-rating.html");
+      for (const n of ["1 star", "2 stars", "3 stars", "4 stars", "5 stars"]) assert.equal(await page.getByRole("radio", { name: n, exact: true }).count(), 1, n);
+      await ctx.close();
+    }],
+    ["arrow keys change the rating (keyboard support for free)", async () => {
+      const { page, ctx } = await open("07-star-rating.html");
+      await page.click('label[for="s3"]');
+      await page.keyboard.press("ArrowRight");             // next radio in DOM order = 2 stars
+      assert.equal(await page.evaluate(() => new FormData(document.getElementById("review")).get("stars")), "2");
+      await ctx.close();
+    }],
+  ]],
+  ["08-theme-toggle", [
+    ["follows the OS preference when nothing is saved", async () => {
+      for (const [scheme, bg] of [["dark", "rgb(11, 16, 32)"], ["light", "rgb(255, 255, 255)"]]) {
+        const { page, ctx } = await open("08-theme-toggle.html", { colorScheme: scheme });
+        assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), bg, scheme);
+        await ctx.close();
+      }
+    }],
+    ["toggle overrides the OS and updates aria-pressed", async () => {
+      const { page, ctx } = await open("08-theme-toggle.html", { colorScheme: "dark" });
+      assert.equal(await page.getAttribute("#toggle", "aria-pressed"), "true");
+      await page.click("#toggle");
+      // Read the TOKEN, not body's background: the 0.2 s colour transition makes computed colours lag behind
+      assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#ffffff");
+      assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme), "light");
+      assert.equal(await page.getAttribute("#toggle", "aria-pressed"), "false");
+      await ctx.close();
+    }],
+    ["the choice survives a reload and is applied before first paint", async () => {
+      const ctx = await browser.newContext({ colorScheme: "dark" });
+      const page = await ctx.newPage();
+      await page.goto("http://localhost:4317/08-theme-toggle.html");   // localStorage needs an http origin
+      await page.click("#toggle");
+      await page.reload();
+      assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "light");
+      assert.equal(await page.evaluate(() => getComputedStyle(document.body).backgroundColor), "rgb(255, 255, 255)");
+      await ctx.close();
+    }],
+  ]],
+  ["09-debounce-throttle", [
+    ["debounce: 5 rapid calls -> 1 call with the LAST arguments", async () => {
+      mock.timers.enable({ apis: ["setTimeout", "Date"] });
+      try {
+        const calls = []; const d = debounce((q) => calls.push(q), 200);
+        for (const q of ["j", "ja", "jav", "java", "javas"]) { d(q); mock.timers.tick(50); }
+        assert.deepEqual(calls, []);
+        mock.timers.tick(200);
+        assert.deepEqual(calls, ["javas"]);
+      } finally { mock.timers.reset(); }
+    }],
+    ["debounce leading: fires immediately, then once more at the end", async () => {
+      mock.timers.enable({ apis: ["setTimeout", "Date"] });
+      try {
+        const calls = []; const d = debounce((x) => calls.push(x), 200, { leading: true });
+        d("a"); mock.timers.tick(50); d("b"); mock.timers.tick(50); d("c");
+        assert.deepEqual(calls, ["a"]);
+        mock.timers.tick(200);
+        assert.deepEqual(calls, ["a", "c"]);
+      } finally { mock.timers.reset(); }
+    }],
+    ["debounce keeps `this` and cancel() drops the pending call", async () => {
+      mock.timers.enable({ apis: ["setTimeout", "Date"] });
+      try {
+        const obj = { n: 0, inc: debounce(function () { this.n++; }, 100) };
+        obj.inc(); mock.timers.tick(100);
+        obj.inc(); obj.inc.cancel(); mock.timers.tick(100);
+        assert.equal(obj.n, 1);
+      } finally { mock.timers.reset(); }
+    }],
+    ["throttle: calls every 10 ms -> first call, then the LATEST call at each 50 ms window end", async () => {
+      mock.timers.enable({ apis: ["setTimeout", "Date"] });
+      try {
+        const calls = [], times = []; const t = throttle((i) => { calls.push(i); times.push(Date.now()); }, 50);
+        for (let i = 0; i <= 10; i++) { t(i); mock.timers.tick(10); }
+        mock.timers.tick(100);
+        assert.deepEqual(calls, [0, 4, 9, 10]);
+        for (let k = 1; k < times.length; k++) assert.ok(times[k] - times[k - 1] >= 50, "at most one call per window");
+      } finally { mock.timers.reset(); }
+    }],
+  ]],
+  ["10-promise-utils", [
+    ["promiseAll keeps input order, not completion order", async () => {
+      const delay = (ms, v) => new Promise((r) => setTimeout(() => r(v), ms));
+      assert.deepEqual(await promiseAll([delay(30, "a"), delay(10, "b"), "c"]), ["a", "b", "c"]);
+    }],
+    ["promiseAll rejects with the first rejection; [] resolves immediately", async () => {
+      await assert.rejects(promiseAll([Promise.resolve(1), Promise.reject(new Error("boom")), new Promise(() => {})]), /boom/);
+      assert.deepEqual(await promiseAll([]), []);
+    }],
+    ["promiseAllSettled reports every outcome", async () => {
+      const r = await promiseAllSettled([Promise.resolve(1), Promise.reject(new Error("no"))]);
+      assert.deepEqual(r.map((x) => x.status), ["fulfilled", "rejected"]);
+      assert.equal(r[1].reason.message, "no");
+    }],
+    ["matches the built-ins on the same inputs", async () => {
+      const inputs = () => [1, Promise.resolve(2), new Promise((r) => setTimeout(() => r(3), 5))];
+      assert.deepEqual(await promiseAll(inputs()), await Promise.all(inputs()));
+      assert.deepEqual(await promiseAllSettled(inputs()), await Promise.allSettled(inputs()));
+    }],
+    ["pool never exceeds the limit and returns results in order", async () => {
+      let inFlight = 0, max = 0;
+      const tasks = Array.from({ length: 12 }, (_, i) => async () => {
+        max = Math.max(max, ++inFlight);
+        await new Promise((r) => setTimeout(r, 5 + ((i * 7) % 11)));
+        inFlight--; return i * i;
+      });
+      const res = await pool(tasks, 3);
+      assert.equal(max, 3);
+      assert.deepEqual(res, Array.from({ length: 12 }, (_, i) => i * i));
+    }],
+  ]],
+  ["11-deep-clone", [
+    ["clones nested objects, arrays, Date, RegExp, Map, Set and symbol keys", async () => {
+      const sym = Symbol("id");
+      const src = { a: [1, { b: 2 }], d: new Date(0), r: /x+/gi, m: new Map([["k", { v: 1 }]]), s: new Set([1, 2]), [sym]: "s" };
+      const c = deepClone(src);
+      assert.ok(deepEqual(c, src));
+      assert.notEqual(c.a[1], src.a[1]); assert.notEqual(c.m.get("k"), src.m.get("k"));
+      assert.ok(c.d instanceof Date && c.r.flags === "gi" && c[sym] === "s");
+    }],
+    ["mutating the clone never affects the original", async () => {
+      const src = { list: [{ qty: 1 }] };
+      const c = deepClone(src); c.list[0].qty = 99; c.list.push({});
+      assert.deepEqual(src, { list: [{ qty: 1 }] });
+    }],
+    ["handles cycles and shared references", async () => {
+      const shared = { x: 1 }; const src = { left: shared, right: shared }; src.self = src;
+      const c = deepClone(src);
+      assert.equal(c.self, c); assert.equal(c.left, c.right); assert.notEqual(c.left, shared);
+      assert.ok(deepEqual(c, src));
+    }],
+    ["keeps the prototype (class instances stay instances)", async () => {
+      class Money { constructor(c) { this.cents = c; } format() { return (this.cents / 100).toFixed(2); } }
+      assert.equal(deepClone(new Money(1250)).format(), "12.50");
+    }],
+    ["deepEqual: NaN, different types, missing keys, Map values", async () => {
+      assert.ok(deepEqual({ n: NaN }, { n: NaN }));
+      assert.ok(!deepEqual([1, 2], { 0: 1, 1: 2, length: 2 }));
+      assert.ok(!deepEqual({ a: 1 }, { a: 1, b: undefined }));
+      assert.ok(!deepEqual(new Map([["k", 1]]), new Map([["k", 2]])));
+      assert.ok(!deepEqual(new Date(0), new Date(1)));
+    }],
+  ]],
+  ["12-infinite-scroll", [
+    ["first page of 20 loads on open", async () => {
+      const { page, ctx } = await open("12-infinite-scroll.html", { height: 700 });
+      await page.waitForFunction(() => document.querySelectorAll("#feed li").length === 20);
+      await ctx.close();
+    }],
+    ["scrolling to the bottom loads the next page; never loads twice at once", async () => {
+      const { page, ctx } = await open("12-infinite-scroll.html", { height: 700 });
+      await page.waitForFunction(() => document.querySelectorAll("#feed li").length === 20);
+      await page.evaluate(() => scrollTo(0, document.body.scrollHeight));
+      await page.waitForFunction(() => document.querySelectorAll("#feed li").length === 40);
+      await ctx.close();
+    }],
+    ["keeps going to the end: 75 unique posts, then stops", async () => {
+      const { page, ctx } = await open("12-infinite-scroll.html", { height: 700 });
+      for (let i = 0; i < 10; i++) { await page.evaluate(() => scrollTo(0, document.body.scrollHeight)); await page.waitForTimeout(150); }
+      await page.waitForFunction(() => document.getElementById("status").textContent === "All 75 posts loaded");
+      const texts = await page.locator("#feed li").allTextContents();
+      assert.equal(texts.length, 75); assert.equal(new Set(texts).size, 75);
+      await ctx.close();
+    }],
+    ["a very tall screen keeps loading without any scroll (observer only fires on change)", async () => {
+      const { page, ctx } = await open("12-infinite-scroll.html", { height: 4000 });
+      await page.waitForFunction(() => document.querySelectorAll("#feed li").length >= 60, null, { timeout: 5000 });
+      await ctx.close();
+    }],
+  ]],
+];
+
+// A tiny static server for the localStorage check (file:// pages have an opaque origin).
+const http = await import("node:http");
+const server = http.createServer((req, res) => {
+  const file = path.join(here, "..", "docs", "coding-interview", "demos", path.basename(req.url));
+  if (!existsSync(file)) { res.writeHead(404); return res.end(); }
+  res.writeHead(200, { "Content-Type": "text/html" }); res.end(readFileSync(file));
+}).listen(4317);
+
+mkdirSync(path.join(here, "outputs"), { recursive: true });
+let problemsWithIssues = 0;
+for (const [name, checks] of problems) {
+  const lines = [];
+  let failed = 0;
+  for (const [title, fn] of checks) {
+    try { await fn(); lines.push(`  ✔ ${title}`); }
+    catch (e) { failed++; lines.push(`  ✘ ${title}`); console.error(`${name} :: ${title}\n   ${e.message}`); }
+  }
+  const text = `${name}: ${checks.length} checks, ${failed} failures\n${lines.join("\n")}\n`;
+  const out = path.join(here, "outputs", `${name}.txt`);
+  if (CHECK) {
+    if (!existsSync(out) || readFileSync(out, "utf8") !== text) { console.log(`DIFF  ${name}: run node run-tests.mjs and commit outputs/`); failed++; }
+  } else writeFileSync(out, text);
+  console.log(`${failed ? "FAIL" : "PASS"}  ${name} (${checks.length} checks)`);
+  if (failed) problemsWithIssues++;
+}
+server.close();
+await browser.close();
+process.exit(problemsWithIssues ? 1 : 0);
