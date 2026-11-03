@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sticky header and sticky table header</title>
+<style>
+  :root { font-family: system-ui, sans-serif; }
+  body { margin: 0; }
+  .site-header {
+    position: sticky; top: 0; z-index: 10;            /* sticks once it reaches the top of the viewport */
+    background: rgb(255 255 255 / .9); backdrop-filter: blur(8px);
+    border-bottom: 1px solid #e2e8f0; padding: 12px 16px; font-weight: 700;
+  }
+  main { padding: 16px; }
+  .scroll { max-height: 240px; overflow: auto; border: 1px solid #e2e8f0; border-radius: 8px; }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; }
+  th { position: sticky; top: 0; background: #eef2ff; text-align: left; }   /* sticky inside the scroll container */
+  th, td { padding: 8px 12px; border-bottom: 1px solid #e2e8f0; }
+  /* Jump links land BELOW the sticky header instead of under it */
+  html { scroll-padding-top: 56px; }
+</style>
+</head>
+<body>
+  <header class="site-header">Acme Store</header>
+  <main>
+    <div class="scroll" tabindex="0" aria-label="Orders table">
+      <table>
+        <thead><tr><th scope="col">Order</th><th scope="col">Status</th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <div style="height: 2000px"></div>
+    <h2 id="faq">FAQ</h2>
+  </main>
+  <script>
+    document.getElementById("rows").innerHTML =
+      Array.from({ length: 30 }, (_, i) => `<tr><td>A-${i + 1}</td><td>${i % 3 ? "Shipped" : "Placed"}</td></tr>`).join("");
+  </script>
+</body>
+</html>

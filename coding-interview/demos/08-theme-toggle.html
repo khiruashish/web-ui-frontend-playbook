@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dark mode with custom properties</title>
+<script>
+  // Runs BEFORE first paint: no flash of the wrong theme. Saved choice wins; otherwise follow the OS.
+  try { const t = localStorage.getItem("theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<style>
+  :root {                                  /* light tokens */
+    --bg: #ffffff; --fg: #0f172a; --card: #f1f5f9; --accent: #4f46e5;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #0b1020; --fg: #e2e8f0; --card: #1e293b; --accent: #a5b4fc; color-scheme: dark; }
+  }
+  :root[data-theme="dark"] { --bg: #0b1020; --fg: #e2e8f0; --card: #1e293b; --accent: #a5b4fc; color-scheme: dark; }
+
+  body { margin: 0; padding: 24px; background: var(--bg); color: var(--fg); font-family: system-ui, sans-serif; transition: background .2s, color .2s; }
+  .card { background: var(--card); padding: 16px; border-radius: 12px; }
+  button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 1px solid var(--accent); background: none; color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="card">
+    <p>Components only use tokens (<code>var(--bg)</code>), so a theme is just a different set of values.</p>
+    <button id="toggle" type="button" aria-pressed="false">Dark mode</button>
+  </div>
+  <script>
+    const root = document.documentElement, btn = document.getElementById("toggle");
+    const isDark = () => getComputedStyle(root).colorScheme === "dark";
+    const sync = () => btn.setAttribute("aria-pressed", String(isDark()));
+    btn.addEventListener("click", () => {
+      const next = isDark() ? "light" : "dark";
+      root.dataset.theme = next;
+      try { localStorage.setItem("theme", next); } catch (e) {}
+      sync();
+    });
+    sync();
+  </script>
+</body>
+</html>
