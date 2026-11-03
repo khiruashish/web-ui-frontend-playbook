@@ -1,0 +1,42 @@
+name: Coding interview checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    name: Browser + JS checks (Playwright)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: coding-interview
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: coding-interview/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Run every check (reports must match the docs)
+        run: npm run check
+
+  docs:
+    name: Build site (strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: mkdocs build --strict
+        env:
+          NO_MKDOCS_2_WARNING: "1"

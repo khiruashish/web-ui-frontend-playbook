@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Infinite scroll with IntersectionObserver</title>
+<style>
+  :root { font-family: system-ui, sans-serif; }
+  body { margin: 0; padding: 16px; }
+  #feed { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  #feed li { padding: 24px 16px; border: 1px solid #e2e8f0; border-radius: 8px; }
+  #status { text-align: center; padding: 16px; color: #64748b; }
+</style>
+</head>
+<body>
+  <ul id="feed" aria-label="Posts"></ul>
+  <div id="sentinel" aria-hidden="true"></div>
+  <p id="status" role="status">Loading…</p>
+  <script>
+    const PAGE = 20, TOTAL = 75;
+    const feed = document.getElementById("feed"), status = document.getElementById("status"), sentinel = document.getElementById("sentinel");
+    let next = 0, loading = false, done = false;
+
+    // Fake API: 75 posts in pages of 20, 100 ms latency
+    const fetchPage = (offset) => new Promise((r) => setTimeout(() =>
+      r(Array.from({ length: Math.max(0, Math.min(PAGE, TOTAL - offset)) }, (_, i) => `Post #${offset + i + 1}`)), 100));
+
+    async function loadMore() {
+      if (loading || done) return;                       // guard: the observer can fire again while a request is in flight
+      loading = true;
+      const items = await fetchPage(next);
+      const frag = document.createDocumentFragment();     // one reflow per page, not per item
+      for (const text of items) { const li = document.createElement("li"); li.textContent = text; frag.append(li); }
+      feed.append(frag);
+      next += items.length;
+      done = items.length < PAGE;
+      status.textContent = done ? `All ${next} posts loaded` : `${next} posts loaded`;
+      loading = false;
+      if (done) { observer.disconnect(); return; }
+      // IntersectionObserver only fires on CHANGES: if the sentinel is still on screen (tall viewport), keep loading
+      if (sentinel.getBoundingClientRect().top < innerHeight + 300) loadMore();
+    }
+
+    // Fires when the sentinel comes within 300 px of the viewport: no scroll listeners, no layout thrashing
+    const observer = new IntersectionObserver((entries) => { if (entries[0].isIntersecting) loadMore(); }, { rootMargin: "300px" });
+    observer.observe(sentinel);
+  </script>
+</body>
+</html>

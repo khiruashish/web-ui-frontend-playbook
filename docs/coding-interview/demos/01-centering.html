@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Centering three ways</title>
+<style>
+  :root { font-family: system-ui, sans-serif; color-scheme: light dark; }
+  body { margin: 0; padding: 16px; display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .box { position: relative; height: 180px; border: 2px dashed #94a3b8; border-radius: 12px; }
+  .item { padding: 12px 16px; border-radius: 8px; background: #6366f1; color: white; font-weight: 600; }
+
+  /* 1. Grid: one line, centres on both axes */
+  .grid { display: grid; place-items: center; }
+
+  /* 2. Flexbox: centre on the main and cross axes */
+  .flex { display: flex; justify-content: center; align-items: center; }
+
+  /* 3. Absolute + transform: works when the child must sit on top of other content (badges, overlays) */
+  .absolute .item { position: absolute; inset: 50% auto auto 50%; transform: translate(-50%, -50%); }
+</style>
+</head>
+<body>
+  <div class="box grid" data-test="grid"><div class="item">place-items: center</div></div>
+  <div class="box flex" data-test="flex"><div class="item">justify + align</div></div>
+  <div class="box absolute" data-test="absolute"><div class="item">absolute + translate</div></div>
+</body>
+</html>

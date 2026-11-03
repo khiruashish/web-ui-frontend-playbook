@@ -1,0 +1,4 @@
+07-star-rating: 3 checks, 0 failures
+  ✔ clicking the 4th star checks 4 and lights up exactly 4 stars
+  ✔ each star has an accessible name and the stars ARE native radios
+  ✔ arrow keys change the rating (keyboard support for free)

@@ -51,6 +51,17 @@ Some pages are generated from Python so the code you read is always the code tha
 
 Edit the script, not the generated file.
 
+## Coding interview checks
+
+Every solution in the **Coding Interview** tab is verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
+checks with mock timers. CI runs them on every pull request (`.github/workflows/coding-interview.yml`):
+
+```bash
+cd coding-interview && npm ci && npx playwright install chromium
+npm test          # run all checks and refresh outputs/ (the reports shown in the docs)
+npm run check     # CI mode: fail on any failing check or stale report
+```
+
 ## Regenerate or extend it
 
 [`MASTER_PROMPT.md`](MASTER_PROMPT.md) is the full prompt used to produce this playbook. Paste it into an AI assistant to rebuild, extend, or adapt it to another stack.

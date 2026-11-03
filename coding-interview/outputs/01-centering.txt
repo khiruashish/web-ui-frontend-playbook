@@ -1,0 +1,3 @@
+01-centering: 2 checks, 0 failures
+  ✔ grid, flex and absolute centre the item on both axes (desktop)
+  ✔ still centred at phone width (boxes stack)

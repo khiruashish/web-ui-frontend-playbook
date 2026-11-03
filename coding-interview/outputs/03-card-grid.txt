@@ -1,0 +1,4 @@
+03-card-grid: 3 checks, 0 failures
+  ✔ 4 columns at 1200 px, 2 at 700 px, 1 at 375 px
+  ✔ no horizontal overflow on a 320 px screen
+  ✔ buttons line up at the bottom of every card in a row

@@ -1,0 +1,4 @@
+06-tabs: 3 checks, 0 failures
+  ✔ the tablist is ONE tab stop (roving tabindex)
+  ✔ ArrowRight selects the next tab and shows only its panel
+  ✔ End jumps to the last tab, ArrowRight wraps to the first

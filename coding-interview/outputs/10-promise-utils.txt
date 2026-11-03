@@ -1,0 +1,6 @@
+10-promise-utils: 5 checks, 0 failures
+  ✔ promiseAll keeps input order, not completion order
+  ✔ promiseAll rejects with the first rejection; [] resolves immediately
+  ✔ promiseAllSettled reports every outcome
+  ✔ matches the built-ins on the same inputs
+  ✔ pool never exceeds the limit and returns results in order

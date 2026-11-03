@@ -1,0 +1,13 @@
+{
+  "name": "web-ui-coding-interview",
+  "private": true,
+  "type": "module",
+  "description": "Runnable checks for the Coding Interview tab: real-browser layout/a11y checks (Playwright) and JS unit checks.",
+  "scripts": {
+    "test": "node --no-warnings run-tests.mjs",
+    "check": "node --no-warnings run-tests.mjs --check"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
+  }
+}
