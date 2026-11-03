@@ -1,0 +1,128 @@
+/* product.css: the product card and the grid that holds the cards */
+
+/* --8<-- [start:grid] */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(160px, 100%), 1fr));
+  gap: var(--space-3);
+}
+@media (width >= 768px) {
+  .product-grid {
+    grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+    gap: var(--space-4);
+  }
+}
+/* --8<-- [end:grid] */
+
+/* --8<-- [start:card] */
+.product-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-3);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition: box-shadow 0.15s;
+}
+.product-card:hover {
+  box-shadow: var(--shadow);
+}
+/* --8<-- [end:card] */
+
+/* --8<-- [start:media] */
+.product-media {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  margin-bottom: var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--page);
+  font-size: 3.5rem;
+}
+
+.badge {
+  position: absolute;
+  top: var(--space-3);
+  left: var(--space-3);
+  padding: 2px var(--space-2);
+  border-radius: var(--space-1);
+  background: #2563eb;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+/* --8<-- [end:media] */
+
+/* --8<-- [start:text] */
+.product-eta {
+  margin: 0;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+}
+.product-title {
+  margin: var(--space-1) 0;
+  font-size: 0.95rem;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.product-size {
+  margin: 0 0 var(--space-3);
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+/* --8<-- [end:text] */
+
+/* --8<-- [start:footer] */
+.product-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: auto;
+}
+.price {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+  font-size: 0.9rem;
+}
+.price s {
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+.add-btn {
+  min-width: 72px;
+  padding-block: 6px;
+}
+/* --8<-- [end:footer] */
+
+/* --8<-- [start:qty] */
+.qty {
+  display: inline-flex;
+  align-items: center;
+  min-width: 72px;
+  border-radius: var(--radius-sm);
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+}
+.qty button {
+  width: 26px;
+  height: 34px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.qty output {
+  flex: 1;
+  text-align: center;
+}
+/* --8<-- [end:qty] */

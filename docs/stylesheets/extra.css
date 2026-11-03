@@ -160,3 +160,13 @@
   .md-typeset .cs-grid { grid-template-columns: repeat(4, 1fr); }
   .md-typeset .cs-card, .md-typeset table { break-inside: avoid; }
 }
+
+/* Long code in table cells (line-by-line tables) wraps instead of squeezing the explanation column */
+.md-typeset table:not([class]) td code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.md-typeset table:not([class]) td:first-child {
+  min-width: 14em;
+  max-width: 28em;
+}

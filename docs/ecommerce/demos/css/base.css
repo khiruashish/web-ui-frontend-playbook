@@ -1,0 +1,128 @@
+/* base.css: loaded by every page. Design tokens, a small reset, and shared helpers. */
+
+/* --8<-- [start:tokens] */
+:root {
+  /* Colours */
+  --brand: #0c831f;
+  --brand-dark: #0a6b19;
+  --brand-soft: #e8f5ea;
+  --accent: #f8cb46;
+  --danger: #d6342c;
+  --text: #1f2329;
+  --muted: #5b6370;
+  --line: #e3e6ea;
+  --surface: #ffffff;
+  --page: #f6f7f8;
+
+  /* Spacing scale: use these instead of random pixel values */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Shape and depth */
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 8px rgb(0 0 0 / 0.08);
+
+  /* Page width */
+  --container: 1200px;
+}
+/* --8<-- [end:tokens] */
+
+/* --8<-- [start:reset] */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--page);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+[hidden] {
+  display: none !important;
+}
+/* --8<-- [end:reset] */
+
+/* --8<-- [start:helpers] */
+.container {
+  width: min(100% - 2 * var(--space-4), var(--container));
+  margin-inline: auto;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link:focus {
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 100;
+  width: auto;
+  height: auto;
+  clip-path: none;
+  padding: var(--space-2) var(--space-4);
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+.btn:hover {
+  background: var(--brand-dark);
+}
+.btn--outline {
+  background: var(--surface);
+  color: var(--brand);
+  border-color: var(--brand);
+}
+.btn--outline:hover {
+  background: var(--brand-soft);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+/* --8<-- [end:helpers] */
