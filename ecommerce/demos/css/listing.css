@@ -1,0 +1,83 @@
+/* listing.css: filter sidebar + toolbar + results, side by side on desktop */
+
+/* --8<-- [start:layout] */
+.listing {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (width >= 900px) {
+  .listing {
+    grid-template-columns: 240px 1fr;
+  }
+}
+/* --8<-- [end:layout] */
+
+/* --8<-- [start:filters] */
+.filters {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+.filters summary {
+  padding: var(--space-3) var(--space-4);
+  font-weight: 700;
+  cursor: pointer;
+}
+.filters[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+.filters fieldset {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border: 0;
+}
+.filters legend {
+  padding: 0;
+  margin-bottom: var(--space-2);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.filters label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding-block: var(--space-1);
+  cursor: pointer;
+}
+.filters input {
+  accent-color: var(--brand);
+  width: 18px;
+  height: 18px;
+}
+@media (width >= 900px) {
+  .filters {
+    position: sticky;
+    top: 96px;
+  }
+}
+/* --8<-- [end:filters] */
+
+/* --8<-- [start:toolbar] */
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-3);
+}
+.toolbar p {
+  margin: 0;
+  color: var(--muted);
+}
+.toolbar select {
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+/* --8<-- [end:toolbar] */

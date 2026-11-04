@@ -1,0 +1,126 @@
+<!doctype html>
+<!-- --8<-- [start:a1] -->
+<html>
+<!-- --8<-- [end:a1] -->
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A11y lab: find the 10 accessibility problems</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: #1f2329; background: #fff; }
+  header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid #e3e6ea; }
+  .logo { font-weight: 800; font-size: 1.3rem; color: #0c831f; text-decoration: none; }
+  .cart { display: flex; align-items: center; gap: 8px; }
+  .icon-btn { display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 8px; background: #0c831f; color: #fff; cursor: pointer; }
+  .count { font-weight: 700; }
+  main { max-width: 640px; padding: 16px; }
+  .search { display: flex; gap: 8px; margin: 16px 0; }
+  .search input { flex: 1; min-width: 0; padding: 8px 12px; border: 1px solid #8a919c; border-radius: 8px; font: inherit; }
+  .search button, .info-btn { padding: 8px 16px; border: 1px solid #0c831f; border-radius: 8px; background: #fff; color: #0c831f; font: inherit; cursor: pointer; }
+  .card { display: grid; grid-template-columns: 96px 1fr auto; align-items: center; gap: 12px; padding: 12px; border: 1px solid #e3e6ea; border-radius: 12px; }
+  .card img { width: 96px; height: 96px; }
+  .name { margin: 0; font-weight: 700; }
+  .add { padding: 8px 16px; border-radius: 8px; background: #0c831f; color: #fff; font-weight: 700; cursor: pointer; }
+  .info-btn { margin-top: 16px; }
+
+  /* --8<-- [start:a2] */
+  .eta {
+    margin: 0;
+    color: #b0b0b0;                           /* A2 */
+    font-size: 0.85rem;
+  }
+  /* --8<-- [end:a2] */
+
+  /* --8<-- [start:a6] */
+  a:focus, button:focus, input:focus {
+    outline: none;                            /* A6 */
+  }
+  /* --8<-- [end:a6] */
+
+  /* --8<-- [start:a7-css] */
+  .dialog {
+    position: fixed;
+    inset: 30% 16px auto;
+    max-width: 360px;
+    margin: auto;
+    padding: 16px 40px 16px 16px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 8px 32px rgb(0 0 0 / 0.3);
+  }
+  .dialog[hidden] { display: none; }
+  .close { position: absolute; top: 8px; right: 12px; font-size: 1.4rem; cursor: pointer; }
+  /* --8<-- [end:a7-css] */
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">FreshCart</a>
+  <div class="cart">
+    <!-- --8<-- [start:a3] -->
+    <button class="icon-btn" type="button">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4H2V2h4.8l.9 2H22l-3.4 8H8.5l-.9 2H19v2H5l2.4-4.6L5.2 4Z"/></svg>
+    </button>
+    <!-- --8<-- [end:a3] -->
+    <!-- --8<-- [start:a9] -->
+    <span class="count" id="count">0</span>
+    <!-- --8<-- [end:a9] -->
+  </div>
+</header>
+
+<main>
+  <!-- --8<-- [start:a8] -->
+  <h1>Fresh fruit</h1>
+  <h4>Today's picks</h4>
+  <!-- --8<-- [end:a8] -->
+
+  <!-- --8<-- [start:a4] -->
+  <form class="search" role="search">
+    <input type="search" name="q" placeholder="Search products">
+    <button type="submit">Go</button>
+  </form>
+  <!-- --8<-- [end:a4] -->
+
+  <article class="card">
+    <!-- --8<-- [start:a10] -->
+    <img src="apple.svg" width="96" height="96">
+    <!-- --8<-- [end:a10] -->
+    <div>
+      <p class="name">Shimla Apple, 1 kg</p>
+      <p class="eta">Delivered in 10 minutes</p>
+    </div>
+    <!-- --8<-- [start:a5] -->
+    <div class="add" onclick="addToCart()">ADD</div>
+    <!-- --8<-- [end:a5] -->
+  </article>
+
+  <!-- --8<-- [start:a7-html] -->
+  <button class="info-btn" type="button" onclick="openInfo()">Delivery info</button>
+  <div class="dialog" id="info" hidden>
+    <p>We deliver from 6 am to midnight, every day, in about 10 minutes.</p>
+    <span class="close" onclick="closeInfo()">×</span>
+  </div>
+  <!-- --8<-- [end:a7-html] -->
+</main>
+
+<script>
+// --8<-- [start:a5-js]
+let count = 0;
+function addToCart() {
+  count++;
+  document.querySelector("#count").textContent = count;
+}
+// --8<-- [end:a5-js]
+
+// --8<-- [start:a7-js]
+function openInfo() {
+  document.querySelector("#info").hidden = false;
+}
+function closeInfo() {
+  document.querySelector("#info").hidden = true;
+}
+// --8<-- [end:a7-js]
+</script>
+</body>
+</html>

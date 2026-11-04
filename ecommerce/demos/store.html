@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FreshCart: groceries in 10 minutes</title>
+  <meta name="description" content="Order fruit, vegetables, dairy and bread online. Delivered in 10 minutes.">
+  <!-- --8<-- [start:styles] -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/home.css">
+  <link rel="stylesheet" href="css/product.css">
+  <link rel="stylesheet" href="css/listing.css">
+  <link rel="stylesheet" href="css/cart.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <script src="js/store.js" defer></script>
+  <!-- --8<-- [end:styles] -->
+</head>
+<body>
+  <!-- --8<-- [start:skiplink] -->
+  <a class="visually-hidden skip-link" href="#main">Skip to main content</a>
+  <!-- --8<-- [end:skiplink] -->
+
+  <!-- --8<-- [start:announcement] -->
+  <p class="announcement">
+    Free delivery on orders above ₹199. <a href="#offers">See today's offers</a>
+  </p>
+  <!-- --8<-- [end:announcement] -->
+
+  <!-- --8<-- [start:header] -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="#" aria-label="FreshCart home">Fresh<span>Cart</span></a>
+
+      <div class="location">
+        <strong>Delivery in 10 minutes</strong>
+        <span>Home: 21 MG Road, Bengaluru</span>
+      </div>
+
+      <form class="search" role="search" action="#">
+        <label class="visually-hidden" for="q">Search products</label>
+        <input id="q" name="q" type="search" placeholder="Search for milk, bread, apples…">
+        <button type="submit" aria-label="Search">🔍</button>
+      </form>
+
+      <div class="header-actions">
+        <a class="account-link" href="#">Login</a>
+        <button class="btn cart-button" type="button" data-open-cart aria-label="Open cart">
+          🛒 <span class="cart-label">Cart</span>
+          <span class="cart-count" data-cart-count aria-hidden="true">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+  <!-- --8<-- [end:header] -->
+
+  <!-- --8<-- [start:catnav] -->
+  <nav class="category-nav" aria-label="Categories">
+    <ul class="container">
+      <li><a href="#" aria-current="page">All</a></li>
+      <li><a href="#">Fruits</a></li>
+      <li><a href="#">Vegetables</a></li>
+      <li><a href="#">Dairy &amp; Eggs</a></li>
+      <li><a href="#">Bakery</a></li>
+      <li><a href="#">Snacks</a></li>
+      <li><a href="#">Beverages</a></li>
+      <li><a href="#">Household</a></li>
+      <li><a href="#">Personal care</a></li>
+    </ul>
+  </nav>
+  <!-- --8<-- [end:catnav] -->
+
+  <main id="main" class="container">
+    <!-- --8<-- [start:hero] -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <h1 id="hero-title">Fresh groceries at your door in 10 minutes</h1>
+        <p>Fruit, vegetables, dairy and daily essentials, picked fresh from local farms every morning.</p>
+        <a class="btn" href="#shop">Shop now</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">🥦🍎</div>
+    </section>
+
+    <ul class="offers" id="offers" aria-label="Offers">
+      <li><strong>Flat 50% off</strong> on your first order</li>
+      <li><strong>Buy 1 get 1</strong> on all bakery items</li>
+      <li><strong>₹100 cashback</strong> with UPI payments</li>
+    </ul>
+    <!-- --8<-- [end:hero] -->
+
+    <!-- --8<-- [start:categories] -->
+    <section class="section" aria-labelledby="cat-title">
+      <div class="section-head">
+        <h2 id="cat-title">Shop by category</h2>
+        <a href="#">See all</a>
+      </div>
+      <ul class="category-grid">
+        <li><a class="category-tile" href="#"><span class="category-icon" aria-hidden="true">🍎</span>Fruits</a></li>
+        <li><a class="category-tile" href="#"><span class="category-icon" aria-hidden="true">🥕</span>Vegetables</a></li>
+        <li><a class="category-tile" href="#"><span class="category-icon" aria-hidden="true">🥛</span>Dairy &amp; Eggs</a></li>
+        <li><a class="category-tile" href="#"><span class="category-icon" aria-hidden="true">🍞</span>Bakery</a></li>
+        <li><a class="category-tile" href="#"><span class="category-icon" aria-hidden="true">🍪</span>Snacks</a></li>
+        <li><a class="category-tile" href="#"><span class="category-icon" aria-hidden="true">🧃</span>Beverages</a></li>
+      </ul>
+    </section>
+    <!-- --8<-- [end:categories] -->
+
+    <!-- --8<-- [start:listing] -->
+    <section class="section" id="shop" aria-labelledby="shop-title">
+      <div class="section-head">
+        <h2 id="shop-title">Daily essentials</h2>
+      </div>
+
+      <div class="listing">
+        <!-- --8<-- [start:filters] -->
+        <details class="filters" data-filters>
+          <summary>Filters</summary>
+          <fieldset>
+            <legend>Category</legend>
+            <label><input type="checkbox" name="category" value="fruits"> Fruits</label>
+            <label><input type="checkbox" name="category" value="vegetables"> Vegetables</label>
+            <label><input type="checkbox" name="category" value="dairy"> Dairy &amp; Eggs</label>
+            <label><input type="checkbox" name="category" value="bakery"> Bakery</label>
+          </fieldset>
+          <fieldset>
+            <legend>Offers</legend>
+            <label><input type="checkbox" name="deals" value="yes"> Only discounted items</label>
+          </fieldset>
+        </details>
+        <!-- --8<-- [end:filters] -->
+
+        <div>
+          <!-- --8<-- [start:toolbar] -->
+          <div class="toolbar">
+            <p role="status">Showing <strong data-result-count>8</strong> products</p>
+            <label>
+              Sort by
+              <select data-sort>
+                <option value="relevance">Relevance</option>
+                <option value="price-asc">Price: low to high</option>
+                <option value="price-desc">Price: high to low</option>
+              </select>
+            </label>
+          </div>
+          <!-- --8<-- [end:toolbar] -->
+
+          <!-- --8<-- [start:products] -->
+          <div class="product-grid" data-product-grid>
+            <!-- --8<-- [start:card] -->
+            <article class="product-card" data-id="apple" data-name="Shimla Apple" data-price="18900" data-category="fruits" data-deal>
+              <div class="product-media" role="img" aria-label="Red apples">🍎</div>
+              <span class="badge">20% OFF</span>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Shimla Apple</h3>
+              <p class="product-size">1 kg</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹189</strong> <s>₹236</s></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Shimla Apple">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Shimla Apple">+</button>
+                </div>
+              </div>
+            </article>
+            <!-- --8<-- [end:card] -->
+
+            <article class="product-card" data-id="banana" data-name="Robusta Banana" data-price="4900" data-category="fruits">
+              <div class="product-media" role="img" aria-label="Bananas">🍌</div>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Robusta Banana</h3>
+              <p class="product-size">6 pcs</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹49</strong></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Robusta Banana">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Robusta Banana">+</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-id="tomato" data-name="Fresh Tomato" data-price="3200" data-category="vegetables" data-deal>
+              <div class="product-media" role="img" aria-label="Tomatoes">🍅</div>
+              <span class="badge">20% OFF</span>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Fresh Tomato</h3>
+              <p class="product-size">500 g</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹32</strong> <s>₹40</s></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Fresh Tomato">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Fresh Tomato">+</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-id="onion" data-name="Onion" data-price="4500" data-category="vegetables">
+              <div class="product-media" role="img" aria-label="Onions">🧅</div>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Onion</h3>
+              <p class="product-size">1 kg</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹45</strong></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Onion">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Onion">+</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-id="milk" data-name="Full Cream Milk" data-price="6800" data-category="dairy">
+              <div class="product-media" role="img" aria-label="A bottle of milk">🥛</div>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Full Cream Milk</h3>
+              <p class="product-size">1 L</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹68</strong></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Full Cream Milk">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Full Cream Milk">+</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-id="eggs" data-name="Brown Eggs" data-price="8400" data-category="dairy" data-deal>
+              <div class="product-media" role="img" aria-label="Eggs">🥚</div>
+              <span class="badge">12% OFF</span>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Brown Eggs, farm fresh and free range</h3>
+              <p class="product-size">6 pcs</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹84</strong> <s>₹96</s></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Brown Eggs">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Brown Eggs">+</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-id="butter" data-name="Salted Butter" data-price="5800" data-category="dairy">
+              <div class="product-media" role="img" aria-label="A block of butter">🧈</div>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Salted Butter</h3>
+              <p class="product-size">100 g</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹58</strong></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Salted Butter">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Salted Butter">+</button>
+                </div>
+              </div>
+            </article>
+
+            <article class="product-card" data-id="bread" data-name="Whole Wheat Bread" data-price="5000" data-category="bakery">
+              <div class="product-media" role="img" aria-label="A loaf of bread">🍞</div>
+              <p class="product-eta">⏱ 10 MINS</p>
+              <h3 class="product-title">Whole Wheat Bread</h3>
+              <p class="product-size">400 g</p>
+              <div class="product-footer">
+                <p class="price"><strong>₹50</strong></p>
+                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>
+                <div class="qty" hidden>
+                  <button type="button" data-dec aria-label="Remove one Whole Wheat Bread">−</button>
+                  <output aria-live="polite">0</output>
+                  <button type="button" data-inc aria-label="Add one more Whole Wheat Bread">+</button>
+                </div>
+              </div>
+            </article>
+          </div>
+          <!-- --8<-- [end:products] -->
+        </div>
+      </div>
+    </section>
+    <!-- --8<-- [end:listing] -->
+  </main>
+
+  <!-- --8<-- [start:cart] -->
+  <dialog class="cart-drawer" id="cart" aria-labelledby="cart-title">
+    <div class="cart-head">
+      <h2 id="cart-title">My cart</h2>
+      <form method="dialog">
+        <button class="close-btn" aria-label="Close cart">×</button>
+      </form>
+    </div>
+    <div class="cart-body">
+      <p class="cart-empty" data-cart-empty>Your cart is empty. Add something fresh!</p>
+      <ul class="cart-items" data-cart-items></ul>
+    </div>
+    <div class="cart-foot">
+      <dl>
+        <dt>Items total</dt>  <dd data-subtotal>₹0</dd>
+        <dt>Delivery fee</dt> <dd data-delivery>₹0</dd>
+        <dt class="total">To pay</dt> <dd class="total" data-total>₹0</dd>
+      </dl>
+      <button class="btn" type="button">Proceed to checkout</button>
+    </div>
+  </dialog>
+  <!-- --8<-- [end:cart] -->
+
+  <!-- --8<-- [start:footer] -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <section>
+          <h2>FreshCart</h2>
+          <p>Groceries from local farms, delivered in minutes. Open 6 am to midnight, every day.</p>
+        </section>
+        <nav aria-label="Company">
+          <h2>Company</h2>
+          <ul>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Blog</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Help">
+          <h2>Help</h2>
+          <ul>
+            <li><a href="#">FAQs</a></li>
+            <li><a href="#">Track order</a></li>
+            <li><a href="#">Contact us</a></li>
+          </ul>
+        </nav>
+        <section>
+          <h2>Get offers by email</h2>
+          <form class="newsletter" action="#">
+            <label class="visually-hidden" for="email">Email address</label>
+            <input id="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <button class="btn" type="submit">Subscribe</button>
+          </form>
+        </section>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 FreshCart. A demo store for learning.</p>
+        <p>We accept UPI · Cards · Cash on delivery</p>
+      </div>
+    </div>
+  </footer>
+  <!-- --8<-- [end:footer] -->
+
+  <!-- --8<-- [start:bottomnav] -->
+  <nav class="bottom-nav" aria-label="Mobile">
+    <a href="#" aria-current="page"><span aria-hidden="true">🏠</span>Home</a>
+    <a href="#"><span aria-hidden="true">🗂️</span>Categories</a>
+    <a href="#" data-open-cart><span aria-hidden="true">🛒</span>Cart</a>
+    <a href="#"><span aria-hidden="true">👤</span>Account</a>
+  </nav>
+  <!-- --8<-- [end:bottomnav] -->
+</body>
+</html>
