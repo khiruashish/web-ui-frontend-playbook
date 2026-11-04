@@ -31,7 +31,8 @@
     4. [JavaScript Basics](javascript/index.md): variables to `fetch()` in nine lessons.
     5. Build the [E-commerce Page](ecommerce/index.md) step by step: eight short lessons, every line explained.
     6. Rebuild three recipes from [See This → Write This](reverse-engineering/recipes.md) without looking at the code.
-    7. Stuck on a word? Check the [Glossary](glossary.md).
+    7. Learn [Debugging with DevTools](devtools/index.md), then find all 7 bugs in the [Bug Lab](devtools/bug-lab.md).
+    8. Stuck on a word? Check the [Glossary](glossary.md).
 
 === "🟡 Intermediate (2–5 yrs)"
 
@@ -52,6 +53,9 @@
     3. Use the [Master Prompt](https://github.com/khiruashish/web-ui-frontend-playbook/blob/main/MASTER_PROMPT.md) to extend the playbook for your team's stack.
 
 ## Try code yourself
+
+For a full tour of the browser's tools, see [Debugging with DevTools](devtools/index.md).
+
 
 - Create `test.html`, paste any example, and open it in a browser.
 - Open DevTools (++f12++ or ++ctrl+shift+i++, ++cmd+opt+i++ on macOS). In the **Elements** panel, click the `flex` or `grid` badge next to an element to see its layout overlay.

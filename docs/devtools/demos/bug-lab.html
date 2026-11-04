@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bug lab: find the 7 bugs</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.5 system-ui, sans-serif; color: #1f2329; background: #f6f7f8; }
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #fff; border-bottom: 1px solid #e3e6ea; }
+  .logo { font-weight: 800; font-size: 1.3rem; color: #0c831f; }
+  .cart-btn { position: relative; padding: 6px 14px; border: 0; border-radius: 8px; background: #0c831f; color: #fff; font: inherit; }
+  .cart-badge { position: absolute; top: -8px; right: -8px; min-width: 22px; height: 22px; border-radius: 999px; background: #d6342c; font-size: 0.75rem; line-height: 22px; text-align: center; }
+  main { padding: 16px; }
+  .offer { margin: 0 0 16px; padding: 8px 12px; border-radius: 8px; background: #fff6d8; }
+
+  /* --8<-- [start:bug1] */
+  .promo {
+    width: 420px;                     /* BUG 1 */
+    margin: 0 0 16px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    background: #2563eb;
+    color: #fff;
+  }
+  /* --8<-- [end:bug1] */
+
+  /* --8<-- [start:bug3] */
+  .grid {
+    display: grid;
+    grid-template-column: repeat(auto-fill, minmax(200px, 1fr));   /* BUG 3 */
+    gap: 16px;
+  }
+  /* --8<-- [end:bug3] */
+
+  /* --8<-- [start:bug4] */
+  .card {
+    padding: 12px;
+    border: 1px solid #e3e6ea;
+    border-radius: 12px;
+    background: #fff;
+  }
+  .badge {
+    position: absolute;               /* BUG 4 */
+    top: 8px;
+    left: 8px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #2563eb;
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+  /* --8<-- [end:bug4] */
+
+  .media { display: grid; place-items: center; aspect-ratio: 1; border-radius: 8px; background: #f6f7f8; font-size: 3rem; }
+  .card h2 { margin: 8px 0 0; font-size: 1rem; }
+  .add { padding: 6px 16px; border: 1px solid #0c831f; border-radius: 8px; background: #fff; color: #0c831f; font: inherit; font-weight: 700; cursor: pointer; }
+
+  /* --8<-- [start:bug2] */
+  .card p {
+    margin: 4px 0 12px;
+    color: #555;
+  }
+  .price {
+    color: #0c831f;                   /* BUG 2: why is the price grey? */
+    font-weight: 700;
+  }
+  /* --8<-- [end:bug2] */
+
+  .total { margin-top: 16px; font-weight: 700; }
+</style>
+</head>
+<body>
+<header class="top">
+  <span class="logo">FreshCart</span>
+  <button class="cart-btn" type="button">🛒 Cart <span class="cart-badge">0</span></button>
+</header>
+
+<main>
+  <div class="promo">🎉 Free delivery on your first order with code FRESH50</div>
+  <p class="offer" id="offer">Loading today's offer…</p>
+
+  <div class="grid">
+    <article class="card" data-price="189">
+      <span class="badge">20% OFF</span>
+      <div class="media" aria-hidden="true">🍎</div>
+      <h2>Shimla Apple</h2>
+      <p class="price">₹189</p>
+      <button class="add" type="button">ADD</button>
+    </article>
+    <article class="card" data-price="49">
+      <span class="badge">NEW</span>
+      <div class="media" aria-hidden="true">🍌</div>
+      <h2>Robusta Banana</h2>
+      <p class="price">₹49</p>
+      <button class="add" type="button">ADD</button>
+    </article>
+    <article class="card" data-price="68">
+      <span class="badge">FRESH</span>
+      <div class="media" aria-hidden="true">🥛</div>
+      <h2>Full Cream Milk</h2>
+      <p class="price">₹68</p>
+      <button class="add" type="button">ADD</button>
+    </article>
+  </div>
+
+  <p class="total">Total: ₹<span id="total">0</span></p>
+</main>
+
+<script>
+let total = 0;
+let count = 0;
+
+// --8<-- [start:bug5-7]
+document.querySelector(".grid").addEventListener("click", (event) => {
+  const button = event.target.closest(".add");
+  if (!button) return;
+  const card = button.closest(".card");
+
+  total = total + card.dataset.price;                           // BUG 7
+  document.querySelector("#total").textContent = total;
+
+  count++;
+  document.querySelector(".cart-count").textContent = count;    // BUG 5
+});
+// --8<-- [end:bug5-7]
+
+// --8<-- [start:bug6]
+async function loadOffer() {
+  const offer = document.querySelector("#offer");
+  try {
+    const response = await fetch("offer.json");                  // BUG 6
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    offer.textContent = `🔥 ${data.title}`;
+  } catch (err) {
+    offer.textContent = `Couldn't load today's offer (${err.message})`;
+  }
+}
+loadOffer();
+// --8<-- [end:bug6]
+</script>
+</body>
+</html>
