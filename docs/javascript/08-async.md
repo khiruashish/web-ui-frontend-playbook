@@ -152,6 +152,38 @@ Every data-loading UI needs these **three states**: loading, success and error (
 2. Show "No products found" when the JSON is an empty array `[]`.
 3. Load `products.json` **and** a second file (e.g. `offers.json`) at the same time with `Promise.all`.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+All three solutions together, live (a third button loads an [empty list](demos/empty.json){ target=_blank }):
+
+<iframe src="../demos/08-fetch-solved.html" title="fetch exercises solved: live demo" style="width:100%;height:360px;border:1px solid var(--md-default-fg-color--lightest);border-radius:12px" loading="lazy"></iframe>
+
+??? success "1. A Retry button"
+    ```js
+    --8<-- "docs/javascript/demos/08-fetch-solved.html:sol1"
+    ```
+
+    The button is created with `createElement`, not `innerHTML`, so the error text (`err.message`) never gets parsed as HTML.
+
+??? success "2. “No products found”"
+    ```js
+    --8<-- "docs/javascript/demos/08-fetch-solved.html:sol2"
+    ```
+
+    An empty array is a **successful** response, so it's not an error, but it still needs its own message. `return` inside `try`
+    still runs `finally`, so the buttons are re-enabled.
+
+??? success "3. Two files at once with Promise.all"
+    ```js
+    --8<-- "docs/javascript/demos/08-fetch-solved.html:sol3"
+    ```
+
+    Both requests start immediately, and the destructuring `[products, offers]` matches the order of the array, not the order the
+    responses arrive in. If either request fails, `Promise.all` rejects and the `catch` shows the error. (See the
+    [offers file](demos/offers.json){ target=_blank }.)
+
 ## Common mistakes
 
 * Forgetting `await`: you get a `Promise` object instead of the data (`console.log` shows `Promise {<pending>}`).

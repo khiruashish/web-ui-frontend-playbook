@@ -143,9 +143,47 @@ for short choices between two values; use `if` when each branch does several thi
 
 1. Write an `if`/`else if`/`else` that prints "Morning slot", "Evening slot" or "Closed" for an hour from 0 to 23
    (6–11 morning, 16–21 evening).
-2. Given `const product = { stock: 0 }`, print `"ADD"`, `"Only 3 left"` (stock ≤ 3) or `"Out of stock"` with a ternary inside
+2. Given `const product = { stock: 0 }`, print `"ADD"`, `"Only N left"` (stock 1 to 3, with the real number) or `"Out of stock"` with a ternary inside
    a ternary. Then rewrite it with `if`. Which is easier to read?
 3. Predict, then check in the console: `null ?? "x"`, `0 || "x"`, `0 ?? "x"`, `"" && "x"`.
+
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. Morning, evening or closed"
+    ```js
+    --8<-- "docs/javascript/solutions/02-conditions.js:ex1"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/02-conditions/ex1.txt"
+    ```
+
+    Test the edges (5, 6, 11, 12, 16, 21, 22), not just one value in the middle: that's where `<` vs `<=` bugs hide.
+
+??? success "2. Nested ternary vs if"
+    ```js
+    --8<-- "docs/javascript/solutions/02-conditions.js:ex2"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/02-conditions/ex2.txt"
+    ```
+
+    Both give the same answer, but the `if` version is easier to read and to extend (try adding a fourth case to each). Keep the
+    ternary for **one** simple choice.
+
+??? success "3. Predict ?? || &&"
+    ```js
+    --8<-- "docs/javascript/solutions/02-conditions.js:ex3"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/02-conditions/ex3.txt"
+    ```
+
+    The last line looks blank because `"" && "x"` gives the empty string: `&&` stops at the first **falsy** value and returns it.
 
 ## Common mistakes
 

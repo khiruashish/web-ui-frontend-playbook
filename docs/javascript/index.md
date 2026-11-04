@@ -55,7 +55,7 @@ your first line to `fetch()`, using one running example: the FreshCart grocery s
 1. A short explanation of **what** and **why**.
 2. The **code**, then its **console output** right underneath.
 3. A **line-by-line** table for the lines that matter.
-4. **Try it** exercises and **common mistakes**.
+4. **Try it** exercises with collapsed **solutions** (also run and checked by CI), and **common mistakes**.
 
 !!! success "Every output on these pages is real"
     The code lives in [`docs/javascript/examples/`](https://github.com/khiruashish/web-ui-frontend-playbook/tree/main/docs/javascript/examples),

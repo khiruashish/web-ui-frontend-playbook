@@ -105,6 +105,39 @@ Browsers add their own default styles, and they differ slightly. A reset removes
 2. Delete the viewport `<meta>` line, open DevTools device mode (++ctrl+shift+m++) and see how tiny the text gets. Put it back.
 3. Remove `box-sizing: border-box`, give `.container` a `padding: 20px`, and watch it overflow the screen on a phone.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. Change the brand colour"
+    Edit the one token in `css/base.css`:
+
+    ```css
+    :root {
+      --brand: #7c3aed;   /* was #0c831f */
+    }
+    ```
+
+    The logo, every `.btn`, the outline buttons' border and text, and the price filter's checkboxes (`accent-color`) all turn purple,
+    because they all read `var(--brand)`. `--brand-dark` (hover) and `--brand-soft` (pale backgrounds) are separate tokens: for a
+    complete re-brand, change those too, for example `#5b21b6` and `#ede9fe`.
+
+??? success "2. Remove the viewport meta tag"
+    Without `<meta name="viewport" …>`, a phone lays the page out at about **980 px wide** (a pretend desktop) and then shrinks the
+    whole thing to fit its screen. You see a tiny, zoomed-out page: text around 6–7 px, buttons too small to tap, and no media
+    query for phones ever matches, because the page thinks it's 980 px wide. Put the line back and everything is normal size again.
+
+??? success "3. Remove box-sizing: border-box"
+    With the default `box-sizing: content-box`, `width` means the **content only**, and padding is added **on top**:
+
+    | | `content-box` (default) | `border-box` |
+    |---|---|---|
+    | `.container` width on a 375 px phone | `min(100% - 32px, 1200px)` = 343 px | 343 px |
+    | + `padding: 20px` (left + right) | 343 + 40 = **383 px** | stays **343 px** (padding goes inside) |
+    | Result | 8 px wider than the 375 px screen → sideways scroll | fits |
+
+    That's why every modern reset starts with `*, *::before, *::after { box-sizing: border-box; }`.
+
 ## Common mistakes
 
 * Forgetting the viewport meta tag: the "responsive" site looks like a shrunken desktop on phones.

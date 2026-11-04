@@ -95,6 +95,49 @@ swipeable carousel.
 2. Change the offers' `80%` to `45%` so two cards fit on a phone.
 3. Replace the hero gradient with a photo: `background: url(img/hero.jpg) center / cover;` and make sure the text stays readable.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. minmax(96px, 1fr) → minmax(140px, 1fr)"
+    Each tile must now be at least 140 px wide, so fewer fit in a row:
+
+    | Container width | `minmax(96px, 1fr)` | `minmax(140px, 1fr)` |
+    |---|---|---|
+    | 343 px (375 px phone) | 3 per row | 2 per row |
+    | 1200 px (desktop) | 11 tracks (6 tiles + 5 empty ones) | 7 tracks (6 tiles + 1 empty) |
+
+    With only 6 tiles, `auto-fill` keeps the **empty** tracks, so on a desktop the tiles stay small and sit on the left. Switch to
+    `auto-fit` if you want the 6 tiles to stretch and fill the row instead.
+
+??? success "2. Offers at 45% so two fit on a phone"
+    ```css
+    .offers {
+      grid-auto-columns: 45%;
+    }
+    ```
+
+    Two cards (2 × 45% + one 16 px gap) fit in the 343 px row, and a sliver of the third still peeks in, so people know they can
+    swipe. On wider screens nothing changes, because the `@media (width >= 768px)` rule switches the offers to three normal columns.
+
+??? success "3. A photo behind the hero text"
+    ```css
+    .hero {
+      background:
+        linear-gradient(90deg, rgb(255 255 255 / 0.95) 0%, rgb(255 255 255 / 0.6) 60%, transparent 100%),
+        url(img/hero.jpg) center / cover;
+    }
+    ```
+
+    | Code | Why |
+    |---|---|
+    | Two backgrounds, separated by a comma | The **first** one is drawn **on top**. |
+    | The white `linear-gradient` | A see-through white layer behind the text keeps it readable on any photo. Without it, dark text on a busy photo fails contrast checks. |
+    | `center / cover` | Centre the photo and scale it to cover the whole box, cropping the edges if needed. |
+
+    This needs an image file, so it isn't applied in the solved store. Always check the text contrast after adding a photo (DevTools
+    → Inspect the heading → the colour picker shows the contrast ratio).
+
 ## Common mistakes
 
 * A hero with three buttons and four messages. One headline, one sentence, one button.

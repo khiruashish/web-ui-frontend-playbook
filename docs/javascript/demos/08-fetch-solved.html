@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fetch(): exercises solved</title>
+<style>
+  body { margin: 0; padding: 16px; font: 16px/1.5 system-ui, sans-serif; color: #1f2329; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  button { font: inherit; padding: 6px 12px; border: 1px solid #0c831f; border-radius: 8px; background: #0c831f; color: #fff; cursor: pointer; }
+  button.secondary { background: #fff; color: #0c831f; }
+  button:disabled { opacity: 0.6; cursor: progress; }
+  #status { min-height: 1.5em; margin: 0 0 8px; color: #5b6370; }
+  #status.error { color: #d6342c; }
+  ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+  li { padding: 12px; border: 1px solid #e3e6ea; border-radius: 12px; text-align: center; }
+  li span { display: block; font-size: 2rem; }
+  #offers { margin: 0 0 8px; font-weight: 600; color: #db2777; }
+</style>
+</head>
+<body>
+<div class="controls">
+  <button type="button" id="load">Load products</button>
+  <button type="button" class="secondary" id="broken">Load from a broken URL</button>
+  <button type="button" class="secondary" id="empty">Load an empty list</button>
+</div>
+<p id="status" role="status"></p>
+<p id="offers"></p>
+<ul id="grid"></ul>
+
+<script type="module">
+const statusText = document.querySelector("#status");
+const grid = document.querySelector("#grid");
+const buttons = document.querySelectorAll(".controls button");
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function loadProducts(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`The server answered ${response.status}`);
+  return response.json();                                  // parse the JSON body (also async)
+}
+
+function showLoading(isLoading) {
+  for (const button of buttons) button.disabled = isLoading;
+  if (isLoading) {
+    statusText.className = "";
+    statusText.textContent = "Loading…";
+    grid.replaceChildren();                                // clear old results
+  }
+}
+
+async function show(url) {
+  showLoading(true);
+  document.querySelector("#offers").textContent = "";
+  try {
+    await wait(400);                                       // pretend the network is slow, so you can see "Loading…"
+    // --8<-- [start:sol3]
+    // Exercise 3: both files at the same time; total wait ≈ the slower one, not the sum
+    const [products, offers] = await Promise.all([loadProducts(url), loadProducts("offers.json")]);
+    document.querySelector("#offers").textContent = offers.map((o) => o.title).join(" · ");
+    // --8<-- [end:sol3]
+    // --8<-- [start:sol2]
+    // Exercise 2: an empty list is a success, but it needs its own message
+    if (products.length === 0) {
+      statusText.textContent = "No products found.";
+      return;                                              // finally still runs
+    }
+    // --8<-- [end:sol2]
+    grid.replaceChildren(
+      ...products.map((p) => {
+        const li = document.createElement("li");
+        li.innerHTML = "<span></span><strong></strong><div></div>";
+        li.querySelector("span").textContent = p.emoji;
+        li.querySelector("strong").textContent = p.name;
+        li.querySelector("div").textContent = `₹${p.pricePaise / 100}`;
+        return li;
+      }),
+    );
+    statusText.textContent = `${products.length} products loaded.`;
+  } catch (err) {
+    // --8<-- [start:sol1]
+    // Exercise 1: the error message gets a Retry button that loads the good URL
+    statusText.className = "error";
+    statusText.textContent = `Sorry, we couldn't load products (${err.message}). `;
+    const retry = document.createElement("button");
+    retry.type = "button";
+    retry.className = "secondary";
+    retry.textContent = "Retry";
+    retry.addEventListener("click", () => show("products.json"));
+    statusText.append(retry);
+    // --8<-- [end:sol1]
+  } finally {
+    showLoading(false);
+  }
+}
+
+document.querySelector("#load").addEventListener("click", () => show("products.json"));
+document.querySelector("#broken").addEventListener("click", () => show("no-such-file.json"));
+document.querySelector("#empty").addEventListener("click", () => show("empty.json"));
+</script>
+</body>
+</html>

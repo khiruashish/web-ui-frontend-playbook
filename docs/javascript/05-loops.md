@@ -150,6 +150,51 @@ This is the same logic as the FreshCart cart drawer in [E-commerce lesson 6](../
 3. Sort the products by name, A to Z, without changing the original array.
 4. Find the most expensive product with `reduce` (hint: keep the bigger of `best` and `p` each round).
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. Labels with map"
+    ```js
+    --8<-- "docs/javascript/solutions/05-loops.js:ex1"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/05-loops/ex1.txt"
+    ```
+
+??? success "2. Counting deals two ways"
+    ```js
+    --8<-- "docs/javascript/solutions/05-loops.js:ex2"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/05-loops/ex2.txt"
+    ```
+
+    `filter(...).length` is easier to read; `reduce` avoids building a temporary array, which only matters for very large lists.
+
+??? success "3. Sort by name without changing the original"
+    ```js
+    --8<-- "docs/javascript/solutions/05-loops.js:ex3"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/05-loops/ex3.txt"
+    ```
+
+??? success "4. Most expensive with reduce"
+    ```js
+    --8<-- "docs/javascript/solutions/05-loops.js:ex4"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/05-loops/ex4.txt"
+    ```
+
+    With no start value, `reduce` uses the **first item** as `best` and starts from the second. That's fine here, but it throws a
+    `TypeError` on an empty array, so check `products.length` first in real code.
+
 ## Common mistakes
 
 * `.sort()` on numbers without a compare function.

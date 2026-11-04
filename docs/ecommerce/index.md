@@ -144,7 +144,8 @@ on wider screens. This is called **mobile first**: phones get the simplest CSS, 
 1. **What you see**: the component, live, in a frame you can resize.
 2. **HTML**, then a **line-by-line table** explaining every line.
 3. **CSS**, then a **line-by-line table**.
-4. **Try it** exercises and **common mistakes**.
+4. **Try it** exercises, each with a collapsed **solution** to open after you've had a go, and **common mistakes**.
+   The code solutions all run together in [store-solved.html](demos/store-solved.html){ target=_blank }.
 
 All code on these pages is pulled straight from the files in `demos/`, so what you read is exactly what runs in the frames.
 The `<!-- --8<-- [start:…] -->` comments you'll see in those files are only markers that tell this site which piece to show.

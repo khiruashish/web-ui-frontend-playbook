@@ -102,6 +102,21 @@ Do this for every page you build. It takes five minutes and finds most bugs.
 --8<-- "coding-interview/outputs/13-ecommerce-store.txt"
 ```
 
+## The store with every exercise solved
+
+<iframe src="../demos/store-solved.html" title="FreshCart with every exercise solved" style="width:100%;height:720px;border:1px solid var(--md-default-fg-color--lightest);border-radius:12px" loading="lazy"></iframe>
+
+Open it full-size: [store-solved.html](demos/store-solved.html){ target=_blank }. It's the same page with all the lessons'
+"Try it" exercises applied: a red Deals link, a 9+ badge, an avocado and a sold-out mango, a price filter with Clear all, a 🗑
+button and free-delivery hint in the cart, a cart that survives a refresh, collapsible footer columns, social links and a fifth
+bottom tab. Its HTML and JavaScript are **generated** from `store.html` and `store.js` by
+[`scripts/gen_ecommerce_demos.py`](https://github.com/khiruashish/web-ui-frontend-playbook/blob/main/scripts/gen_ecommerce_demos.py),
+so each lesson's solution snippet is exactly the code running here, and CI tests it in a real browser too:
+
+```text
+--8<-- "coding-interview/outputs/16-ecommerce-solutions.txt"
+```
+
 ## Exercises: keep building
 
 Each one practises a skill real frontend jobs use every day.

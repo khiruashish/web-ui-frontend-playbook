@@ -186,6 +186,60 @@ Both functions give the same answers, but `canCheckout2` is far easier to read a
 2. Break something on purpose (misspell a variable), read the error, click the file link, and fix it.
 3. Split lesson 5's cart-bill example into `money.js`, `cart.js` and `app.js` modules.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. Step through the store with a breakpoint"
+    What you should see, in order:
+
+    1. Click **ADD** on Shimla Apple: the page freezes on your breakpoint in `setQty`. The **Scope** panel shows `card` (the
+       `<article>`), and `qty` = 1.
+    2. ++f10++ over the `const { id, name, price } = card.dataset;` line: `id` = `"apple"`, `name` = `"Shimla Apple"`, and
+       `price` = `"18900"`, a **string** (data attributes always are).
+    3. Step into `render()` with ++f11++. In the `for…of` loop, watch `count` go 0 → 1 and `subtotal` 0 → 18900.
+    4. ++f8++ to continue: the card shows the − 1 + stepper and the badge shows 1.
+
+??? success "2. Read and fix an error"
+    For example, change `cart.set(id, …)` to `crat.set(id, …)` in `store.js` and click ADD. Chrome's console shows (captured
+    from a real run; the file paths are shortened):
+
+    ```text
+    Uncaught ReferenceError: crat is not defined
+        at setQty (store.js:25:7)
+        at <anonymous> (store.js:40:48)
+    ```
+
+    The **first** line names the problem: a variable that doesn't exist. The `at …` lines are the **stack trace**, newest call first:
+    the error happened inside `setQty`, which was called from the anonymous click listener on line 40. Click the `store.js` link to jump
+    to the code (Chrome points at the start of the `if`/`else` statement that contains the typo), fix it, and reload.
+
+??? success "3. Split the cart bill into modules"
+    Three files, each with one job. `money.js` knows about paise and currencies:
+
+    ```js title="money.js"
+    --8<-- "docs/javascript/solutions/09-modules/money.js"
+    ```
+
+    `cart.js` builds the bill and imports only what it needs:
+
+    ```js title="cart.js"
+    --8<-- "docs/javascript/solutions/09-modules/cart.js"
+    ```
+
+    `app.js` is the entry point that wires them together:
+
+    ```js title="app.js"
+    --8<-- "docs/javascript/solutions/09-modules/app.js"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/09-modules.txt"
+    ```
+
+    Exactly the same bill as lesson 5, but now `rupees()` and `deliveryFee()` can be reused by any other file, and `cart.js` can be
+    tested without a page. This output comes from running `node app.js` (Node 22 understands `import`/`export` directly).
+
 ## Common mistakes
 
 * Ignoring the red error and changing random things. Read the message and go to the line first.

@@ -143,6 +143,50 @@ FreshCart's product grid uses exactly this.
 3. Add an "Add item" form that appends a new `<li>` with a Remove button to the cart list. Check that Remove works on the new
    items without adding any listener (delegation!).
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+All three solutions together, live:
+
+<iframe src="../demos/07-events-solved.html" title="Events exercises solved: live demo" style="width:100%;height:700px;border:1px solid var(--md-default-fg-color--lightest);border-radius:12px" loading="lazy"></iframe>
+
+??? success "1. Disable − at zero"
+    ```js
+    --8<-- "docs/javascript/demos/07-events-solved.html:sol1"
+    ```
+
+    Updating `disabled` inside `setQty` means it can't get out of sync, and calling `setQty(0)` once at the start sets the initial
+    state from the same code.
+
+??? success "2. “No results”"
+    ```html
+    --8<-- "docs/javascript/demos/07-events-solved.html:sol2-html"
+    ```
+
+    At the end of the `input` listener:
+
+    ```js
+    --8<-- "docs/javascript/demos/07-events-solved.html:sol2"
+    ```
+
+??? success "3. An “Add item” form"
+    ```html
+    --8<-- "docs/javascript/demos/07-events-solved.html:sol3-html"
+    ```
+
+    ```js
+    --8<-- "docs/javascript/demos/07-events-solved.html:sol3"
+    ```
+
+    New rows' Remove buttons work with **no new listener**, because the click bubbles up to the list's delegated listener.
+
+    !!! bug "Another bug the tests caught: don't name an input `item`"
+        The first version used `name="item"`, and `form.elements.item.value` crashed with
+        `Cannot read properties of undefined (reading 'trim')`. `form.elements` already has a built-in **method** called `item()`,
+        and it wins over an input with that name. The same goes for names like `length`, `submit` or `action` on forms. Choose
+        specific names such as `itemName`.
+
 ## Common mistakes
 
 * `addEventListener("click", doThing())`: calls `doThing` **now** and passes its result. Pass `doThing` (no brackets).

@@ -7,7 +7,10 @@ component on its own, so this script cuts the marked sections (<!-- --8<-- [star
 
     python3 scripts/gen_ecommerce_demos.py docs/ecommerce/demos
 
-Edit store.html (or this script), never the generated NN-*.html files.
+It also writes store-solved.html + js/store-solved.js: the store with every lesson's "Try it" exercise applied
+(see HTML_SOLUTIONS / JS_SOLUTIONS below).
+
+Edit store.html, js/store.js (or this script), never the generated NN-*.html or *-solved.* files.
 """
 import re
 import sys
@@ -76,6 +79,269 @@ def main(out_dir: str) -> None:
     for name, spec in PAGES.items():
         (out / name).write_text(page(*spec, source), encoding="utf-8")
         print(f"wrote {out / name}")
+    solved(out)
+
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# The "solved" store: store.html + js/store.js with every lesson's "Try it" exercise applied.
+# Each solution is a (find, replace) pair applied to the real files, so the solved store can never drift from the
+# lessons. The replacement text carries its own --8<-- section markers, which the lesson pages include.
+# A find string that no longer matches exactly once stops the script (and CI), so a change to store.html or store.js
+# that breaks a solution is caught.
+# ---------------------------------------------------------------------------------------------------------------
+HTML_SOLUTIONS = [
+    ("<title>FreshCart: groceries in 10 minutes</title>",
+     "<title>FreshCart: every exercise solved</title>"),
+    ('  <link rel="stylesheet" href="css/footer.css">\n  <script src="js/store.js" defer></script>',
+     '  <link rel="stylesheet" href="css/footer.css">\n  <link rel="stylesheet" href="css/solutions.css">\n'
+     '  <script src="js/store-solved.js" defer></script>'),
+    # Lesson 2, exercise 3: a red "Deals" link in the category nav
+    ('      <li><a href="#" aria-current="page">All</a></li>\n',
+     '      <li><a href="#" aria-current="page">All</a></li>\n'
+     '      <!-- --8<-- [start:sol-02-3] -->\n'
+     '      <li><a class="deals-link" href="#">Deals 🔥</a></li>\n'
+     '      <!-- --8<-- [end:sol-02-3] -->\n'),
+    # Lesson 5, exercises 1 and 2: a price fieldset and a "Clear all" button
+    ('            <label><input type="checkbox" name="deals" value="yes"> Only discounted items</label>\n'
+     '          </fieldset>\n        </details>',
+     '            <label><input type="checkbox" name="deals" value="yes"> Only discounted items</label>\n'
+     '          </fieldset>\n'
+     '          <!-- --8<-- [start:sol-05-1-html] -->\n'
+     '          <fieldset>\n'
+     '            <legend>Price</legend>\n'
+     '            <label><input type="radio" name="price" value="any" checked> Any price</label>\n'
+     '            <label><input type="radio" name="price" value="under-50"> Under ₹50</label>\n'
+     '            <label><input type="radio" name="price" value="50-100"> ₹50 – ₹100</label>\n'
+     '            <label><input type="radio" name="price" value="over-100"> Over ₹100</label>\n'
+     '          </fieldset>\n'
+     '          <!-- --8<-- [end:sol-05-1-html] -->\n'
+     '          <!-- --8<-- [start:sol-05-2-html] -->\n'
+     '          <button class="btn btn--outline clear-filters" type="button" data-clear-filters>Clear all</button>\n'
+     '          <!-- --8<-- [end:sol-05-2-html] -->\n'
+     '        </details>'),
+    ("<strong data-result-count>8</strong>", "<strong data-result-count>10</strong>"),
+    # Lesson 4, exercises 1 and 2: a ninth product, and an out-of-stock one. Lesson 5, exercise 3: the empty message.
+    ('            </article>\n          </div>\n',
+     '            </article>\n\n'
+     '            <!-- --8<-- [start:sol-04-1] -->\n'
+     '            <article class="product-card" data-id="avocado" data-name="Hass Avocado" data-price="14900" data-category="fruits">\n'
+     '              <div class="product-media" role="img" aria-label="An avocado">🥑</div>\n'
+     '              <p class="product-eta">⏱ 10 MINS</p>\n'
+     '              <h3 class="product-title">Hass Avocado</h3>\n'
+     '              <p class="product-size">1 pc</p>\n'
+     '              <div class="product-footer">\n'
+     '                <p class="price"><strong>₹149</strong></p>\n'
+     '                <button class="btn btn--outline add-btn" type="button" data-add>ADD</button>\n'
+     '                <div class="qty" hidden>\n'
+     '                  <button type="button" data-dec aria-label="Remove one Hass Avocado">−</button>\n'
+     '                  <output aria-live="polite">0</output>\n'
+     '                  <button type="button" data-inc aria-label="Add one more Hass Avocado">+</button>\n'
+     '                </div>\n'
+     '              </div>\n'
+     '            </article>\n'
+     '            <!-- --8<-- [end:sol-04-1] -->\n\n'
+     '            <!-- --8<-- [start:sol-04-2-html] -->\n'
+     '            <article class="product-card" data-id="mango" data-name="Alphonso Mango" data-price="39900" data-category="fruits" data-out-of-stock>\n'
+     '              <div class="product-media" role="img" aria-label="Mangoes">🥭</div>\n'
+     '              <p class="product-eta">Back tomorrow</p>\n'
+     '              <h3 class="product-title">Alphonso Mango</h3>\n'
+     '              <p class="product-size">1 kg</p>\n'
+     '              <div class="product-footer">\n'
+     '                <p class="price"><strong>₹399</strong></p>\n'
+     '                <button class="btn btn--outline add-btn" type="button" data-add disabled>Sold out</button>\n'
+     '                <div class="qty" hidden>\n'
+     '                  <button type="button" data-dec aria-label="Remove one Alphonso Mango">−</button>\n'
+     '                  <output aria-live="polite">0</output>\n'
+     '                  <button type="button" data-inc aria-label="Add one more Alphonso Mango">+</button>\n'
+     '                </div>\n'
+     '              </div>\n'
+     '            </article>\n'
+     '            <!-- --8<-- [end:sol-04-2-html] -->\n'
+     '          </div>\n'
+     '          <!-- --8<-- [start:sol-05-3-html] -->\n'
+     '          <p class="no-results" data-no-results hidden>No products match these filters.</p>\n'
+     '          <!-- --8<-- [end:sol-05-3-html] -->\n'),
+    # Lesson 6, exercise 2: the "add ₹X more" hint
+    ('    <div class="cart-foot">\n      <dl>',
+     '    <div class="cart-foot">\n'
+     '      <!-- --8<-- [start:sol-06-2-html] -->\n'
+     '      <p class="free-delivery-hint" data-free-hint hidden></p>\n'
+     '      <!-- --8<-- [end:sol-06-2-html] -->\n'
+     '      <dl>'),
+    # Lesson 7, exercise 2: social links
+    ('          <p>Groceries from local farms, delivered in minutes. Open 6 am to midnight, every day.</p>\n',
+     '          <p>Groceries from local farms, delivered in minutes. Open 6 am to midnight, every day.</p>\n'
+     '          <!-- --8<-- [start:sol-07-2-html] -->\n'
+     '          <ul class="social" aria-label="Follow us">\n'
+     '            <li><a href="#" aria-label="FreshCart on Instagram">📸</a></li>\n'
+     '            <li><a href="#" aria-label="FreshCart on X">✖️</a></li>\n'
+     '            <li><a href="#" aria-label="FreshCart on YouTube">▶️</a></li>\n'
+     '          </ul>\n'
+     '          <!-- --8<-- [end:sol-07-2-html] -->\n'),
+    # Lesson 7, exercise 3: collapsible footer columns
+    ('        <nav aria-label="Company">\n          <h2>Company</h2>\n          <ul>',
+     '        <!-- --8<-- [start:sol-07-3-html] -->\n'
+     '        <nav aria-label="Company">\n'
+     '          <details class="footer-col" data-footer-col>\n'
+     '            <summary><h2>Company</h2></summary>\n'
+     '            <ul>'),
+    ('            <li><a href="#">Blog</a></li>\n          </ul>\n        </nav>',
+     '              <li><a href="#">Blog</a></li>\n            </ul>\n          </details>\n        </nav>\n'
+     '        <!-- --8<-- [end:sol-07-3-html] -->'),
+    ('        <nav aria-label="Help">\n          <h2>Help</h2>\n          <ul>',
+     '        <nav aria-label="Help">\n'
+     '          <details class="footer-col" data-footer-col>\n'
+     '            <summary><h2>Help</h2></summary>\n'
+     '            <ul>'),
+    ('            <li><a href="#">Contact us</a></li>\n          </ul>\n        </nav>',
+     '              <li><a href="#">Contact us</a></li>\n            </ul>\n          </details>\n        </nav>'),
+    # Lesson 7, exercise 1: a fifth bottom-nav tab
+    ('    <a href="#"><span aria-hidden="true">👤</span>Account</a>\n',
+     '    <a href="#"><span aria-hidden="true">👤</span>Account</a>\n'
+     '    <!-- --8<-- [start:sol-07-1-html] -->\n'
+     '    <a href="#"><span aria-hidden="true">🔥</span>Offers</a>\n'
+     '    <!-- --8<-- [end:sol-07-1-html] -->\n'),
+]
+
+JS_SOLUTIONS = [
+    ("// store.js: cart, cart drawer, filters and sort for the FreshCart demo.",
+     "// store-solved.js: store.js with every lesson's exercise applied. Generated by scripts/gen_ecommerce_demos.py:\n"
+     "// edit store.js or the generator, not this file.\n"
+     "// store.js: cart, cart drawer, filters and sort for the FreshCart demo."),
+    # Lesson 2, exercise 2: "9+"
+    ('  document.querySelectorAll("[data-cart-count]").forEach((badge) => (badge.textContent = count));\n',
+     '  // --8<-- [start:sol-02-2]\n'
+     '  // A two-digit number doesn\'t fit in the round badge, so cap what it shows\n'
+     '  const badgeText = count > 9 ? "9+" : String(count);\n'
+     '  document.querySelectorAll("[data-cart-count]").forEach((badge) => (badge.textContent = badgeText));\n'
+     '  // --8<-- [end:sol-02-2]\n'),
+    # Lesson 6, exercise 1: a remove button in each cart row (needs the id, so loop over [id, item] pairs)
+    ('    ...[...cart.values()].map((item) => {\n'
+     '      const li = document.createElement("li");\n'
+     '      li.innerHTML = `<span></span><span>× ${item.qty}</span><strong>${formatPaise(item.qty * item.price)}</strong>`;\n'
+     '      li.firstElementChild.textContent = item.name; // textContent, never innerHTML, for data\n'
+     '      return li;\n'
+     '    }),\n',
+     '    // --8<-- [start:sol-06-1-render]\n'
+     '    ...[...cart].map(([id, item]) => {\n'
+     '      const li = document.createElement("li");\n'
+     '      li.innerHTML = `<span></span><span>× ${item.qty}</span><strong>${formatPaise(item.qty * item.price)}</strong>'
+     '<button type="button" class="cart-remove">🗑</button>`;\n'
+     '      li.firstElementChild.textContent = item.name; // textContent, never innerHTML, for data\n'
+     '      const remove = li.querySelector(".cart-remove");\n'
+     '      remove.dataset.removeId = id;\n'
+     '      remove.setAttribute("aria-label", `Remove ${item.name} from cart`);\n'
+     '      return li;\n'
+     '    }),\n'
+     '    // --8<-- [end:sol-06-1-render]\n'),
+    # Lesson 6, exercises 2 and 3: the free-delivery hint, and saving the cart
+    ('  document.querySelector("[data-total]").textContent = formatPaise(subtotal + delivery);\n}',
+     '  document.querySelector("[data-total]").textContent = formatPaise(subtotal + delivery);\n\n'
+     '  // --8<-- [start:sol-06-2]\n'
+     '  const hint = document.querySelector("[data-free-hint]");\n'
+     '  const missing = FREE_DELIVERY_FROM - subtotal;\n'
+     '  hint.hidden = subtotal === 0 || missing <= 0;\n'
+     '  hint.textContent = `Add ${formatPaise(missing)} more for free delivery`;\n'
+     '  // --8<-- [end:sol-06-2]\n\n'
+     '  // --8<-- [start:sol-06-3-save]\n'
+     '  try {\n'
+     '    localStorage.setItem("freshcart-cart", JSON.stringify([...cart]));   // Map → [[id, item], …] → text\n'
+     '  } catch {\n'
+     '    // storage can be blocked (private mode, browser settings): the cart still works, it just isn\'t saved\n'
+     '  }\n'
+     '  // --8<-- [end:sol-06-3-save]\n'
+     '}'),
+    ('drawer?.addEventListener("click", (event) => {\n  if (event.target === drawer) drawer.close();\n});\n',
+     'drawer?.addEventListener("click", (event) => {\n  if (event.target === drawer) drawer.close();\n});\n\n'
+     '// --8<-- [start:sol-06-1-click]\n'
+     '// One listener on the cart list handles every 🗑 button (event delegation, like the product grid)\n'
+     'document.querySelector("[data-cart-items]")?.addEventListener("click", (event) => {\n'
+     '  const button = event.target.closest("[data-remove-id]");\n'
+     '  if (!button) return;\n'
+     '  const card = document.querySelector(`.product-card[data-id="${button.dataset.removeId}"]`);\n'
+     '  setQty(card, 0);   // quantity 0 = remove (lesson 4\'s setQty)\n'
+     '});\n'
+     '// --8<-- [end:sol-06-1-click]\n'),
+    # Lesson 5, exercises 1 and 3: price filter and the empty message
+    ('  const dealsOnly = filters.querySelector("input[name=deals]").checked;\n',
+     '  const dealsOnly = filters.querySelector("input[name=deals]").checked;\n'
+     '  // --8<-- [start:sol-05-1-read]\n'
+     '  const range = filters.querySelector("input[name=price]:checked").value;\n'
+     '  // --8<-- [end:sol-05-1-read]\n'),
+    ('    card.hidden = !(categoryOk && dealOk);\n',
+     '    // --8<-- [start:sol-05-1-test]\n'
+     '    const priceOk = inPriceRange(Number(card.dataset.price), range);\n'
+     '    card.hidden = !(categoryOk && dealOk && priceOk);\n'
+     '    // --8<-- [end:sol-05-1-test]\n'),
+    ('  resultCount.textContent = shown;\n}',
+     '  resultCount.textContent = shown;\n'
+     '  // --8<-- [start:sol-05-3]\n'
+     '  document.querySelector("[data-no-results]").hidden = shown > 0;\n'
+     '  // --8<-- [end:sol-05-3]\n'
+     '}\n\n'
+     '// --8<-- [start:sol-05-1-range]\n'
+     'function inPriceRange(paise, range) {\n'
+     '  if (range === "under-50") return paise < 5000;\n'
+     '  if (range === "50-100") return paise >= 5000 && paise <= 10000;\n'
+     '  if (range === "over-100") return paise > 10000;\n'
+     '  return true;   // "any"\n'
+     '}\n'
+     '// --8<-- [end:sol-05-1-range]'),
+    # Lesson 5, exercise 2: Clear all
+    ('  // Filters are a collapsed <details> on phones and an always-open sidebar on desktop.\n',
+     '  // --8<-- [start:sol-05-2]\n'
+     '  filters.querySelector("[data-clear-filters]").addEventListener("click", () => {\n'
+     '    for (const input of filters.querySelectorAll("input")) {\n'
+     '      input.checked = input.value === "any";   // untick everything except the "Any price" radio\n'
+     '    }\n'
+     '    applyFilters();   // setting .checked from code fires no "change" event, so filter by hand\n'
+     '  });\n'
+     '  applyFilters();     // also run once at the start, so the count is right from the first paint\n'
+     '  // --8<-- [end:sol-05-2]\n\n'
+     '  // Filters are a collapsed <details> on phones and an always-open sidebar on desktop.\n'),
+    # Lesson 6, exercise 3 (load) and lesson 7, exercise 3 (footer columns)
+    ('\nrender();\n',
+     '\n// --8<-- [start:sol-07-3]\n'
+     '// Footer columns: collapsed <details> on phones, always open from 768 px (the same idea as the filters)\n'
+     'const footerColumns = document.querySelectorAll("[data-footer-col]");\n'
+     'const wide = window.matchMedia("(width >= 768px)");\n'
+     'const syncFooter = () => footerColumns.forEach((column) => (column.open = wide.matches));\n'
+     'syncFooter();\n'
+     'wide.addEventListener("change", syncFooter);\n'
+     '// --8<-- [end:sol-07-3]\n\n'
+     '// --8<-- [start:sol-06-3-load]\n'
+     'try {\n'
+     '  const saved = JSON.parse(localStorage.getItem("freshcart-cart") ?? "[]");\n'
+     '  for (const [id, item] of saved) cart.set(id, item);\n'
+     '} catch {\n'
+     '  // nothing saved, storage blocked, or the saved text is broken: start with an empty cart\n'
+     '}\n'
+     '// --8<-- [end:sol-06-3-load]\n\n'
+     'render();\n'),
+]
+
+ANY_MARKER = re.compile(r"^[ \t]*(?:<!-- |// |/\* )--8<-- \[(?:start|end):[\w-]+\](?: -->| \*/)?\n", re.M)
+
+
+def apply_solutions(text: str, pairs, label: str) -> str:
+    text = ANY_MARKER.sub("", text)   # drop the lessons' markers; the solutions bring their own
+    for find, replace in pairs:
+        count = text.count(find)
+        if count != 1:
+            raise SystemExit(f"{label}: expected exactly one match, found {count}:\n{find}")
+        text = text.replace(find, replace)
+    return text
+
+
+def solved(out: Path) -> None:
+    html = apply_solutions((out / "store.html").read_text(encoding="utf-8"), HTML_SOLUTIONS, "store.html")
+    html = html.replace("<!doctype html>\n", "<!doctype html>\n<!-- Generated by scripts/gen_ecommerce_demos.py from "
+                        "store.html. Edit store.html or the generator, not this file. -->\n", 1)
+    (out / "store-solved.html").write_text(html, encoding="utf-8")
+    js = apply_solutions((out / "js" / "store.js").read_text(encoding="utf-8"), JS_SOLUTIONS, "js/store.js")
+    (out / "js" / "store-solved.js").write_text(js, encoding="utf-8")
+    print(f"wrote {out / 'store-solved.html'}\nwrote {out / 'js' / 'store-solved.js'}")
 
 
 if __name__ == "__main__":

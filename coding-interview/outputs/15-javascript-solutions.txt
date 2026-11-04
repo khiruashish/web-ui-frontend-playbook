@@ -1,0 +1,4 @@
+15-javascript-solutions: 3 checks, 0 failures
+  ✔ DOM solved: sort by price, × removes a row, total stays in sync
+  ✔ events solved: − disabled at 0, 'No results' message, added items can be removed
+  ✔ fetch solved: Promise.all loads offers too; empty list message; Retry recovers from a 404
