@@ -1,0 +1,104 @@
+/* footer.css: site footer and the mobile bottom navigation */
+
+/* --8<-- [start:footer] */
+.site-footer {
+  margin-top: var(--space-8);
+  padding-top: var(--space-8);
+  background: var(--text);
+  color: #d5d9df;
+  font-size: 0.9rem;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
+  gap: var(--space-6);
+}
+.site-footer h2 {
+  margin: 0 0 var(--space-3);
+  font-size: 1rem;
+  color: #fff;
+}
+.site-footer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.site-footer li + li {
+  margin-top: var(--space-2);
+}
+.site-footer a {
+  text-decoration: none;
+}
+.site-footer a:hover {
+  text-decoration: underline;
+}
+/* --8<-- [end:footer] */
+
+/* --8<-- [start:newsletter] */
+.newsletter {
+  display: flex;
+  gap: var(--space-2);
+}
+.newsletter input {
+  flex: 1;
+  min-width: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #4b5563;
+  border-radius: var(--radius-sm);
+  background: #111418;
+  color: #fff;
+}
+
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-top: var(--space-8);
+  padding-block: var(--space-4);
+  border-top: 1px solid #3a404c;
+  font-size: 0.8rem;
+}
+.footer-bottom p {
+  margin: 0;
+}
+/* --8<-- [end:newsletter] */
+
+/* --8<-- [start:bottomnav] */
+.bottom-nav {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-2) 0;
+  font-size: 0.7rem;
+  text-decoration: none;
+}
+.bottom-nav span {
+  font-size: 1.25rem;
+}
+.bottom-nav a[aria-current="page"] {
+  color: var(--brand);
+  font-weight: 700;
+}
+body:has(.bottom-nav) {
+  padding-bottom: 64px;
+}
+@media (width >= 768px) {
+  .bottom-nav {
+    display: none;
+  }
+  body:has(.bottom-nav) {
+    padding-bottom: 0;
+  }
+}
+/* --8<-- [end:bottomnav] */

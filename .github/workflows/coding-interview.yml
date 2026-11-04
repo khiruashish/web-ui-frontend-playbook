@@ -37,6 +37,8 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
+      - name: Generated E-commerce demo pages are up to date
+        run: python3 scripts/gen_ecommerce_demos.py docs/ecommerce/demos && git diff --exit-code docs/ecommerce/demos
       - run: mkdocs build --strict
         env:
           NO_MKDOCS_2_WARNING: "1"

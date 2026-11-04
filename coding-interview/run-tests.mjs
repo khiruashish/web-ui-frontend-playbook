@@ -15,13 +15,14 @@ import { deepClone, deepEqual } from "./js/deep-clone.mjs";
 const { chromium } = createRequire(import.meta.url)("playwright");   // CommonJS resolution: local node_modules or NODE_PATH
 const here = path.dirname(fileURLToPath(import.meta.url));
 const demo = (file) => pathToFileURL(path.join(here, "..", "docs", "coding-interview", "demos", file)).href;
+const store = pathToFileURL(path.join(here, "..", "docs", "ecommerce", "demos", "store.html")).href;  // the E-commerce tab's page
 const CHECK = process.argv.includes("--check");
 
 const browser = await chromium.launch();
 async function open(file, { width = 1200, height = 800, colorScheme = "light", context } = {}) {
   const ctx = context ?? (await browser.newContext({ viewport: { width, height }, colorScheme }));
   const page = await ctx.newPage();
-  await page.goto(demo(file));
+  await page.goto(file.startsWith("file:") ? file : demo(file));
   return { page, ctx };
 }
 const rect = (page, sel) => page.locator(sel).first().evaluate((el) => el.getBoundingClientRect().toJSON());
@@ -353,6 +354,93 @@ const problems = [
     ["a very tall screen keeps loading without any scroll (observer only fires on change)", async () => {
       const { page, ctx } = await open("12-infinite-scroll.html", { height: 4000 });
       await page.waitForFunction(() => document.querySelectorAll("#feed li").length >= 60, null, { timeout: 5000 });
+      await ctx.close();
+    }],
+  ]],
+  ["13-ecommerce-store", [
+    ["no horizontal scroll at 320, 375, 768 and 1280 px", async () => {
+      for (const width of [320, 375, 768, 1280]) {
+        const { page, ctx } = await open(store, { width });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width, `${width}px`);
+        await ctx.close();
+      }
+    }],
+    ["header: search on its own row on a phone, one row on desktop", async () => {
+      let { page, ctx } = await open(store, { width: 375 });
+      let [logo, search] = await Promise.all([rect(page, ".logo"), rect(page, ".search")]);
+      assert.ok(search.y > logo.y + logo.height - 1 && near(search.width, 375 - 32, 2), "phone: full-width second row");
+      await ctx.close();
+      ({ page, ctx } = await open(store, { width: 1280 }));
+      [logo, search] = await Promise.all([rect(page, ".logo"), rect(page, ".search")]);
+      const cart = await rect(page, ".cart-button");
+      assert.ok(search.y < logo.y + logo.height && cart.y < logo.y + logo.height && logo.x < search.x && search.x < cart.x, "desktop: one row");
+      await ctx.close();
+    }],
+    ["product grid: 2 cards per row at 375 px, 4 at 1280 px; ADD buttons line up", async () => {
+      for (const [width, cols] of [[375, 2], [1280, 4]]) {
+        const { page, ctx } = await open(store, { width });
+        const tops = await page.locator(".product-card").evaluateAll((cards) => cards.map((c) => Math.round(c.getBoundingClientRect().top)));
+        assert.equal(tops.filter((t) => t === tops[0]).length, cols, `${width}px`);
+        const btns = await page.locator(".product-card [data-add]").evaluateAll((b) => b.slice(0, 2).map((x) => x.getBoundingClientRect().bottom));
+        assert.ok(near(btns[0], btns[1]), "buttons aligned");
+        await ctx.close();
+      }
+    }],
+    ["ADD → stepper → badge → drawer totals (₹25 fee below ₹199, FREE above)", async () => {
+      const { page, ctx } = await open(store, { width: 1280 });
+      const banana = page.locator('[data-id="banana"]');
+      await banana.locator("[data-add]").click();
+      assert.ok(await banana.locator("[data-add]").isHidden());
+      assert.equal(await banana.locator("output").textContent(), "1");
+      assert.ok(await banana.locator("[data-inc]").evaluate((el) => el === document.activeElement), "focus moves to +");
+      await banana.locator("[data-inc]").click();                                  // 2 × ₹49 = ₹98
+      assert.equal(await page.locator(".site-header [data-cart-count]").textContent(), "2");
+      assert.equal(await page.locator(".cart-button").getAttribute("aria-label"), "Open cart, 2 items");
+      await page.locator(".site-header [data-open-cart]").click();
+      assert.equal(await page.locator("[data-subtotal]").textContent(), "₹98");
+      assert.equal(await page.locator("[data-delivery]").textContent(), "₹25");
+      assert.equal(await page.locator("[data-total]").textContent(), "₹123");
+      await page.keyboard.press("Escape");
+      await page.locator('[data-id="apple"] [data-add]').click();                 // + ₹189 = ₹287
+      assert.equal(await page.locator("[data-delivery]").textContent(), "FREE");
+      assert.equal(await page.locator("[data-total]").textContent(), "₹287");
+      await banana.locator("[data-dec]").click(); await banana.locator("[data-dec]").click();
+      assert.ok(await banana.locator("[data-add]").isVisible(), "back to ADD at 0");
+      assert.equal(await page.locator("[data-cart-items] li").count(), 1);
+      await ctx.close();
+    }],
+    ["cart drawer: modal, full width on a phone, Esc closes, empty state", async () => {
+      const { page, ctx } = await open(store, { width: 375 });
+      await page.locator(".site-header [data-open-cart]").click();
+      await page.locator("#cart").evaluate((el) => Promise.all(el.getAnimations().map((a) => a.finished)));  // let the slide-in finish
+      const d = await rect(page, "#cart");
+      assert.ok(near(d.x, 0) && near(d.width, 375) && await page.locator("#cart").evaluate((el) => el.matches(":modal")));
+      assert.ok(await page.locator("[data-cart-empty]").isVisible());
+      await page.keyboard.press("Escape");
+      assert.equal(await page.locator("#cart").evaluate((el) => el.open), false);
+      await ctx.close();
+    }],
+    ["filters + sort: Dairy shows 3, deals-only narrows, price sort reorders", async () => {
+      const { page, ctx } = await open(store, { width: 1280 });
+      assert.equal(await page.locator("[data-filters]").evaluate((el) => el.open), true, "sidebar open on desktop");
+      await page.getByLabel("Dairy & Eggs").check();
+      assert.equal(await page.locator("[data-result-count]").textContent(), "3");
+      await page.getByLabel("Only discounted items").check();
+      assert.equal(await page.locator("[data-result-count]").textContent(), "1");
+      await page.getByLabel("Only discounted items").uncheck(); await page.getByLabel("Dairy & Eggs").uncheck();
+      await page.locator("[data-sort]").selectOption("price-asc");
+      const prices = await page.locator(".product-card").evaluateAll((cards) => cards.map((c) => +c.dataset.price));
+      assert.deepEqual(prices, [...prices].sort((a, b) => a - b));
+      await ctx.close();
+    }],
+    ["phone: filters collapsed, bottom nav visible and opens the cart; hidden on desktop", async () => {
+      let { page, ctx } = await open(store, { width: 375 });
+      assert.equal(await page.locator("[data-filters]").evaluate((el) => el.open), false);
+      await page.locator(".bottom-nav [data-open-cart]").click();
+      assert.ok(await page.locator("#cart").evaluate((el) => el.open));
+      await ctx.close();
+      ({ page, ctx } = await open(store, { width: 1280 }));
+      assert.ok(await page.locator(".bottom-nav").isHidden());
       await ctx.close();
     }],
   ]],

@@ -11,6 +11,7 @@ Every HTML element and CSS feature in this playbook is shown three ways: **what 
 | **HTML5** | Every element in the current HTML standard, grouped by purpose, each with code and output. A–Z reference of all tags, plus a deprecated-tags table. |
 | **CSS & CSS3** | Cascade, specificity, box model, every selector type, colours and units, typography, CSS3 effects, positioning, animations, custom properties, and modern CSS (2023–2026). |
 | **Layout & Responsive** | Complete Flexbox and Grid references with live output, responsive design, 15+ layout patterns, and current UI trends. |
+| **E-commerce Page** | A step-by-step build of a responsive grocery store page from 15 small components (header, search, category nav, hero, product card, filters, cart drawer, footer, bottom nav). Every line of HTML, CSS and JavaScript is explained in a table, with a live demo per component. |
 | **Reverse Engineering** | A repeatable method for turning any UI into code, 30+ "see this → write this" recipes, and a live layout gallery. |
 | **Cheat Sheets** | 8 printable quick references: HTML, CSS, CSS3 & modern CSS, Flexbox, Grid, responsive, units/colours/functions, and UI components & patterns. The Flexbox and Grid sheets have a live mini-diagram for every value. |
 | **Senior & Architect** | Accessibility, performance, CSS architecture at scale, and interview questions graded by level. |
@@ -48,12 +49,13 @@ Some pages are generated from Python so the code you read is always the code tha
 | `docs/reverse-engineering/recipes.md` | `scripts/gen_recipes.py` | `python3 scripts/gen_recipes.py docs/reverse-engineering/recipes.md` |
 | `docs/examples/layouts.html` | `scripts/gen_gallery.py` | `python3 scripts/gen_gallery.py docs/examples/layouts.html` |
 | `docs/cheatsheets/flexbox.md`, `docs/cheatsheets/grid.md` | `scripts/gen_visual_cheatsheets.py` | `python3 scripts/gen_visual_cheatsheets.py docs/cheatsheets` |
+| `docs/ecommerce/demos/0[2-7]-*.html` (one page per component) | `docs/ecommerce/demos/store.html` via `scripts/gen_ecommerce_demos.py` | `python3 scripts/gen_ecommerce_demos.py docs/ecommerce/demos` |
 
 Edit the script, not the generated file.
 
-## Coding interview checks
+## Browser checks (Coding Interview + E-commerce)
 
-Every solution in the **Coding Interview** tab is verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
+Every solution in the **Coding Interview** tab, and the finished E-commerce store page, is verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
 checks with mock timers. CI runs them on every pull request (`.github/workflows/coding-interview.yml`):
 
 ```bash
@@ -65,18 +67,3 @@ npm run check     # CI mode: fail on any failing check or stale report
 ## Regenerate or extend it
 
 [`MASTER_PROMPT.md`](MASTER_PROMPT.md) is the full prompt used to produce this playbook. Paste it into an AI assistant to rebuild, extend, or adapt it to another stack.
-
-## Moving this folder into its own repository
-
-This playbook is self-contained. To publish it as its own `web-ui-frontend-playbook` repository:
-
-```bash
-cp -r web-ui-frontend-playbook ~/web-ui-frontend-playbook
-cd ~/web-ui-frontend-playbook
-git init && git add . && git commit -m "Initial commit: Web UI Frontend Playbook"
-git branch -M main
-git remote add origin https://github.com/<you>/web-ui-frontend-playbook.git
-git push -u origin main
-```
-
-Then update `repo_url` and `edit_uri` in `mkdocs.yml` to point at the new repository.

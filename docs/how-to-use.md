@@ -28,7 +28,9 @@
     1. [HTML overview](html/index.md) → [Document structure](html/document-structure.md) → [Text content](html/text-content.md) → [Sectioning](html/sectioning.md) → [Forms](html/forms.md)
     2. [CSS overview](css/index.md) → [Fundamentals](css/fundamentals.md) → [Selectors](css/selectors.md) → [Colours & units](css/colors-units.md)
     3. [Flexbox](layout/flexbox.md) → [Grid](layout/grid.md) → [Responsive](layout/responsive.md)
-    4. Rebuild three recipes from [See This → Write This](reverse-engineering/recipes.md) without looking at the code.
+    4. Build the [E-commerce Page](ecommerce/index.md) step by step: eight short lessons, every line explained.
+    5. Rebuild three recipes from [See This → Write This](reverse-engineering/recipes.md) without looking at the code.
+    6. Stuck on a word? Check the [Glossary](glossary.md).
 
 === "🟡 Intermediate (2–5 yrs)"
 
@@ -46,7 +48,7 @@
 
     1. [CSS Architecture at Scale](career/css-architecture.md).
     2. [Interview Questions](career/interview.md): use the 🔴 answers as a design-review checklist.
-    3. Use the [Master Prompt](https://github.com/khiruashish/grocery-startup/blob/main/web-ui-frontend-playbook/MASTER_PROMPT.md) to extend the playbook for your team's stack.
+    3. Use the [Master Prompt](https://github.com/khiruashish/web-ui-frontend-playbook/blob/main/MASTER_PROMPT.md) to extend the playbook for your team's stack.
 
 ## Try code yourself
 

@@ -2,8 +2,8 @@ site_name: Web UI Frontend Playbook
 site_description: HTML5, CSS3, Flexbox, Grid, responsive design and modern UI, from your first tag to 15+ years of frontend architecture. Every tag and property is shown with its code and its live output.
 site_author: Web UI Frontend Playbook
 repo_name: web-ui-frontend-playbook
-repo_url: https://github.com/khiruashish/grocery-startup
-edit_uri: edit/main/web-ui-frontend-playbook/docs/
+repo_url: https://github.com/khiruashish/web-ui-frontend-playbook
+edit_uri: edit/main/docs/
 copyright: Copyright &copy; 2026 Web UI Frontend Playbook
 
 theme:
@@ -85,6 +85,7 @@ markdown_extensions:
   - pymdownx.snippets:
       base_path: ["."]
       check_paths: true       # build fails if an included solution file is missing
+      dedent_subsections: true  # "file:section" includes lose their HTML indentation
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
@@ -105,6 +106,7 @@ nav:
       - index.md
       - How to Use This Playbook: how-to-use.md
       - Learning Roadmap (0–15 yrs): career/roadmap.md
+      - Glossary: glossary.md
   - HTML5:
       - html/index.md
       - Document Structure & Metadata: html/document-structure.md
@@ -136,6 +138,16 @@ nav:
       - Responsive Design: layout/responsive.md
       - Layout Patterns: layout/patterns.md
       - Latest UI Trends: layout/ui-trends.md
+  - E-commerce Page:
+      - ecommerce/index.md
+      - "1. Page Skeleton & Design Tokens": ecommerce/01-skeleton.md
+      - "2. Header & Category Nav": ecommerce/02-header.md
+      - "3. Hero, Offers & Category Tiles": ecommerce/03-hero-categories.md
+      - "4. Product Card & Product Grid": ecommerce/04-product-card.md
+      - "5. Listing: Filters & Sort": ecommerce/05-listing-filters.md
+      - "6. Cart Drawer": ecommerce/06-cart.md
+      - "7. Footer & Mobile Bottom Nav": ecommerce/07-footer.md
+      - "8. Put It All Together": ecommerce/08-full-page.md
   - Reverse Engineering:
       - reverse-engineering/index.md
       - "See This → Write This": reverse-engineering/recipes.md
