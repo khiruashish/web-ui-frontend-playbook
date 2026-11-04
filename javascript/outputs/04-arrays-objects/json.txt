@@ -1,0 +1,13 @@
+{"id":1042,"items":[{"id":"apple","qty":2}],"paid":false}
+string
+2
+{
+  "id": 1042,
+  "items": [
+    {
+      "id": "apple",
+      "qty": 2
+    }
+  ],
+  "paid": false
+}

@@ -11,6 +11,7 @@ Every HTML element and CSS feature in this playbook is shown three ways: **what 
 | **HTML5** | Every element in the current HTML standard, grouped by purpose, each with code and output. A–Z reference of all tags, plus a deprecated-tags table. |
 | **CSS & CSS3** | Cascade, specificity, box model, every selector type, colours and units, typography, CSS3 effects, positioning, animations, custom properties, and modern CSS (2023–2026). |
 | **Layout & Responsive** | Complete Flexbox and Grid references with live output, responsive design, 15+ layout patterns, and current UI trends. |
+| **JavaScript** | Nine lessons from variables to `fetch()`: types, decisions, functions, arrays and objects, loops and array methods, the DOM, events, async code, errors and debugging. Every console output shown is produced by running the code; the DOM, events and fetch demos are live and browser-tested. |
 | **E-commerce Page** | A step-by-step build of a responsive grocery store page from 15 small components (header, search, category nav, hero, product card, filters, cart drawer, footer, bottom nav). Every line of HTML, CSS and JavaScript is explained in a table, with a live demo per component. |
 | **Reverse Engineering** | A repeatable method for turning any UI into code, 30+ "see this → write this" recipes, and a live layout gallery. |
 | **Cheat Sheets** | 8 printable quick references: HTML, CSS, CSS3 & modern CSS, Flexbox, Grid, responsive, units/colours/functions, and UI components & patterns. The Flexbox and Grid sheets have a live mini-diagram for every value. |
@@ -53,9 +54,16 @@ Some pages are generated from Python so the code you read is always the code tha
 
 Edit the script, not the generated file.
 
+The console outputs on the **JavaScript** pages come from running the examples (needs Node 22+):
+
+```bash
+node javascript/run-examples.mjs           # run docs/javascript/examples/*.js, refresh javascript/outputs/
+node javascript/run-examples.mjs --check   # CI mode: fail if any output is stale
+```
+
 ## Browser checks (Coding Interview + E-commerce)
 
-Every solution in the **Coding Interview** tab, and the finished E-commerce store page, is verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
+Every solution in the **Coding Interview** tab, the finished E-commerce store page, and the JavaScript tab's DOM/events/fetch demos are verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
 checks with mock timers. CI runs them on every pull request (`.github/workflows/coding-interview.yml`):
 
 ```bash

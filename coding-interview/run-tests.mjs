@@ -22,7 +22,7 @@ const browser = await chromium.launch();
 async function open(file, { width = 1200, height = 800, colorScheme = "light", context } = {}) {
   const ctx = context ?? (await browser.newContext({ viewport: { width, height }, colorScheme }));
   const page = await ctx.newPage();
-  await page.goto(file.startsWith("file:") ? file : demo(file));
+  await page.goto(/^(file|https?):/.test(file) ? file : demo(file));
   return { page, ctx };
 }
 const rect = (page, sel) => page.locator(sel).first().evaluate((el) => el.getBoundingClientRect().toJSON());
@@ -444,14 +444,73 @@ const problems = [
       await ctx.close();
     }],
   ]],
+  ["14-javascript-demos", [
+    ["DOM: renders 3 products from the array; buttons change text, classes and add an item", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/06-dom.html");
+      assert.deepEqual(await page.locator("#product-list li span:first-child").allTextContents(), ["Shimla Apple", "Robusta Banana", "Full Cream Milk"]);
+      await page.click("#rename");
+      assert.equal(await page.textContent("#title"), "Fresh picks for you");
+      await page.click("#highlight");
+      assert.equal(await page.locator("#product-list li.highlight").count(), 2);   // ₹49 and ₹68
+      await page.click("#add");
+      assert.equal(await page.locator("#product-list li").first().locator("span").first().textContent(), "Brown Eggs");
+      assert.ok(await page.locator("#add").isDisabled());
+      await ctx.close();
+    }],
+    ["events: counter never goes below 0; live search filters; Esc clears it", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/07-events.html");
+      await page.click("#minus");
+      assert.equal(await page.textContent("#qty"), "0");
+      await page.click("#plus"); await page.click("#plus");
+      assert.equal(await page.textContent("#qty"), "2");
+      await page.fill("#search", "ba");
+      assert.deepEqual(await page.locator("#results li:visible").allTextContents(), ["Banana"]);
+      await page.fill("#search", "b");
+      assert.equal(await page.locator("#results li:visible").count(), 3);
+      await page.press("#search", "Escape");
+      assert.equal(await page.locator("#results li:visible").count(), 5);
+      await ctx.close();
+    }],
+    ["events: form blocks a bad pincode without reloading; delegation removes the right row", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/07-events.html");
+      await page.evaluate(() => (window.__marker = 1));
+      await page.fill("#pincode", "5600");
+      await page.press("#pincode", "Enter");
+      assert.equal(await page.getAttribute("#pincode", "aria-invalid"), "true");
+      assert.match(await page.textContent("#pincode-msg"), /6-digit/);
+      assert.equal(await page.evaluate(() => window.__marker), 1, "page did not reload");
+      await page.fill("#pincode", "560001");
+      await page.click("#pincode-form button");
+      assert.match(await page.textContent("#pincode-msg"), /560001/);
+      await page.locator("#cart li", { hasText: "Milk" }).getByRole("button").click();
+      assert.deepEqual((await page.locator("#cart li").allTextContents()).map((t) => t.replace("Remove", "").trim()), ["Apple", "Bread"]);
+      await ctx.close();
+    }],
+    ["fetch: shows Loading…, then 4 products; a 404 shows a friendly error and re-enables the buttons", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/08-fetch.html");
+      await page.click("#load");
+      assert.equal(await page.textContent("#status"), "Loading…");
+      assert.ok(await page.locator("#load").isDisabled());
+      await page.waitForFunction(() => document.querySelectorAll("#grid li").length === 4);
+      assert.equal(await page.textContent("#status"), "4 products loaded.");
+      await page.click("#broken");
+      await page.waitForFunction(() => document.querySelector("#status").classList.contains("error"));
+      assert.match(await page.textContent("#status"), /404/);
+      assert.equal(await page.locator("#grid li").count(), 0);
+      assert.ok(await page.locator("#load").isEnabled());
+      await ctx.close();
+    }],
+  ]],
 ];
 
 // A tiny static server for the localStorage check (file:// pages have an opaque origin).
 const http = await import("node:http");
+// /js/* serves the JavaScript tab's demos (fetch() needs an http origin too).
 const server = http.createServer((req, res) => {
-  const file = path.join(here, "..", "docs", "coding-interview", "demos", path.basename(req.url));
+  const dir = req.url.startsWith("/js/") ? ["javascript", "demos"] : ["coding-interview", "demos"];
+  const file = path.join(here, "..", "docs", ...dir, path.basename(req.url));
   if (!existsSync(file)) { res.writeHead(404); return res.end(); }
-  res.writeHead(200, { "Content-Type": "text/html" }); res.end(readFileSync(file));
+  res.writeHead(200, { "Content-Type": file.endsWith(".json") ? "application/json" : "text/html; charset=utf-8" }); res.end(readFileSync(file));
 }).listen(4317);
 
 mkdirSync(path.join(here, "outputs"), { recursive: true });

@@ -1,0 +1,8 @@
+Packing Apple
+Packing Milk
+Packing Bread
+1 Apple
+2 Milk
+3 Bread
+apple in stock
+milk sold out

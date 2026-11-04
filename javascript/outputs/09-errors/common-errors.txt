@@ -1,0 +1,5 @@
+ReferenceError: totl is not defined
+TypeError: Assignment to constant variable.
+TypeError: Cannot read properties of null (reading 'length')
+TypeError: "apple".toUppercase is not a function
+SyntaxError: Expected property name or '}' in JSON at position 1 (line 1 column 2)

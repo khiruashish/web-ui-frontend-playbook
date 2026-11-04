@@ -1,0 +1,5 @@
+14-javascript-demos: 4 checks, 0 failures
+  ✔ DOM: renders 3 products from the array; buttons change text, classes and add an item
+  ✔ events: counter never goes below 0; live search filters; Esc clears it
+  ✔ events: form blocks a bad pincode without reloading; delegation removes the right row
+  ✔ fetch: shows Loading…, then 4 products; a 404 shows a friendly error and re-enables the buttons

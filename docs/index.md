@@ -30,8 +30,8 @@ hide:
 </div>
 
 <div class="pb-stats">
-<div class="pb-stat"><b>71</b><span>pages</span></div>
-<div class="pb-stat"><b>9</b><span>sections</span></div>
+<div class="pb-stat"><b>81</b><span>pages</span></div>
+<div class="pb-stat"><b>10</b><span>sections</span></div>
 <div class="pb-stat"><b>10</b><span>diagrams</span></div>
 </div>
 
@@ -75,6 +75,14 @@ Every element and property here is shown three ways: what it's **for**, the **co
     Complete Flexbox and Grid references with live demos, responsive design, layout patterns and current UI trends.
 
     [:octicons-arrow-right-24: Build layouts](layout/index.md)
+
+-   :material-language-javascript:{ .lg .middle } **JavaScript Basics**
+
+    ---
+
+    Variables to `fetch()` in nine lessons: functions, arrays, the DOM, events and async code. Every console output on the page is produced by running the code.
+
+    [:octicons-arrow-right-24: Learn JavaScript](javascript/index.md)
 
 -   :material-cart-outline:{ .lg .middle } **Build an E-commerce Page**
 

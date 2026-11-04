@@ -1,0 +1,5 @@
+Delivery partner 1 assigned
+Delivery partner 2 assigned
+Delivery partner 3 assigned
+This prints first
+…printed 100 ms later

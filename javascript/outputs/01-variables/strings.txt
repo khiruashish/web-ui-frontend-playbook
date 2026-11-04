@@ -1,0 +1,7 @@
+2 × Shimla Apple = ₹378
+12
+SHIMLA APPLE
+true
+[ 'Shimla', 'Apple' ]
+milk
+...ADD
