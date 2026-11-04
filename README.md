@@ -38,8 +38,16 @@ mkdocs build --strict
 
 ## Deploy to GitHub Pages
 
+Deploys are automatic: after a pull request merges to `main`, the checks in `.github/workflows/coding-interview.yml` run on
+that commit, and when they pass, `.github/workflows/deploy.yml` builds the site with `mkdocs build --strict` and pushes it to
+the `gh-pages` branch, which GitHub Pages serves at <https://khiruashish.github.io/web-ui-frontend-playbook/>. A failing check
+means no deploy. To redeploy by hand, run **Deploy site** from the repository's **Actions** tab.
+
+To deploy from your own machine instead (it adds a commit on top of `gh-pages`, no force-push needed):
+
 ```bash
-mkdocs gh-deploy --force
+git fetch origin gh-pages:gh-pages
+mkdocs gh-deploy --strict --remote-branch gh-pages
 ```
 
 ## Generated pages

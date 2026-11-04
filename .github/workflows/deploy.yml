@@ -1,0 +1,54 @@
+name: Deploy site
+
+# Publishes the site to GitHub Pages (the gh-pages branch) after every merge to main, but only once the
+# "Coding interview checks" workflow has passed on that exact commit. It can also be run by hand from the Actions tab.
+on:
+  workflow_run:
+    workflows: ["Coding interview checks"]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # push the built site to the gh-pages branch
+
+# One deploy at a time; a newer one waits instead of racing (never cancel a deploy half-way through a push).
+concurrency:
+  group: deploy-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and publish to gh-pages
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # The commit the checks passed on (for a manual run: the latest main)
+          ref: ${{ github.event.workflow_run.head_sha || 'main' }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      - name: Start from the current gh-pages branch, so the deploy is a normal push (no force-push)
+        run: git fetch origin gh-pages:gh-pages || echo "No gh-pages branch yet; the first deploy will create it."
+
+      - name: Build (strict) and push to gh-pages
+        env:
+          NO_MKDOCS_2_WARNING: "1"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdocs gh-deploy --strict --remote-branch gh-pages --message "Deploy {sha} with MkDocs {version}"
+
+      - name: Summary
+        run: |
+          echo "Deployed $(git rev-parse --short HEAD) to gh-pages." >> "$GITHUB_STEP_SUMMARY"
+          echo "Site: https://${GITHUB_REPOSITORY_OWNER}.github.io/${GITHUB_REPOSITORY#*/}/" >> "$GITHUB_STEP_SUMMARY"
