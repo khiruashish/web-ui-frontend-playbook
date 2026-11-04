@@ -91,6 +91,59 @@ the bottom nav appears.
 2. Add social links (Instagram, X, YouTube) to column 1 as a row of icons with `aria-label`s.
 3. Make the footer columns collapsible on phones with `<details>`, like the filters in lesson 5.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+Every code solution below is applied in **[store-solved.html](demos/store-solved.html){ target=_blank }**: the full store with all the exercises from every lesson done, tested in a real browser like the original. Its files are generated from `store.html` and `store.js`, so the snippets here are exactly what runs there.
+
+??? success "1. A fifth tab"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-07-1-html"
+    ```
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-07-1"
+    ```
+
+    `repeat(5, 1fr)` gives five equal columns. Five is the practical maximum for a bottom bar: at 375 px each tab is 75 px wide,
+    about the smallest comfortable tap target with a label.
+
+??? success "2. Social links"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-07-2-html"
+    ```
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-07-2"
+    ```
+
+    Icon-only links **must** have an `aria-label`, or a screen reader announces "link, camera emoji". The list gets its own label
+    ("Follow us") so it reads as a group. `.site-footer .social` is needed because the footer's `.site-footer ul { margin: 0 }` is more
+    specific than `.social` alone.
+
+??? success "3. Collapsible footer columns on phones"
+    Wrap each link column in a `<details>`, with the heading inside the `<summary>`:
+
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-07-3-html"
+    ```
+
+    Open them on desktop with the same `matchMedia` trick as the filters:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-07-3"
+    ```
+
+    And replace the default ▸ marker with a +/− on the right:
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-07-3"
+    ```
+
+    On a phone the footer shrinks to two tappable rows instead of six links; on desktop nothing changes. Without JavaScript the
+    columns still work, they just start closed.
+
 ## Common mistakes
 
 * Icon-only bottom navs. Users don't know what 🗂️ means; add the word.

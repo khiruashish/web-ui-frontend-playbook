@@ -135,6 +135,68 @@ everything from it. The badge, the cards and the drawer can never disagree.
 2. Show "Add ₹X more for free delivery" in the cart footer when the subtotal is below ₹199.
 3. Save the cart in `localStorage` so it survives a page refresh (`JSON.stringify([...cart])` to save, `new Map(JSON.parse(…))` to load).
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+Every code solution below is applied in **[store-solved.html](demos/store-solved.html){ target=_blank }**: the full store with all the exercises from every lesson done, tested in a real browser like the original. Its files are generated from `store.html` and `store.js`, so the snippets here are exactly what runs there.
+
+??? success "1. A 🗑 Remove button in each cart row"
+    Each row needs to know **which product** it is, so loop over the Map's `[id, item]` pairs instead of only its values:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-06-1-render"
+    ```
+
+    One listener on the list handles every 🗑 button, now and after every re-render:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-06-1-click"
+    ```
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-06-1"
+    ```
+
+    Removing goes through the same `setQty()` as the product cards, so the card goes back to ADD, the badge updates and the bill is
+    recalculated: one state, one `render()`.
+
+??? success "2. “Add ₹X more for free delivery”"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-06-2-html"
+    ```
+
+    At the end of `render()`:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-06-2"
+    ```
+
+    With ₹68 in the cart it reads "Add ₹131 more for free delivery"; at ₹199 or more, and for an empty cart, it disappears. Small
+    nudges like this measurably raise the average order value in real stores.
+
+??? success "3. Keep the cart after a refresh (localStorage)"
+    Save at the end of every `render()` (every change goes through it):
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-06-3-save"
+    ```
+
+    Load once at start-up, **before** the first `render()`:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-06-3-load"
+    ```
+
+    | Code | Why |
+    |---|---|
+    | `JSON.stringify([...cart])` | A `Map` turns into `{}` with `JSON.stringify`; spread it into `[[id, item], …]` pairs first. |
+    | `localStorage.getItem(…) ?? "[]"` | The first visit has nothing saved (`null`), so start from an empty list. |
+    | `try` / `catch` | `localStorage` throws when storage is blocked (some private modes, strict settings) and `JSON.parse` throws on broken text. Either way the store must still work. |
+
+    `localStorage` keeps strings only, per site, per browser, until the user clears it. A real store also saves the cart on the
+    server, so it follows the user to their phone.
+
 ## Common mistakes
 
 * Building a modal from a `<div>` and forgetting focus trapping and ++esc++. Use `<dialog>` + `showModal()`.

@@ -195,6 +195,53 @@ The full script is in `js/store.js`; these are the parts this card uses.
 2. Add an "Out of stock" state: a `data-out-of-stock` attribute, a grey card, and a disabled ADD button (`disabled` attribute).
 3. Change the grid to show 3 cards per row on a phone. Which number in `minmax()` do you change?
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+Every code solution below is applied in **[store-solved.html](demos/store-solved.html){ target=_blank }**: the full store with all the exercises from every lesson done, tested in a real browser like the original. Its files are generated from `store.html` and `store.js`, so the snippets here are exactly what runs there.
+
+??? success "1. A ninth product: avocado"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-04-1"
+    ```
+
+    Change **every** product-specific value: `data-id` (must be unique, it's the cart key), `data-name`, `data-price` in paise
+    (₹149 = `14900`), `data-category`, the emoji's `aria-label`, the title, the size, the price text and **both** stepper
+    `aria-label`s. No CSS or JavaScript changes: the grid makes room, and the event delegation on the grid handles the new buttons.
+
+??? success "2. An “Out of stock” state"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-04-2-html"
+    ```
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-04-2"
+    ```
+
+    | Code | Why |
+    |---|---|
+    | `data-out-of-stock` | A data attribute is both a CSS hook (`[data-out-of-stock]`) and something JavaScript can read. |
+    | `disabled` on the button | A disabled button can't be clicked or focused, and screen readers announce it as "dimmed"/"unavailable". No JavaScript needed. |
+    | `filter: grayscale(1); opacity: 0.5;` | A grey, faded picture says "unavailable" at a glance. |
+    | `.add-btn:disabled` | Style the disabled state so it doesn't look like a normal ADD button. |
+    | "Back tomorrow" instead of "10 MINS" | Tell people **when** it's coming back, not just that it's gone. |
+
+??? success "3. Three cards per row on a phone"
+    Change the **minimum** in `minmax()`. A 375 px phone's container is 343 px wide; with two 12 px gaps, three cards get
+    (343 − 24) / 3 ≈ 106 px each, so the minimum must be 106 px or less:
+
+    ```css
+    .product-grid {
+      grid-template-columns: repeat(auto-fill, minmax(min(100px, 100%), 1fr));
+    }
+    ```
+
+    Now look at the cards: each has about 82 px of room inside its padding, and the price plus a 72 px ADD button no longer fit side
+    by side, so they overflow. A layout change ripples into the components inside it. If you really want three columns, stack the
+    footer as well (`.product-footer { flex-direction: column; align-items: stretch; }`). Most grocery apps keep two columns on phones
+    for exactly this reason, which is why the solved store doesn't apply this one.
+
 ## Common mistakes
 
 * Storing prices as `189.00` and adding them with floats. Use whole paise.

@@ -1,0 +1,7 @@
+[
+  'Shimla Apple: ₹189',
+  'Robusta Banana: ₹49',
+  'Fresh Tomato: ₹32',
+  'Full Cream Milk: ₹68',
+  'Brown Eggs: ₹84'
+]

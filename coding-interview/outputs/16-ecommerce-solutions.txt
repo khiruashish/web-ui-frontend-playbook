@@ -1,0 +1,7 @@
+16-ecommerce-solutions: 6 checks, 0 failures
+  ✔ no horizontal scroll at 320, 375, 768 and 1280 px
+  ✔ header: search moves to row 1 on phones; desktop is still one row; red Deals link
+  ✔ badge shows 9+ from 10 items; avocado can be added; sold-out mango can't
+  ✔ filters: price ranges, empty message, Clear all
+  ✔ cart: free-delivery hint, 🗑 removes a line, and the cart survives a reload
+  ✔ footer: collapsed columns on phones, open on desktop; 5 bottom tabs; labelled social links

@@ -116,6 +116,51 @@ You can also search **inside** an element: `list.querySelectorAll("li")` only lo
 2. Give each `<li>` a "×" button that removes it.
 3. Show the total of all prices in a `<p>` under the list, and update it when a product is added.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+All three solutions together, live (the code below is included from this file):
+
+<iframe src="../demos/06-dom-solved.html" title="DOM exercises solved: live demo" style="width:100%;height:380px;border:1px solid var(--md-default-fg-color--lightest);border-radius:12px" loading="lazy"></iframe>
+
+??? success "1. Sort by price"
+    ```html
+    --8<-- "docs/javascript/demos/06-dom-solved.html:sol1-html"
+    ```
+
+    ```js
+    --8<-- "docs/javascript/demos/06-dom-solved.html:sol1"
+    ```
+
+    `list.children` is a live `HTMLCollection` (no array methods), so spread it first. `append()` **moves** elements that are
+    already on the page; nothing is copied or re-created.
+
+??? success "2. A × button on every row"
+    Build the button inside `renderProduct`, so every row, including ones added later, gets one:
+
+    ```js
+    --8<-- "docs/javascript/demos/06-dom-solved.html:sol2-render"
+    ```
+
+    Then one listener on the list removes the right row (event delegation, [lesson 7](07-events.md)):
+
+    ```js
+    --8<-- "docs/javascript/demos/06-dom-solved.html:sol2"
+    ```
+
+??? success "3. A total that stays in sync"
+    ```html
+    --8<-- "docs/javascript/demos/06-dom-solved.html:sol3-html"
+    ```
+
+    ```js
+    --8<-- "docs/javascript/demos/06-dom-solved.html:sol3"
+    ```
+
+    Then call `updateTotal()` after **every** change: adding a product and removing one. Forgetting one of those calls is exactly
+    the kind of bug that the "change state, then render everything" pattern (used by the FreshCart cart) avoids.
+
 ## Common mistakes
 
 * Running the script before the HTML exists, so `querySelector` returns `null`. Use `<script defer>` or put the script at the

@@ -148,6 +148,44 @@ are easy to test and reuse. Write your calculations (totals, discounts, delivery
 2. Write `deliveryFee(subtotalPaise)` as an arrow function with a ternary: free from ₹199, otherwise ₹25.
 3. Write `makeCart()` that returns `{ add(paise), total() }`, keeping the running total private in a closure.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. formatRupees"
+    ```js
+    --8<-- "docs/javascript/solutions/03-functions.js:ex1"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/03-functions/ex1.txt"
+    ```
+
+    The formatter is created **once**, outside the function: building an `Intl.NumberFormat` is slower than using one.
+
+??? success "2. deliveryFee as an arrow function"
+    ```js
+    --8<-- "docs/javascript/solutions/03-functions.js:ex2"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/03-functions/ex2.txt"
+    ```
+
+    Exactly ₹199 (`19900`) is free, because the test is `>=`. Always check the boundary value.
+
+??? success "3. makeCart with a private total"
+    ```js
+    --8<-- "docs/javascript/solutions/03-functions.js:ex3"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/03-functions/ex3.txt"
+    ```
+
+    `add` and `total` are **closures** over `totalPaise`. The only way to change the total is through `add()`, so nothing else in
+    the program can set it to a wrong value by accident.
+
 ## Common mistakes
 
 * Forgetting `return`, then wondering why the result is `undefined`.

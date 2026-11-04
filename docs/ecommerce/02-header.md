@@ -172,6 +172,46 @@ row and the category nav becomes swipeable.
 2. Make the cart badge show "9+" when the count is more than 9 (hint: JavaScript in lesson 6).
 3. Add a "Deals 🔥" link to the category nav with a red text colour.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+Every code solution below is applied in **[store-solved.html](demos/store-solved.html){ target=_blank }**: the full store with all the exercises from every lesson done, tested in a real browser like the original. Its files are generated from `store.html` and `store.js`, so the snippets here are exactly what runs there.
+
+??? success "1. Search on row 1, location on row 2"
+    Only the grid areas change. Because this rule lives in a stylesheet that loads **after** `header.css`, it also has to repeat
+    the desktop layout, or it would win on desktop too:
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-02-1"
+    ```
+
+    It works, but look at it on a 375 px phone: the search box now shares the row with the logo and the cart, so it's only about
+    140 px wide, even after hiding the word "Cart". That's the reason the original design gives search a full row of its own.
+    Moving things around is easy with `grid-template-areas`; deciding **where they fit best** is the real design work.
+
+??? success "2. Show “9+” in the cart badge"
+    In `render()`, replace the line that writes the count into the badge:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-02-2"
+    ```
+
+    `String(count)` keeps both branches the same type (text). The full number is still in the button's `aria-label`
+    ("Open cart, 12 items"), so screen-reader users lose nothing.
+
+??? success "3. A red “Deals 🔥” link"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-02-3"
+    ```
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-02-3"
+    ```
+
+    `a.deals-link` (an element plus a class) is more specific than `.category-nav a`, so its colour wins. Red text on white
+    (`#d6342c`) has a contrast of about 4.8 : 1, which passes WCAG AA for normal text.
+
 ## Common mistakes
 
 * Building the header with floats or fixed pixel widths, so it breaks at in-between screen sizes.

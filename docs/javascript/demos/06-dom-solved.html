@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DOM basics: exercises solved</title>
+<style>
+  body { margin: 0; padding: 16px; font: 16px/1.5 system-ui, sans-serif; color: #1f2329; }
+  h1 { margin: 0 0 8px; font-size: 1.3rem; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  button { font: inherit; padding: 6px 12px; border: 1px solid #0c831f; border-radius: 8px; background: #fff; color: #0c831f; cursor: pointer; }
+  ul { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  li { display: flex; justify-content: space-between; padding: 8px 12px; border: 1px solid #e3e6ea; border-radius: 8px; }
+  .highlight { background: #fff6d8; border-color: #f8cb46; }
+  .price { font-weight: 700; }
+  .remove { margin-left: 8px; padding: 0 8px; border-color: #d6342c; color: #d6342c; }
+</style>
+</head>
+<body>
+<h1 id="title">Today's products</h1>
+<p class="subtitle">Loaded from a JavaScript array.</p>
+
+<div class="controls">
+  <button type="button" id="rename">Change the heading</button>
+  <button type="button" id="highlight">Highlight cheap items</button>
+  <button type="button" id="add">Add a product</button>
+  <!-- --8<-- [start:sol1-html] -->
+  <button type="button" id="sort">Sort by price</button>
+  <!-- --8<-- [end:sol1-html] -->
+</div>
+
+<ul id="product-list"></ul>
+<!-- --8<-- [start:sol3-html] -->
+<p id="total"></p>
+<!-- --8<-- [end:sol3-html] -->
+
+<script>
+// 1. Find elements
+const title = document.querySelector("#title");          // first match for a CSS selector
+const list = document.querySelector("#product-list");
+const buttons = document.querySelectorAll(".controls button");   // ALL matches (a NodeList)
+console.log(buttons.length);                               // 3
+
+// 2. Build elements from data
+const products = [
+  { name: "Shimla Apple", pricePaise: 18900 },
+  { name: "Robusta Banana", pricePaise: 4900 },
+  { name: "Full Cream Milk", pricePaise: 6800 },
+];
+
+function renderProduct(product) {
+  const li = document.createElement("li");                 // a new, empty <li> (not on the page yet)
+  li.dataset.price = product.pricePaise;                   // sets data-price="18900"
+
+  const name = document.createElement("span");
+  name.textContent = product.name;                         // textContent: safe, never runs HTML
+
+  const price = document.createElement("span");
+  price.className = "price";
+  price.textContent = `₹${product.pricePaise / 100}`;
+
+  // --8<-- [start:sol2-render]
+  const remove = document.createElement("button");         // Exercise 2: a × button in every row
+  remove.type = "button";
+  remove.className = "remove";
+  remove.textContent = "×";
+  remove.setAttribute("aria-label", `Remove ${product.name}`);
+
+  li.append(name, price, remove);
+  // --8<-- [end:sol2-render]
+  return li;
+}
+
+list.append(...products.map(renderProduct));               // put every <li> on the page in one go
+
+// --8<-- [start:sol3]
+// Exercise 3: the total of every price on the list, recalculated from the DOM whenever it changes
+const totalText = document.querySelector("#total");
+function updateTotal() {
+  const prices = [...list.querySelectorAll("li")].map((li) => Number(li.dataset.price));
+  const totalPaise = prices.reduce((sum, p) => sum + p, 0);
+  totalText.textContent = `Total: ₹${totalPaise / 100}`;
+}
+updateTotal();
+// --8<-- [end:sol3]
+
+// 3. Change what's on the page
+document.querySelector("#rename").addEventListener("click", () => {
+  title.textContent = "Fresh picks for you";               // change text
+  title.style.color = "#0c831f";                           // change one style (prefer classes)
+});
+
+document.querySelector("#highlight").addEventListener("click", () => {
+  for (const li of list.querySelectorAll("li")) {
+    const cheap = Number(li.dataset.price) < 10000;
+    li.classList.toggle("highlight", cheap);               // add the class if cheap, remove it if not
+  }
+});
+
+document.querySelector("#add").addEventListener("click", (event) => {
+  list.prepend(renderProduct({ name: "Brown Eggs", pricePaise: 8400 }));   // add at the top
+  event.currentTarget.disabled = true;                     // the button that was clicked
+  event.currentTarget.textContent = "Added";
+  updateTotal();                                           // Exercise 3: keep the total in sync
+});
+
+// --8<-- [start:sol1]
+// Exercise 1: re-append the <li>s in price order. append() MOVES existing elements, so nothing is re-created.
+document.querySelector("#sort").addEventListener("click", () => {
+  const rows = [...list.children].toSorted((a, b) => Number(a.dataset.price) - Number(b.dataset.price));
+  list.append(...rows);
+});
+// --8<-- [end:sol1]
+
+// --8<-- [start:sol2]
+// Exercise 2: one listener on the list removes whichever row's × was clicked (event delegation, lesson 7)
+list.addEventListener("click", (event) => {
+  const button = event.target.closest(".remove");
+  if (!button) return;
+  button.closest("li").remove();
+  updateTotal();
+});
+// --8<-- [end:sol2]
+</script>
+</body>
+</html>

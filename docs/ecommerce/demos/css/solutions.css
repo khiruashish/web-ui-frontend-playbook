@@ -1,0 +1,151 @@
+/* solutions.css: the CSS for every lesson's "Try it" exercise. Loaded only by store-solved.html, after the other
+   stylesheets, so these rules can override them. In your own copy, put each rule in its component's file instead. */
+
+/* --8<-- [start:sol-02-1] */
+/* Lesson 2, exercise 1: on phones, search on row 1 and the location on row 2 */
+.header-inner {
+  grid-template-areas:
+    "logo     search   actions"
+    "location location location";
+}
+/* This file loads after header.css, so the rule above would also beat header.css's desktop layout.
+   Repeat the desktop areas here to win back the one-row header from 768 px. */
+@media (width >= 768px) {
+  .header-inner {
+    grid-template-areas: "logo location search actions";
+  }
+}
+/* Sharing row 1 with the logo and the cart leaves the search box very narrow on small phones (that's why the
+   original design gives it its own row). Hiding the word "Cart" wins back ~45 px; the button keeps its aria-label. */
+@media (width < 480px) {
+  .cart-label {
+    display: none;
+  }
+}
+/* --8<-- [end:sol-02-1] */
+
+/* --8<-- [start:sol-02-3] */
+/* Lesson 2, exercise 3: a red "Deals" link */
+.category-nav a.deals-link {
+  color: var(--danger);
+  font-weight: 700;
+}
+/* --8<-- [end:sol-02-3] */
+
+/* --8<-- [start:sol-04-2] */
+/* Lesson 4, exercise 2: out-of-stock card */
+.product-card[data-out-of-stock] .product-media {
+  filter: grayscale(1);
+  opacity: 0.5;
+}
+.product-card[data-out-of-stock] .product-title,
+.product-card[data-out-of-stock] .price {
+  color: var(--muted);
+}
+.add-btn:disabled {
+  padding-inline: var(--space-2);
+  white-space: nowrap;
+  border-color: var(--line);
+  background: var(--page);
+  color: var(--muted);
+  cursor: not-allowed;
+}
+/* --8<-- [end:sol-04-2] */
+
+/* --8<-- [start:sol-05-2] */
+/* Lesson 5, exercises 2 and 3: "Clear all" button and the empty message */
+.filters .clear-filters {
+  margin: 0 var(--space-4) var(--space-4);
+}
+.no-results {
+  margin: 0;
+  padding: var(--space-8) var(--space-4);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--muted);
+  text-align: center;
+}
+/* --8<-- [end:sol-05-2] */
+
+/* --8<-- [start:sol-06-1] */
+/* Lesson 6, exercises 1 and 2: a fourth column for the 🗑 button, and the free-delivery hint */
+.cart-items li {
+  grid-template-columns: 1fr auto auto auto;
+}
+.cart-remove {
+  border: 0;
+  background: none;
+  font-size: 1rem;
+  cursor: pointer;
+}
+.free-delivery-hint {
+  margin: 0 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--brand-soft);
+  color: var(--brand-dark);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+/* --8<-- [end:sol-06-1] */
+
+/* --8<-- [start:sol-07-1] */
+/* Lesson 7, exercise 1: five bottom-nav tabs */
+.bottom-nav {
+  grid-template-columns: repeat(5, 1fr);
+}
+/* --8<-- [end:sol-07-1] */
+
+/* --8<-- [start:sol-07-2] */
+/* Lesson 7, exercise 2: round social icons in a row */
+.site-footer .social {
+  display: flex;
+  gap: var(--space-2);
+  margin-top: var(--space-4);   /* ".site-footer ul { margin: 0 }" is more specific than .social alone */
+}
+.site-footer .social li + li {
+  margin-top: 0;
+}
+.social a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #2b3038;
+  text-decoration: none;
+}
+.social a:hover {
+  background: #3a404c;
+}
+/* --8<-- [end:sol-07-2] */
+
+/* --8<-- [start:sol-07-3] */
+/* Lesson 7, exercise 3: footer columns as <details> */
+.footer-col summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  list-style: none;            /* hide the default ▸ marker… */
+  cursor: pointer;
+}
+.footer-col summary::-webkit-details-marker {
+  display: none;               /* …in Safari too */
+}
+.footer-col summary::after {
+  content: "+";
+  font-size: 1.25rem;
+}
+.footer-col[open] summary::after {
+  content: "−";
+}
+@media (width >= 768px) {
+  .footer-col summary {
+    pointer-events: none;      /* always open on desktop: nothing to toggle */
+  }
+  .footer-col summary::after,
+  .footer-col[open] summary::after {   /* list [open] too: it is more specific than the rule above */
+    content: none;
+  }
+}
+/* --8<-- [end:sol-07-3] */

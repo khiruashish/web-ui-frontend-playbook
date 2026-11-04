@@ -147,6 +147,44 @@ coupon, no address yet).
 2. In the browser console, type `"5" * 2`, `"5" + 2` and `"5" - 2`. Which one surprised you, and why?
 3. Print the length of your own name, then print it reversed (hint: `split("")`, `.reverse()`, `.join("")`).
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. One template literal"
+    ```js
+    --8<-- "docs/javascript/solutions/01-variables.js:ex1"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/01-variables/ex1.txt"
+    ```
+
+??? success "2. "5" * 2, "5" + 2, "5" - 2"
+    ```js
+    --8<-- "docs/javascript/solutions/01-variables.js:ex2"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/01-variables/ex2.txt"
+    ```
+
+    `+` is the odd one out: it means both "add" and "join text", and **any** string on either side makes it join. `*`, `-` and `/`
+    only do maths, so JavaScript converts `"5"` to the number 5 first. Convert input values with `Number()` yourself so you never
+    rely on these rules.
+
+??? success "3. Length and reverse"
+    ```js
+    --8<-- "docs/javascript/solutions/01-variables.js:ex3"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/01-variables/ex3.txt"
+    ```
+
+    Strings have no `.reverse()`, but arrays do: `split("")` turns the text into an array of characters, `reverse()` flips the
+    array, and `join("")` glues it back into a string.
+
 ## Common mistakes
 
 * Using `let` everywhere "just in case". Start with `const`; change it to `let` only when you really reassign it.

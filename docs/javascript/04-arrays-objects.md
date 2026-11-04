@@ -159,6 +159,43 @@ JSON looks like JavaScript but is stricter: keys and strings need **double quote
    original is unchanged.
 3. Save a `Map` cart to a JSON string and load it back: `JSON.stringify([...cart])` and `new Map(JSON.parse(text))`.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+??? success "1. Second name, last category"
+    ```js
+    --8<-- "docs/javascript/solutions/04-arrays-objects.js:ex1"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/04-arrays-objects/ex1.txt"
+    ```
+
+??? success "2. withPrice with spread"
+    ```js
+    --8<-- "docs/javascript/solutions/04-arrays-objects.js:ex2"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/04-arrays-objects/ex2.txt"
+    ```
+
+    The original keeps ₹68 and the two are different objects. Code that receives a product can't be surprised by it changing later.
+
+??? success "3. Map → JSON → Map"
+    ```js
+    --8<-- "docs/javascript/solutions/04-arrays-objects.js:ex3"
+    ```
+
+    ```text title="Console output"
+    --8<-- "javascript/outputs/solutions/04-arrays-objects/ex3.txt"
+    ```
+
+    `JSON.stringify(cart)` on the Map itself would give `"{}"`: Maps aren't plain objects. Spreading turns it into an array of
+    `[key, value]` pairs, which JSON can hold, and `new Map(pairs)` turns it back. FreshCart uses exactly this to
+    [keep the cart after a refresh](../ecommerce/06-cart.md#solutions).
+
 ## Common mistakes
 
 * `fruits[3]` on a 3-item array: indexes start at 0, so it's `undefined`.

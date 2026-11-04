@@ -1,19 +1,25 @@
-// Runs every console example of the JavaScript tab and writes what it prints to outputs/ (shown on the docs pages).
+// Runs every console example (and exercise solution) of the JavaScript tab and writes what it prints to outputs/
+// (shown on the docs pages).
 //   node run-examples.mjs          run all examples, (re)write outputs/
 //   node run-examples.mjs --check  CI: fail if any output differs from the committed one
 //
-// Each docs/javascript/examples/NN-*.js file is split into sections:
+// Each docs/javascript/examples/NN-*.js and docs/javascript/solutions/NN-*.js file is split into sections:
 //   // --8<-- [start:name]   ...code...   // --8<-- [end:name]
 // Every section is self-contained. It runs on its own, in a fresh sandbox (node:vm), and everything it logs goes to
-// outputs/NN-*/name.txt. Uncaught errors are printed the way a browser console prints them ("Uncaught TypeError: ...").
+// outputs/NN-*/name.txt (solutions: outputs/solutions/NN-*/name.txt). Uncaught errors are printed the way a browser
+// console prints them ("Uncaught TypeError: ...").
 import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { execFileSync } from "node:child_process";
 import { format } from "node:util";
 import path from "node:path";
 import vm from "node:vm";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const examplesDir = path.join(here, "..", "docs", "javascript", "examples");
+const sources = [
+  [path.join(here, "..", "docs", "javascript", "examples"), path.join(here, "outputs")],
+  [path.join(here, "..", "docs", "javascript", "solutions"), path.join(here, "outputs", "solutions")],
+];
 const CHECK = process.argv.includes("--check");
 const SECTION = /^\/\/ --8<-- \[start:([\w-]+)\]\n([\s\S]*?)^\/\/ --8<-- \[end:\1\]/gm;
 
@@ -38,9 +44,9 @@ async function runSection(code) {
 }
 
 let failed = 0;
-for (const file of readdirSync(examplesDir).filter((f) => f.endsWith(".js")).sort()) {
-  const source = readFileSync(path.join(examplesDir, file), "utf8");
-  const outDir = path.join(here, "outputs", file.replace(/\.js$/, ""));
+for (const [dir, outRoot] of sources) for (const file of readdirSync(dir).filter((f) => f.endsWith(".js")).sort()) {
+  const source = readFileSync(path.join(dir, file), "utf8");
+  const outDir = path.join(outRoot, file.replace(/\.js$/, ""));
   mkdirSync(outDir, { recursive: true });
   let count = 0;
   for (const [, name, code] of source.matchAll(SECTION)) {
@@ -51,6 +57,16 @@ for (const file of readdirSync(examplesDir).filter((f) => f.endsWith(".js")).sor
       if (!existsSync(out) || readFileSync(out, "utf8") !== text) { console.log(`DIFF  ${file}:${name}: run node run-examples.mjs and commit outputs/`); failed++; }
     } else writeFileSync(out, text);
   }
-  console.log(`ran   ${file} (${count} examples)`);
+  console.log(`ran   ${path.basename(dir)}/${file} (${count} sections)`);
+}
+// Multi-file module solutions: run their app.js with Node (ES module syntax is detected automatically in Node 22+).
+const modulesRoot = path.join(here, "..", "docs", "javascript", "solutions");
+for (const dir of readdirSync(modulesRoot).filter((d) => existsSync(path.join(modulesRoot, d, "app.js")))) {
+  const text = execFileSync(process.execPath, [path.join(modulesRoot, dir, "app.js")], { encoding: "utf8" });
+  const out = path.join(here, "outputs", "solutions", `${dir}.txt`);
+  if (CHECK) {
+    if (!existsSync(out) || readFileSync(out, "utf8") !== text) { console.log(`DIFF  ${dir}: run node run-examples.mjs and commit outputs/`); failed++; }
+  } else writeFileSync(out, text);
+  console.log(`ran   solutions/${dir}/app.js`);
 }
 process.exit(failed ? 1 : 0);

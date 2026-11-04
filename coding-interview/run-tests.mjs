@@ -16,6 +16,7 @@ const { chromium } = createRequire(import.meta.url)("playwright");   // CommonJS
 const here = path.dirname(fileURLToPath(import.meta.url));
 const demo = (file) => pathToFileURL(path.join(here, "..", "docs", "coding-interview", "demos", file)).href;
 const store = pathToFileURL(path.join(here, "..", "docs", "ecommerce", "demos", "store.html")).href;  // the E-commerce tab's page
+const solved = store.replace(/store\.html$/, "store-solved.html");   // the same page with every exercise solved
 const CHECK = process.argv.includes("--check");
 
 const browser = await chromium.launch();
@@ -501,16 +502,144 @@ const problems = [
       await ctx.close();
     }],
   ]],
+  ["15-javascript-solutions", [
+    ["DOM solved: sort by price, × removes a row, total stays in sync", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/06-dom-solved.html");
+      assert.equal(await page.textContent("#total"), "Total: ₹306");                    // 189 + 49 + 68
+      await page.click("#add");
+      assert.equal(await page.textContent("#total"), "Total: ₹390");
+      await page.click("#sort");
+      const prices = await page.locator("#product-list li").evaluateAll((lis) => lis.map((li) => +li.dataset.price));
+      assert.deepEqual(prices, [4900, 6800, 8400, 18900]);
+      await page.getByRole("button", { name: "Remove Shimla Apple" }).click();
+      assert.equal(await page.locator("#product-list li").count(), 3);
+      assert.equal(await page.textContent("#total"), "Total: ₹201");
+      await ctx.close();
+    }],
+    ["events solved: − disabled at 0, 'No results' message, added items can be removed", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/07-events-solved.html");
+      assert.ok(await page.locator("#minus").isDisabled());
+      await page.click("#plus");
+      assert.ok(await page.locator("#minus").isEnabled());
+      await page.click("#minus");
+      assert.ok(await page.locator("#minus").isDisabled());
+      await page.fill("#search", "zzz");
+      assert.ok(await page.locator("#no-results").isVisible());
+      await page.fill("#search", "milk");
+      assert.ok(await page.locator("#no-results").isHidden());
+      await page.fill("#new-item", "Eggs");
+      await page.press("#new-item", "Enter");
+      assert.equal(await page.locator("#cart li").count(), 4);
+      assert.equal(await page.inputValue("#new-item"), "");
+      await page.locator("#cart li", { hasText: "Eggs" }).getByRole("button", { name: "Remove" }).click();
+      assert.equal(await page.locator("#cart li").count(), 3);
+      await ctx.close();
+    }],
+    ["fetch solved: Promise.all loads offers too; empty list message; Retry recovers from a 404", async () => {
+      const { page, ctx } = await open("http://localhost:4317/js/08-fetch-solved.html");
+      await page.click("#load");
+      await page.waitForFunction(() => document.querySelectorAll("#grid li").length === 4);
+      assert.match(await page.textContent("#offers"), /Flat 50% off/);
+      await page.click("#empty");
+      await page.waitForFunction(() => document.querySelector("#status").textContent === "No products found.");
+      assert.equal(await page.locator("#grid li").count(), 0);
+      await page.click("#broken");
+      await page.getByRole("button", { name: "Retry" }).click();
+      await page.waitForFunction(() => document.querySelectorAll("#grid li").length === 4);
+      assert.equal(await page.textContent("#status"), "4 products loaded.");
+      await ctx.close();
+    }],
+  ]],
+  ["16-ecommerce-solutions", [
+    ["no horizontal scroll at 320, 375, 768 and 1280 px", async () => {
+      for (const width of [320, 375, 768, 1280]) {
+        const { page, ctx } = await open(solved, { width });
+        assert.equal(await page.evaluate(() => document.documentElement.scrollWidth), width, `${width}px`);
+        await ctx.close();
+      }
+    }],
+    ["header: search moves to row 1 on phones; desktop is still one row; red Deals link", async () => {
+      let { page, ctx } = await open(solved, { width: 375 });
+      let [logo, search, location] = await Promise.all([rect(page, ".logo"), rect(page, ".search"), rect(page, ".location")]);
+      assert.ok(search.y < logo.y + logo.height && location.y > search.y + search.height - 1, "phone: search row 1, location row 2");
+      assert.equal(await page.locator(".deals-link").evaluate((el) => getComputedStyle(el).color), "rgb(214, 52, 44)");
+      await ctx.close();
+      ({ page, ctx } = await open(solved, { width: 1280 }));
+      [logo, search, location] = await Promise.all([rect(page, ".logo"), rect(page, ".search"), rect(page, ".location")]);
+      assert.ok(location.y < logo.y + logo.height && search.y < logo.y + logo.height && location.x < search.x, "desktop: one row");
+      await ctx.close();
+    }],
+    ["badge shows 9+ from 10 items; avocado can be added; sold-out mango can't", async () => {
+      const { page, ctx } = await open(solved, { width: 1280 });
+      await page.locator('[data-id="avocado"] [data-add]').click();
+      for (let i = 0; i < 8; i++) await page.locator('[data-id="avocado"] [data-inc]').click();
+      assert.equal(await page.locator(".site-header [data-cart-count]").textContent(), "9");
+      await page.locator('[data-id="avocado"] [data-inc]').click();
+      assert.equal(await page.locator(".site-header [data-cart-count]").textContent(), "9+");
+      assert.ok(await page.locator('[data-id="mango"] [data-add]').isDisabled());
+      await ctx.close();
+    }],
+    ["filters: price ranges, empty message, Clear all", async () => {
+      const { page, ctx } = await open(solved, { width: 1280 });
+      assert.equal(await page.locator("[data-result-count]").textContent(), "10");
+      await page.getByLabel("Under ₹50").check();
+      assert.equal(await page.locator("[data-result-count]").textContent(), "3");       // banana ₹49, tomato ₹32, onion ₹45
+      await page.getByLabel("Over ₹100").check();
+      assert.equal(await page.locator("[data-result-count]").textContent(), "3");       // apple, avocado, mango
+      await page.getByLabel("Bakery").check();
+      assert.ok(await page.locator("[data-no-results]").isVisible());
+      await page.getByRole("button", { name: "Clear all" }).click();
+      assert.equal(await page.locator("[data-result-count]").textContent(), "10");
+      assert.ok(await page.locator("[data-no-results]").isHidden());
+      assert.ok(await page.getByLabel("Any price").isChecked());
+      await ctx.close();
+    }],
+    ["cart: free-delivery hint, 🗑 removes a line, and the cart survives a reload", async () => {
+      const { page, ctx } = await open("http://localhost:4317/shop/store-solved.html", { width: 1280 });
+      await page.evaluate(() => localStorage.clear());
+      await page.reload();
+      await page.locator('[data-id="milk"] [data-add]').click();                        // ₹68
+      await page.locator(".site-header [data-open-cart]").click();
+      assert.equal(await page.locator("[data-free-hint]").textContent(), "Add ₹131 more for free delivery");
+      await page.keyboard.press("Escape");
+      await page.locator('[data-id="apple"] [data-add]').click();                       // + ₹189 = ₹257
+      await page.locator(".site-header [data-open-cart]").click();
+      assert.ok(await page.locator("[data-free-hint]").isHidden());
+      await page.reload();
+      assert.equal(await page.locator(".site-header [data-cart-count]").textContent(), "2");
+      assert.equal(await page.locator('[data-id="apple"] output').textContent(), "1");
+      await page.locator(".site-header [data-open-cart]").click();
+      await page.getByRole("button", { name: "Remove Full Cream Milk from cart" }).click();
+      assert.equal(await page.locator("[data-cart-items] li").count(), 1);
+      assert.ok(await page.locator('[data-id="milk"] [data-add]').isVisible(), "the card is back to ADD");
+      await ctx.close();
+    }],
+    ["footer: collapsed columns on phones, open on desktop; 5 bottom tabs; labelled social links", async () => {
+      let { page, ctx } = await open(solved, { width: 375 });
+      assert.deepEqual(await page.locator("[data-footer-col]").evaluateAll((ds) => ds.map((d) => d.open)), [false, false]);
+      assert.equal(await page.locator(".bottom-nav a").count(), 5);
+      const tabs = await page.locator(".bottom-nav a").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().width)));
+      assert.ok(tabs.every((w) => w === tabs[0]), "equal tab widths");
+      assert.equal(await page.getByRole("link", { name: "FreshCart on YouTube" }).count(), 1);
+      await ctx.close();
+      ({ page, ctx } = await open(solved, { width: 1280 }));
+      assert.deepEqual(await page.locator("[data-footer-col]").evaluateAll((ds) => ds.map((d) => d.open)), [true, true]);
+      await ctx.close();
+    }],
+  ]],
 ];
 
 // A tiny static server for the localStorage check (file:// pages have an opaque origin).
 const http = await import("node:http");
 // /js/* serves the JavaScript tab's demos (fetch() needs an http origin too).
 const server = http.createServer((req, res) => {
-  const dir = req.url.startsWith("/js/") ? ["javascript", "demos"] : ["coding-interview", "demos"];
-  const file = path.join(here, "..", "docs", ...dir, path.basename(req.url));
+  // /js/* → the JavaScript tab's demos; /shop/* → the E-commerce demos (subfolders kept for css/ and js/)
+  const [, prefix, rest] = req.url.split("?")[0].match(/^\/(js|shop)\/(.+)$/) ?? [null, null, path.basename(req.url)];
+  const dir = prefix === "js" ? ["javascript", "demos"] : prefix === "shop" ? ["ecommerce", "demos"] : ["coding-interview", "demos"];
+  const file = path.join(here, "..", "docs", ...dir, ...(prefix === "shop" ? rest.split("/").filter((p) => p !== "..") : [path.basename(rest)]));
   if (!existsSync(file)) { res.writeHead(404); return res.end(); }
-  res.writeHead(200, { "Content-Type": file.endsWith(".json") ? "application/json" : "text/html; charset=utf-8" }); res.end(readFileSync(file));
+  const types = { ".json": "application/json", ".css": "text/css", ".js": "text/javascript" };
+  res.writeHead(200, { "Content-Type": types[path.extname(file)] ?? "text/html; charset=utf-8" }); res.end(readFileSync(file));
 }).listen(4317);
 
 mkdirSync(path.join(here, "outputs"), { recursive: true });

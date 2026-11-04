@@ -169,6 +169,70 @@ The full section is long because it holds eight product cards, so here is its ou
 2. Add a "Clear all" button that unticks every checkbox and calls `applyFilters()`.
 3. Show "No products match these filters" when `shown === 0`.
 
+### Solutions
+
+Try each exercise yourself first, then open its solution to compare.
+
+Every code solution below is applied in **[store-solved.html](demos/store-solved.html){ target=_blank }**: the full store with all the exercises from every lesson done, tested in a real browser like the original. Its files are generated from `store.html` and `store.js`, so the snippets here are exactly what runs there.
+
+??? success "1. A Price filter"
+    The HTML: a radio group (only one choice at a time), with "Any price" ticked by default:
+
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-05-1-html"
+    ```
+
+    In `applyFilters()`, read which radio is ticked…
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-05-1-read"
+    ```
+
+    …test every card against it…
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-05-1-test"
+    ```
+
+    …using a small pure function (easy to read, easy to test):
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-05-1-range"
+    ```
+
+    Radios with the same `name` form a group, so ticking one unticks the others. The existing `change` listener on the `<details>`
+    already hears them, so nothing else needs wiring.
+
+??? success "2. A “Clear all” button"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-05-2-html"
+    ```
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-05-2"
+    ```
+
+    The important line is the comment: setting `.checked` from JavaScript does **not** fire a `change` event, so the filter listener
+    never hears about it. Call `applyFilters()` yourself. The extra `applyFilters()` at start-up makes "Showing 10 products" correct
+    from the first paint, instead of a number typed into the HTML.
+
+??? success "3. “No products match these filters”"
+    ```html
+    --8<-- "docs/ecommerce/demos/store-solved.html:sol-05-3-html"
+    ```
+
+    At the end of `applyFilters()`:
+
+    ```js
+    --8<-- "docs/ecommerce/demos/js/store-solved.js:sol-05-3"
+    ```
+
+    ```css
+    --8<-- "docs/ecommerce/demos/css/solutions.css:sol-05-2"
+    ```
+
+    An empty result should never be a blank space. Say what happened and, ideally, offer the way out (the "Clear all" button).
+
 ## Common mistakes
 
 * Building the filters toggle with a `<div>` and JavaScript. `<details>` is accessible and works with no JS at all.

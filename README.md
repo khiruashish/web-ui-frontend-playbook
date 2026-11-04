@@ -51,19 +51,20 @@ Some pages are generated from Python so the code you read is always the code tha
 | `docs/examples/layouts.html` | `scripts/gen_gallery.py` | `python3 scripts/gen_gallery.py docs/examples/layouts.html` |
 | `docs/cheatsheets/flexbox.md`, `docs/cheatsheets/grid.md` | `scripts/gen_visual_cheatsheets.py` | `python3 scripts/gen_visual_cheatsheets.py docs/cheatsheets` |
 | `docs/ecommerce/demos/0[2-7]-*.html` (one page per component) | `docs/ecommerce/demos/store.html` via `scripts/gen_ecommerce_demos.py` | `python3 scripts/gen_ecommerce_demos.py docs/ecommerce/demos` |
+| `docs/ecommerce/demos/store-solved.html`, `js/store-solved.js` (every exercise solved) | `store.html` + `js/store.js` + the solution patches in `scripts/gen_ecommerce_demos.py` | same command |
 
 Edit the script, not the generated file.
 
 The console outputs on the **JavaScript** pages come from running the examples (needs Node 22+):
 
 ```bash
-node javascript/run-examples.mjs           # run docs/javascript/examples/*.js, refresh javascript/outputs/
+node javascript/run-examples.mjs           # run examples/ and solutions/ in docs/javascript/, refresh javascript/outputs/
 node javascript/run-examples.mjs --check   # CI mode: fail if any output is stale
 ```
 
 ## Browser checks (Coding Interview + E-commerce)
 
-Every solution in the **Coding Interview** tab, the finished E-commerce store page, and the JavaScript tab's DOM/events/fetch demos are verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
+Every solution in the **Coding Interview** tab, the finished E-commerce store page, the JavaScript tab's DOM/events/fetch demos, and the exercise solutions of both tabs are verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
 checks with mock timers. CI runs them on every pull request (`.github/workflows/coding-interview.yml`):
 
 ```bash

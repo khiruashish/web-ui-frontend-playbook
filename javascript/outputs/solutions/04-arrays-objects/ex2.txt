@@ -1,0 +1,3 @@
+{ name: 'Full Cream Milk', pricePaise: 6800 }
+{ name: 'Full Cream Milk', pricePaise: 7200 }
+false
