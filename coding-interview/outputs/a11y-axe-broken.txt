@@ -1,0 +1,6 @@
+a11y-lab.html (broken): 5 rules failed
+  ✘ button-name     critical  1 element   Buttons must have discernible text
+  ✘ color-contrast  serious   1 element   Elements must meet minimum color contrast ratio thresholds
+  ✘ heading-order   moderate  1 element   Heading levels should only increase by one
+  ✘ html-has-lang   serious   1 element   <html> element must have a lang attribute
+  ✘ image-alt       critical  1 element   Images must have alternative text

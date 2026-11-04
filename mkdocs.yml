@@ -152,6 +152,7 @@ nav:
   - DevTools:
       - Debugging with DevTools: devtools/index.md
       - "Bug Lab: Find the 7 Bugs": devtools/bug-lab.md
+      - Accessibility Testing Walkthrough: devtools/accessibility-testing.md
   - E-commerce Page:
       - ecommerce/index.md
       - "1. Page Skeleton & Design Tokens": ecommerce/01-skeleton.md

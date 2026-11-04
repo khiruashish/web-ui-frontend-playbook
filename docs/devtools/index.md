@@ -6,7 +6,9 @@ Every browser ships with **developer tools** (DevTools): a panel that shows you 
 element (and which ones lost), every network request, every JavaScript error, and lets you pause your code line by line.
 Learning DevTools well is the single biggest speed-up in frontend work: you stop **guessing** and start **looking**.
 
-This page is a guided tour. Then the [Bug Lab](bug-lab.md) gives you a page with 7 real bugs to find, one per tool.
+This page is a guided tour. Then the [Bug Lab](bug-lab.md) gives you a page with 7 real bugs to find, one per tool, and the
+[Accessibility Testing Walkthrough](accessibility-testing.md) shows how to test a page with axe, the keyboard, the accessibility
+tree and a screen reader.
 
 !!! note "Which browser?"
     The steps use **Chrome**. **Edge** has the same DevTools (both are built on Chromium). **Firefox** has the same panels with
@@ -208,4 +210,5 @@ When something is wrong, work through it in this order instead of changing code 
 6. **Fix it in DevTools first** (edit the CSS live, try the expression in the Console), then copy the fix into your files.
 7. **Check you didn't break something else**: other screen widths, keyboard use, the Console stays clean.
 
-Ready to practise? **[Open the Bug Lab →](bug-lab.md)**
+Ready to practise? **[Open the Bug Lab →](bug-lab.md)** Then test a page the way people with disabilities use it in the
+**[Accessibility Testing Walkthrough →](accessibility-testing.md)**

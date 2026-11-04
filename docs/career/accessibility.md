@@ -4,6 +4,10 @@ About 1 in 6 people worldwide lives with a significant disability (WHO, 2023). A
 
 The standard is **WCAG 2.2, level AA**.
 
+!!! tip "Hands-on"
+    To practise testing, work through the [Accessibility Testing Walkthrough](../devtools/accessibility-testing.md): a page
+    with 10 planted problems, tested with axe, the keyboard, the accessibility tree and a screen reader.
+
 ## The four principles: POUR <span class="lvl lvl-2">Intermediate</span> { #the-four-principles-pour data-toc-label="The four principles: POUR" }
 
 | Principle | Means | Examples |
