@@ -149,6 +149,9 @@ nav:
       - "7. Events: Reacting to Users": javascript/07-events.md
       - "8. Async: Timers, Promises & fetch": javascript/08-async.md
       - "9. Errors, Debugging & Good Habits": javascript/09-errors.md
+  - DevTools:
+      - Debugging with DevTools: devtools/index.md
+      - "Bug Lab: Find the 7 Bugs": devtools/bug-lab.md
   - E-commerce Page:
       - ecommerce/index.md
       - "1. Page Skeleton & Design Tokens": ecommerce/01-skeleton.md

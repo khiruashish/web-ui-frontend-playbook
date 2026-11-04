@@ -1,0 +1,7 @@
+17-devtools-bug-lab: 6 checks, 0 failures
+  ✔ bugs 1 and 3: the broken page scrolls sideways on a phone and its grid is one column; fixed: no scroll, 3 columns
+  ✔ bugs 2 and 4: the price is grey and the badges pile up at the top of the page; fixed: green price, badges inside cards
+  ✔ bugs 5 and 7: ADD throws a TypeError and the total reads ₹0189; fixed: no error, ₹189 then ₹238, badge counts
+  ✔ bug 6: the offer request is a 404; fixed: 200 and the offer shows
+  ✔ console snippets: find-overflow names the promo banner (and nothing once fixed); outline-all toggles
+  ✔ console snippet: log-focus reports each Tab stop in order

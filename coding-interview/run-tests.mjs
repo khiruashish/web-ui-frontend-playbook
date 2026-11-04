@@ -17,6 +17,18 @@ const here = path.dirname(fileURLToPath(import.meta.url));
 const demo = (file) => pathToFileURL(path.join(here, "..", "docs", "coding-interview", "demos", file)).href;
 const store = pathToFileURL(path.join(here, "..", "docs", "ecommerce", "demos", "store.html")).href;  // the E-commerce tab's page
 const solved = store.replace(/store\.html$/, "store-solved.html");   // the same page with every exercise solved
+const snippetsSource = readFileSync(path.join(here, "..", "docs", "devtools", "demos", "snippets.js"), "utf8");
+const snippet = (name) => snippetsSource.match(new RegExp(`// --8<-- \\[start:${name}\\]\\n([\\s\\S]*?)// --8<-- \\[end:${name}\\]`))[1];
+// Run a console snippet in the page exactly as pasting it into the Console would, and collect what it logs.
+async function runSnippet(page, name) {
+  const logged = [];
+  const onLog = (msg) => msg.type() === "log" && logged.push(msg.text());   // not the page's own 404 errors
+  page.on("console", onLog);
+  await page.addScriptTag({ content: snippet(name) });
+  await page.waitForTimeout(50);
+  page.off("console", onLog);
+  return logged;
+}
 const CHECK = process.argv.includes("--check");
 
 const browser = await chromium.launch();
@@ -627,15 +639,97 @@ const problems = [
       await ctx.close();
     }],
   ]],
+  ["17-devtools-bug-lab", [
+    ["bugs 1 and 3: the broken page scrolls sideways on a phone and its grid is one column; fixed: no scroll, 3 columns", async () => {
+      for (const [file, overflow, columns] of [["bug-lab.html", true, 1], ["bug-lab-fixed.html", false, 3]]) {
+        let { page, ctx } = await open(`http://localhost:4317/devtools/${file}`, { width: 375 });
+        assert.equal((await page.evaluate(() => document.documentElement.scrollWidth)) > 375, overflow, `${file} overflow`);
+        await ctx.close();
+        ({ page, ctx } = await open(`http://localhost:4317/devtools/${file}`, { width: 1280 }));
+        const tops = await page.locator(".card").evaluateAll((cs) => cs.map((c) => Math.round(c.getBoundingClientRect().top)));
+        assert.equal(tops.filter((t) => t === tops[0]).length, columns, `${file} columns`);
+        await ctx.close();
+      }
+    }],
+    ["bugs 2 and 4: the price is grey and the badges pile up at the top of the page; fixed: green price, badges inside cards", async () => {
+      for (const [file, color, inside] of [["bug-lab.html", "rgb(85, 85, 85)", false], ["bug-lab-fixed.html", "rgb(12, 131, 31)", true]]) {
+        const { page, ctx } = await open(`http://localhost:4317/devtools/${file}`, { width: 1280 });
+        assert.equal(await page.locator(".price").first().evaluate((el) => getComputedStyle(el).color), color, file);
+        const ok = await page.locator(".card").evaluateAll((cards) => cards.every((card) => {
+          const c = card.getBoundingClientRect(), b = card.querySelector(".badge").getBoundingClientRect();
+          return b.left >= c.left && b.top >= c.top && b.right <= c.right && b.bottom <= c.bottom;
+        }));
+        assert.equal(ok, inside, `${file} badges`);
+        await ctx.close();
+      }
+    }],
+    ["bugs 5 and 7: ADD throws a TypeError and the total reads ₹0189; fixed: no error, ₹189 then ₹238, badge counts", async () => {
+      let { page, ctx } = await open("http://localhost:4317/devtools/bug-lab.html", { width: 1280 });
+      const errors = [];
+      page.on("pageerror", (e) => errors.push(e.message));
+      await page.locator(".add").first().click();
+      assert.equal(await page.textContent("#total"), "0189");
+      assert.match(errors[0] ?? "", /Cannot set properties of null \(setting 'textContent'\)/);
+      await ctx.close();
+      ({ page, ctx } = await open("http://localhost:4317/devtools/bug-lab-fixed.html", { width: 1280 }));
+      const fixedErrors = [];
+      page.on("pageerror", (e) => fixedErrors.push(e.message));
+      await page.locator(".add").nth(0).click();
+      assert.equal(await page.textContent("#total"), "189");
+      await page.locator(".add").nth(1).click();
+      assert.equal(await page.textContent("#total"), "238");
+      assert.equal(await page.textContent(".cart-badge"), "2");
+      assert.deepEqual(fixedErrors, []);
+      await ctx.close();
+    }],
+    ["bug 6: the offer request is a 404; fixed: 200 and the offer shows", async () => {
+      for (const [file, status, text] of [["bug-lab.html", 404, "Couldn't load today's offer (HTTP 404)"], ["bug-lab-fixed.html", 200, "🔥 Buy 1 get 1 free on all bakery items today"]]) {
+        const ctx = await browser.newContext();            // listen for responses before the page loads
+        const page = await ctx.newPage();
+        const responses = [];
+        page.on("response", (r) => r.url().endsWith(".json") && responses.push(r.status()));
+        await page.goto(`http://localhost:4317/devtools/${file}`);
+        await page.waitForFunction((t) => document.querySelector("#offer").textContent === t, text);
+        assert.deepEqual(responses, [status], file);
+        await ctx.close();
+      }
+    }],
+    ["console snippets: find-overflow names the promo banner (and nothing once fixed); outline-all toggles", async () => {
+      let { page, ctx } = await open("http://localhost:4317/devtools/bug-lab.html", { width: 375 });
+      const found = await runSnippet(page, "find-overflow");
+      assert.equal(found.length, 1);
+      assert.match(found[0], /div\.promo/i);
+      assert.deepEqual(await runSnippet(page, "outline-all"), ["outlines on"]);
+      assert.equal(await page.locator("#debug-outlines").count(), 1);
+      assert.deepEqual(await runSnippet(page, "outline-all"), ["outlines off"]);
+      await ctx.close();
+      ({ page, ctx } = await open("http://localhost:4317/devtools/bug-lab-fixed.html", { width: 375 }));
+      assert.deepEqual(await runSnippet(page, "find-overflow"), ["Nothing overflows 🎉"]);
+      await ctx.close();
+    }],
+    ["console snippet: log-focus reports each Tab stop in order", async () => {
+      const { page, ctx } = await open("http://localhost:4317/devtools/bug-lab-fixed.html", { width: 1280 });
+      const logged = [];
+      page.on("console", (msg) => msg.type() === "log" && logged.push(msg.text()));
+      await page.addScriptTag({ content: snippet("log-focus") });
+      await page.keyboard.press("Tab");
+      await page.keyboard.press("Tab");
+      await page.waitForTimeout(50);
+      assert.ok(logged[0].startsWith("focus → button.cart-btn"), logged[0]);
+      assert.ok(logged[1].startsWith("focus → button.add"), logged[1]);
+      await ctx.close();
+    }],
+  ]],
 ];
 
 // A tiny static server for the localStorage check (file:// pages have an opaque origin).
 const http = await import("node:http");
 // /js/* serves the JavaScript tab's demos (fetch() needs an http origin too).
 const server = http.createServer((req, res) => {
-  // /js/* → the JavaScript tab's demos; /shop/* → the E-commerce demos (subfolders kept for css/ and js/)
-  const [, prefix, rest] = req.url.split("?")[0].match(/^\/(js|shop)\/(.+)$/) ?? [null, null, path.basename(req.url)];
-  const dir = prefix === "js" ? ["javascript", "demos"] : prefix === "shop" ? ["ecommerce", "demos"] : ["coding-interview", "demos"];
+  // /js/* → JavaScript demos; /shop/* → E-commerce demos (subfolders kept for css/ and js/); /devtools/* → bug lab
+  const [, prefix, rest] = req.url.split("?")[0].match(/^\/(js|shop|devtools)\/(.+)$/) ?? [null, null, path.basename(req.url)];
+  const dirs = { js: ["javascript", "demos"], shop: ["ecommerce", "demos"], devtools: ["devtools", "demos"] };
+  const dir = dirs[prefix] ?? ["coding-interview", "demos"];
   const file = path.join(here, "..", "docs", ...dir, ...(prefix === "shop" ? rest.split("/").filter((p) => p !== "..") : [path.basename(rest)]));
   if (!existsSync(file)) { res.writeHead(404); return res.end(); }
   const types = { ".json": "application/json", ".css": "text/css", ".js": "text/javascript" };

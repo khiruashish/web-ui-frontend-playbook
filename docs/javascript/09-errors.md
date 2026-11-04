@@ -95,6 +95,9 @@ draws an array of objects as a table.
 6. Step through: ++f10++ next line · ++f11++ into a function · ++f8++ continue.
 7. Add `debugger;` to your code to pause there whenever DevTools is open.
 
+For the full tour (Styles, Computed, Grid overlays, every kind of breakpoint, Network status codes) and a page of planted bugs
+to practise on, see [Debugging with DevTools](../devtools/index.md) and the [Bug Lab](../devtools/bug-lab.md).
+
 Other DevTools panels you'll use daily: **Elements** (see and edit the live DOM and CSS), **Network** (every request, its
 status and its response: the first place to look when `fetch` fails), **Application** (localStorage, cookies).
 
