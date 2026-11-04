@@ -1,0 +1,17 @@
+[
+  'Shimla Apple',
+  'Robusta Banana',
+  'Fresh Tomato',
+  'Full Cream Milk',
+  'Brown Eggs'
+]
+[ 'Full Cream Milk', 'Brown Eggs' ]
+{
+  name: 'Robusta Banana',
+  pricePaise: 4900,
+  category: 'fruits',
+  deal: false
+}
+true false
+42200
+[ 'Fresh Tomato ₹32', 'Brown Eggs ₹84' ]

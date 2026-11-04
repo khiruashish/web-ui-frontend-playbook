@@ -1,0 +1,4 @@
+milk: ₹68
+(hide the loading spinner)
+Could not load bread: Price service is down
+(hide the loading spinner)

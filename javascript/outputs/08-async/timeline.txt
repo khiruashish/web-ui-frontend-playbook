@@ -1,0 +1,4 @@
+1. Order button clicked
+0. JavaScript doesn't wait: this line runs straight away
+2. Packing started (after 100 ms)
+3. Payment confirmed (after 200 ms)

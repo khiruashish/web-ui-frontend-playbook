@@ -1,0 +1,4 @@
+Placing order…
+Payment done
+Order confirmed
+Order id: 1042

@@ -1,0 +1,8 @@
+string
+number
+boolean
+undefined
+object
+object
+object
+true

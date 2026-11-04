@@ -27,6 +27,8 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Run every check (reports must match the docs)
         run: npm run check
+      - name: JavaScript tab console outputs match the examples
+        run: node ../javascript/run-examples.mjs --check
 
   docs:
     name: Build site (strict)

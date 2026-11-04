@@ -1,0 +1,3 @@
+Hello, FreshCart!
+5
+Total: 238

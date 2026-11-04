@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>fetch() with loading and error states</title>
+<style>
+  body { margin: 0; padding: 16px; font: 16px/1.5 system-ui, sans-serif; color: #1f2329; }
+  .controls { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+  button { font: inherit; padding: 6px 12px; border: 1px solid #0c831f; border-radius: 8px; background: #0c831f; color: #fff; cursor: pointer; }
+  button.secondary { background: #fff; color: #0c831f; }
+  button:disabled { opacity: 0.6; cursor: progress; }
+  #status { min-height: 1.5em; margin: 0 0 8px; color: #5b6370; }
+  #status.error { color: #d6342c; }
+  ul { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; margin: 0; padding: 0; list-style: none; }
+  li { padding: 12px; border: 1px solid #e3e6ea; border-radius: 12px; text-align: center; }
+  li span { display: block; font-size: 2rem; }
+</style>
+</head>
+<body>
+<!-- --8<-- [start:html] -->
+<div class="controls">
+  <button type="button" id="load">Load products</button>
+  <button type="button" class="secondary" id="broken">Load from a broken URL</button>
+</div>
+<p id="status" role="status"></p>
+<ul id="grid"></ul>
+<!-- --8<-- [end:html] -->
+
+<script type="module">
+// --8<-- [start:fetch]
+const statusText = document.querySelector("#status");
+const grid = document.querySelector("#grid");
+const buttons = document.querySelectorAll(".controls button");
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+async function loadProducts(url) {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`The server answered ${response.status}`);
+  return response.json();                                  // parse the JSON body (also async)
+}
+
+function showLoading(isLoading) {
+  for (const button of buttons) button.disabled = isLoading;
+  if (isLoading) {
+    statusText.className = "";
+    statusText.textContent = "Loading…";
+    grid.replaceChildren();                                // clear old results
+  }
+}
+
+async function show(url) {
+  showLoading(true);
+  try {
+    await wait(400);                                       // pretend the network is slow, so you can see "Loading…"
+    const products = await loadProducts(url);
+    grid.replaceChildren(
+      ...products.map((p) => {
+        const li = document.createElement("li");
+        li.innerHTML = "<span></span><strong></strong><div></div>";
+        li.querySelector("span").textContent = p.emoji;
+        li.querySelector("strong").textContent = p.name;
+        li.querySelector("div").textContent = `₹${p.pricePaise / 100}`;
+        return li;
+      }),
+    );
+    statusText.textContent = `${products.length} products loaded.`;
+  } catch (err) {
+    statusText.className = "error";
+    statusText.textContent = `Sorry, we couldn't load products (${err.message}). Please try again.`;
+  } finally {
+    showLoading(false);
+  }
+}
+
+document.querySelector("#load").addEventListener("click", () => show("products.json"));
+document.querySelector("#broken").addEventListener("click", () => show("no-such-file.json"));
+// --8<-- [end:fetch]
+</script>
+</body>
+</html>

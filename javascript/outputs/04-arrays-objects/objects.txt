@@ -1,0 +1,12 @@
+Shimla Apple
+18900
+true
+{
+  id: 'apple',
+  name: 'Shimla Apple',
+  pricePaise: 17900,
+  inStock: true,
+  rating: 4.6
+}
+[ 'id', 'name', 'pricePaise', 'inStock', 'rating' ]
+true

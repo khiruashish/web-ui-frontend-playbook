@@ -1,0 +1,4 @@
+Welcome to FreshCart
+only inside these { }
+undefined
+Uncaught ReferenceError: message is not defined

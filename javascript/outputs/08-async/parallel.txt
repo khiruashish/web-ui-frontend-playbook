@@ -1,0 +1,2 @@
+one after another: products offers about 200 ms
+at the same time:  products offers about 100 ms

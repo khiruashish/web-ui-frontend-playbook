@@ -1,0 +1,9 @@
+false → falsy
+0 → falsy
+"" → falsy
+null → falsy
+undefined → falsy
+NaN → falsy
+"0" → truthy
+"false" → truthy
+[] → truthy

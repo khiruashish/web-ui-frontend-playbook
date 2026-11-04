@@ -1,0 +1,2 @@
+FreshCart has 3 items in the cart
+Uncaught TypeError: Assignment to constant variable.

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events</title>
+<style>
+  body { margin: 0; padding: 16px; font: 16px/1.5 system-ui, sans-serif; color: #1f2329; display: grid; gap: 16px; }
+  section { padding: 12px 16px; border: 1px solid #e3e6ea; border-radius: 12px; }
+  h2 { margin: 0 0 8px; font-size: 1rem; }
+  button, input { font: inherit; }
+  button { padding: 4px 12px; border: 1px solid #0c831f; border-radius: 8px; background: #fff; color: #0c831f; cursor: pointer; }
+  input { padding: 6px 10px; border: 1px solid #c4c9d0; border-radius: 8px; }
+  input[aria-invalid="true"] { border-color: #d6342c; }
+  ul { margin: 8px 0 0; padding: 0; list-style: none; }
+  li { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+  [hidden] { display: none !important; }  /* otherwise "li { display: flex }" beats the hidden attribute */
+  .error { color: #d6342c; min-height: 1.5em; margin: 4px 0 0; }
+  .ok { color: #0c831f; }
+  output { display: inline-block; min-width: 2ch; text-align: center; font-weight: 700; }
+</style>
+</head>
+<body>
+<!-- --8<-- [start:counter-html] -->
+<section>
+  <h2>1. Click: a quantity counter</h2>
+  <button type="button" id="minus" aria-label="Remove one">−</button>
+  <output id="qty">0</output>
+  <button type="button" id="plus" aria-label="Add one">+</button>
+</section>
+<!-- --8<-- [end:counter-html] -->
+
+<!-- --8<-- [start:search-html] -->
+<section>
+  <h2>2. Input: live search</h2>
+  <label for="search">Search</label>
+  <input id="search" type="search" placeholder="Try “ba”">
+  <ul id="results">
+    <li>Apple</li><li>Banana</li><li>Bread</li><li>Butter</li><li>Milk</li>
+  </ul>
+</section>
+<!-- --8<-- [end:search-html] -->
+
+<!-- --8<-- [start:form-html] -->
+<section>
+  <h2>3. Submit: a pincode form</h2>
+  <form id="pincode-form" novalidate>
+    <label for="pincode">Delivery pincode</label>
+    <input id="pincode" name="pincode" inputmode="numeric" autocomplete="postal-code" aria-describedby="pincode-msg">
+    <button type="submit">Check</button>
+    <p class="error" id="pincode-msg" aria-live="polite"></p>
+  </form>
+</section>
+<!-- --8<-- [end:form-html] -->
+
+<!-- --8<-- [start:list-html] -->
+<section>
+  <h2>4. Event delegation: one listener, many buttons</h2>
+  <ul id="cart">
+    <li>Apple <button type="button" data-remove>Remove</button></li>
+    <li>Milk <button type="button" data-remove>Remove</button></li>
+    <li>Bread <button type="button" data-remove>Remove</button></li>
+  </ul>
+</section>
+<!-- --8<-- [end:list-html] -->
+
+<script>
+// --8<-- [start:counter]
+const qtyOutput = document.querySelector("#qty");
+let qty = 0;
+
+function setQty(newQty) {
+  qty = Math.max(0, newQty);            // never below 0
+  qtyOutput.textContent = qty;
+}
+
+document.querySelector("#plus").addEventListener("click", () => setQty(qty + 1));
+document.querySelector("#minus").addEventListener("click", () => setQty(qty - 1));
+// --8<-- [end:counter]
+
+// --8<-- [start:search]
+const search = document.querySelector("#search");
+const items = document.querySelectorAll("#results li");
+
+search.addEventListener("input", (event) => {           // fires on every keystroke, paste or clear
+  const text = event.target.value.trim().toLowerCase();
+  for (const li of items) {
+    li.hidden = !li.textContent.toLowerCase().includes(text);
+  }
+});
+// --8<-- [end:search]
+
+// --8<-- [start:form]
+const form = document.querySelector("#pincode-form");
+const pincode = form.elements.pincode;                   // form.elements gives inputs by name
+const message = document.querySelector("#pincode-msg");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();                                // stop the browser reloading the page
+
+  const value = pincode.value.trim();
+  const valid = /^\d{6}$/.test(value);                   // exactly 6 digits
+  pincode.setAttribute("aria-invalid", String(!valid));
+  message.className = valid ? "ok" : "error";
+  message.textContent = valid
+    ? `Great, we deliver to ${value} in 10 minutes.`
+    : "Enter a 6-digit pincode, e.g. 560001.";
+  if (!valid) pincode.focus();
+});
+// --8<-- [end:form]
+
+// --8<-- [start:delegation]
+const cart = document.querySelector("#cart");
+
+cart.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-remove]");  // did the click land on (or in) a Remove button?
+  if (!button) return;
+  button.closest("li").remove();
+});
+// --8<-- [end:delegation]
+
+// --8<-- [start:keyboard]
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && document.activeElement === search) {
+    search.value = "";
+    search.dispatchEvent(new Event("input"));            // re-run the search listener
+  }
+});
+// --8<-- [end:keyboard]
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+plain log { id: 'apple', pricePaise: 18900 }
+info: same as log, different icon in the browser
+warn: yellow in the browser
+error: red in the browser, with a stack trace
+{ product: { id: 'apple', pricePaise: 18900 } }

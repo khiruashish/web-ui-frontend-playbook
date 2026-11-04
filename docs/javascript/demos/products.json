@@ -1,0 +1,6 @@
+[
+  { "id": "apple", "name": "Shimla Apple", "pricePaise": 18900, "emoji": "🍎" },
+  { "id": "banana", "name": "Robusta Banana", "pricePaise": 4900, "emoji": "🍌" },
+  { "id": "milk", "name": "Full Cream Milk", "pricePaise": 6800, "emoji": "🥛" },
+  { "id": "bread", "name": "Whole Wheat Bread", "pricePaise": 5000, "emoji": "🍞" }
+]

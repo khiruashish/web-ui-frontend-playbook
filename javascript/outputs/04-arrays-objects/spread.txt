@@ -1,0 +1,3 @@
+{ name: 'Milk', pricePaise: 6800 }
+{ name: 'Milk', pricePaise: 7200 }
+[ 'Tomato', 'Onion', 'Apple', 'Bread' ]
