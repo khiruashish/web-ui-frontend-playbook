@@ -30,7 +30,7 @@ hide:
 </div>
 
 <div class="pb-stats">
-<div class="pb-stat"><b>83</b><span>pages</span></div>
+<div class="pb-stat"><b>84</b><span>pages</span></div>
 <div class="pb-stat"><b>11</b><span>sections</span></div>
 <div class="pb-stat"><b>10</b><span>diagrams</span></div>
 </div>
@@ -88,7 +88,7 @@ Every element and property here is shown three ways: what it's **for**, the **co
 
     ---
 
-    A tour of Elements, Console, Sources, Network and more, then a Bug Lab with 7 planted bugs to find, one per tool.
+    A tour of Elements, Console, Sources, Network and more, a Bug Lab with 7 planted bugs, and an accessibility testing walkthrough.
 
     [:octicons-arrow-right-24: Start debugging](devtools/index.md)
 

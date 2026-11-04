@@ -31,7 +31,8 @@
     4. [JavaScript Basics](javascript/index.md): variables to `fetch()` in nine lessons.
     5. Build the [E-commerce Page](ecommerce/index.md) step by step: eight short lessons, every line explained.
     6. Rebuild three recipes from [See This → Write This](reverse-engineering/recipes.md) without looking at the code.
-    7. Learn [Debugging with DevTools](devtools/index.md), then find all 7 bugs in the [Bug Lab](devtools/bug-lab.md).
+    7. Learn [Debugging with DevTools](devtools/index.md), then find all 7 bugs in the [Bug Lab](devtools/bug-lab.md) and all 10
+       accessibility problems in the [Accessibility Testing Walkthrough](devtools/accessibility-testing.md).
     8. Stuck on a word? Check the [Glossary](glossary.md).
 
 === "🟡 Intermediate (2–5 yrs)"

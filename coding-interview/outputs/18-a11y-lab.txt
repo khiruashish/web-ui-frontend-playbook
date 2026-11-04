@@ -1,0 +1,5 @@
+18-a11y-lab: 4 checks, 0 failures
+  ✔ axe: the broken page fails 5 rules; the fixed page passes all of them
+  ✔ keyboard (broken): Tab skips ADD and focus is invisible; (fixed): ADD is a Tab stop with a 3px focus ring
+  ✔ dialog (broken): focus stays behind it, Esc does nothing, × can't be reached; (fixed): modal, focus moves in, Esc closes and returns focus
+  ✔ accessibility tree: what assistive tech gets from each page (saved for the docs)

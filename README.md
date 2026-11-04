@@ -12,7 +12,7 @@ Every HTML element and CSS feature in this playbook is shown three ways: **what 
 | **CSS & CSS3** | Cascade, specificity, box model, every selector type, colours and units, typography, CSS3 effects, positioning, animations, custom properties, and modern CSS (2023–2026). |
 | **Layout & Responsive** | Complete Flexbox and Grid references with live output, responsive design, 15+ layout patterns, and current UI trends. |
 | **JavaScript** | Nine lessons from variables to `fetch()`: types, decisions, functions, arrays and objects, loops and array methods, the DOM, events, async code, errors and debugging. Every console output shown is produced by running the code; the DOM, events and fetch demos are live and browser-tested. |
-| **DevTools** | A guided tour of browser DevTools (Elements, Styles, Computed, Grid/Flex overlays, Console, every kind of breakpoint, Network, Application, Rendering, Lighthouse), tested console snippets, and a **Bug Lab**: a page with 7 planted bugs, each found with a different tool, with a generated fixed version. |
+| **DevTools** | A guided tour of browser DevTools (Elements, Styles, Computed, Grid/Flex overlays, Console, every kind of breakpoint, Network, Application, Rendering, Lighthouse), tested console snippets, a **Bug Lab** (7 planted bugs, each found with a different tool), and an **Accessibility Testing Walkthrough** (10 planted problems tested with axe, the keyboard, the accessibility tree and a screen reader; the axe results and accessibility trees shown are produced by the test runner). |
 | **E-commerce Page** | A step-by-step build of a responsive grocery store page from 15 small components (header, search, category nav, hero, product card, filters, cart drawer, footer, bottom nav). Every line of HTML, CSS and JavaScript is explained in a table, with a live demo per component. |
 | **Reverse Engineering** | A repeatable method for turning any UI into code, 30+ "see this → write this" recipes, and a live layout gallery. |
 | **Cheat Sheets** | 8 printable quick references: HTML, CSS, CSS3 & modern CSS, Flexbox, Grid, responsive, units/colours/functions, and UI components & patterns. The Flexbox and Grid sheets have a live mini-diagram for every value. |
@@ -53,7 +53,7 @@ Some pages are generated from Python so the code you read is always the code tha
 | `docs/cheatsheets/flexbox.md`, `docs/cheatsheets/grid.md` | `scripts/gen_visual_cheatsheets.py` | `python3 scripts/gen_visual_cheatsheets.py docs/cheatsheets` |
 | `docs/ecommerce/demos/0[2-7]-*.html` (one page per component) | `docs/ecommerce/demos/store.html` via `scripts/gen_ecommerce_demos.py` | `python3 scripts/gen_ecommerce_demos.py docs/ecommerce/demos` |
 | `docs/ecommerce/demos/store-solved.html`, `js/store-solved.js` (every exercise solved) | `store.html` + `js/store.js` + the solution patches in `scripts/gen_ecommerce_demos.py` | same command |
-| `docs/devtools/demos/bug-lab-fixed.html` | `docs/devtools/demos/bug-lab.html` + the fixes in `scripts/gen_bug_lab.py` | `python3 scripts/gen_bug_lab.py docs/devtools/demos` |
+| `docs/devtools/demos/bug-lab-fixed.html`, `a11y-lab-fixed.html` | `bug-lab.html` / `a11y-lab.html` + the fixes in `scripts/gen_bug_lab.py` | `python3 scripts/gen_bug_lab.py docs/devtools/demos` |
 
 Edit the script, not the generated file.
 
@@ -66,7 +66,7 @@ node javascript/run-examples.mjs --check   # CI mode: fail if any output is stal
 
 ## Browser checks (Coding Interview + E-commerce)
 
-Every solution in the **Coding Interview** tab, the finished E-commerce store page, the JavaScript tab's DOM/events/fetch demos, and the exercise solutions of both tabs, and the DevTools Bug Lab (broken and fixed) are verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
+Every solution in the **Coding Interview** tab, the finished E-commerce store page, the JavaScript tab's DOM/events/fetch demos, and the exercise solutions of both tabs, and the DevTools Bug Lab and A11y Lab (broken and fixed, the latter also scanned with axe-core) are verified in real Chromium (layout geometry, keyboard, ARIA) plus JS unit
 checks with mock timers. CI runs them on every pull request (`.github/workflows/coding-interview.yml`):
 
 ```bash

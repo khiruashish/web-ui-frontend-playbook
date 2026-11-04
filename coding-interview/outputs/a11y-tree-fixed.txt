@@ -1,0 +1,17 @@
+- banner:
+  - link "FreshCart":
+    - /url: "#"
+  - button "Cart"
+  - status: 0 in cart
+- main:
+  - heading "Fresh fruit" [level=1]
+  - heading "Today's picks" [level=2]
+  - search:
+    - text: Search products
+    - searchbox "Search products"
+    - button "Go"
+  - article:
+    - paragraph: Shimla Apple, 1 kg
+    - paragraph: Delivered in 10 minutes
+    - button "Add Shimla Apple to cart": ADD
+  - button "Delivery info"

@@ -1,4 +1,5 @@
-// Runs every coding-interview check and writes one report per problem to outputs/ (shown on the docs pages).
+// Runs every coding-interview check (and the other tabs' browser checks) and writes one report per group to outputs/
+// (shown on the docs pages), plus extra reports such as the A11y Lab's axe results and accessibility trees.
 //   node run-tests.mjs          run all checks, (re)write outputs/
 //   node run-tests.mjs --check  CI: fail on any failing check or a report that differs from the committed one
 // Browser problems run in real Chromium (Playwright) against docs/coding-interview/demos/*.html.
@@ -19,6 +20,24 @@ const store = pathToFileURL(path.join(here, "..", "docs", "ecommerce", "demos", 
 const solved = store.replace(/store\.html$/, "store-solved.html");   // the same page with every exercise solved
 const snippetsSource = readFileSync(path.join(here, "..", "docs", "devtools", "demos", "snippets.js"), "utf8");
 const snippet = (name) => snippetsSource.match(new RegExp(`// --8<-- \\[start:${name}\\]\\n([\\s\\S]*?)// --8<-- \\[end:${name}\\]`))[1];
+// Extra reports (axe results, accessibility trees) shown on the docs pages; written or, with --check, compared below.
+const reports = new Map();
+const axePath = createRequire(import.meta.url).resolve("axe-core");
+async function axe(page) {
+  await page.addScriptTag({ path: axePath });
+  const result = await page.evaluate(() => window.axe.run());
+  return result.violations.map((v) => ({ id: v.id, impact: v.impact, count: v.nodes.length, help: v.help }));
+}
+const axeReport = (title, violations) =>
+  `${title}: ${violations.length} rule${violations.length === 1 ? "" : "s"} failed\n` +
+  violations.map((v) => `  ✘ ${v.id.padEnd(15)} ${v.impact.padEnd(9)} ${v.count} element${v.count === 1 ? " " : "s"}  ${v.help}`).join("\n") +
+  (violations.length ? "\n" : "");
+// Which element has focus, as "tag.class" (or "tag#id")
+const focused = (page) => page.evaluate(() => {
+  const el = document.activeElement;
+  return el.tagName.toLowerCase() + (el.id ? `#${el.id}` : el.classList.length ? `.${[...el.classList].join(".")}` : "");
+});
+
 // Run a console snippet in the page exactly as pasting it into the Console would, and collect what it logs.
 async function runSnippet(page, name) {
   const logged = [];
@@ -720,6 +739,73 @@ const problems = [
       await ctx.close();
     }],
   ]],
+  ["18-a11y-lab", [
+    ["axe: the broken page fails 5 rules; the fixed page passes all of them", async () => {
+      for (const [file, title] of [["a11y-lab.html", "a11y-lab.html (broken)"], ["a11y-lab-fixed.html", "a11y-lab-fixed.html"]]) {
+        const { page, ctx } = await open(`http://localhost:4317/devtools/${file}`, { width: 1280 });
+        const violations = await axe(page);
+        reports.set(file.startsWith("a11y-lab-fixed") ? "a11y-axe-fixed" : "a11y-axe-broken", axeReport(title, violations));
+        const expected = file === "a11y-lab.html" ? ["button-name", "color-contrast", "heading-order", "html-has-lang", "image-alt"] : [];
+        assert.deepEqual(violations.map((v) => v.id).sort(), expected, file);
+        await ctx.close();
+      }
+    }],
+    ["keyboard (broken): Tab skips ADD and focus is invisible; (fixed): ADD is a Tab stop with a 3px focus ring", async () => {
+      let { page, ctx } = await open("http://localhost:4317/devtools/a11y-lab.html", { width: 1280 });
+      const stops = [];
+      for (let i = 0; i < 6; i++) { await page.keyboard.press("Tab"); stops.push(await focused(page)); }
+      assert.deepEqual(stops.slice(0, 5), ["a.logo", "button.icon-btn", "input", "button", "button.info-btn"]);
+      assert.equal(await page.evaluate(() => getComputedStyle(document.activeElement).outlineStyle), "none");
+      await ctx.close();
+      ({ page, ctx } = await open("http://localhost:4317/devtools/a11y-lab-fixed.html", { width: 1280 }));
+      const fixedStops = [];
+      for (let i = 0; i < 6; i++) { await page.keyboard.press("Tab"); fixedStops.push(await focused(page)); }
+      assert.deepEqual(fixedStops, ["a.logo", "button.icon-btn", "input#q", "button", "button.add", "button.info-btn"]);
+      await page.keyboard.press("Shift+Tab");
+      const ring = await page.evaluate(() => { const s = getComputedStyle(document.activeElement); return `${s.outlineWidth} ${s.outlineStyle}`; });
+      assert.equal(ring, "3px solid");
+      await page.keyboard.press("Enter");                                   // ADD from the keyboard
+      assert.equal(await page.locator('[role="status"]').textContent(), "1 in cart");
+      await ctx.close();
+    }],
+    ["dialog (broken): focus stays behind it, Esc does nothing, × can't be reached; (fixed): modal, focus moves in, Esc closes and returns focus", async () => {
+      let { page, ctx } = await open("http://localhost:4317/devtools/a11y-lab.html", { width: 1280 });
+      await page.locator(".info-btn").focus();
+      await page.keyboard.press("Enter");
+      assert.ok(await page.locator("#info").isVisible());
+      assert.equal(await focused(page), "button.info-btn");
+      await page.keyboard.press("Escape");
+      assert.ok(await page.locator("#info").isVisible(), "Esc doesn't close it");
+      assert.equal(await page.locator(".close").evaluate((el) => el.tabIndex), -1, "× is not focusable");
+      await ctx.close();
+      ({ page, ctx } = await open("http://localhost:4317/devtools/a11y-lab-fixed.html", { width: 1280 }));
+      await page.locator(".info-btn").focus();
+      await page.keyboard.press("Enter");
+      assert.ok(await page.locator("#info").evaluate((el) => el.matches(":modal")));
+      assert.equal(await focused(page), "button.close");
+      await page.keyboard.press("Escape");
+      assert.ok(await page.locator("#info").isHidden());
+      assert.equal(await focused(page), "button.info-btn");
+      await ctx.close();
+    }],
+    ["accessibility tree: what assistive tech gets from each page (saved for the docs)", async () => {
+      for (const file of ["a11y-lab.html", "a11y-lab-fixed.html"]) {
+        const { page, ctx } = await open(`http://localhost:4317/devtools/${file}`, { width: 1280 });
+        const tree = await page.locator("body").ariaSnapshot();
+        reports.set(file === "a11y-lab.html" ? "a11y-tree-broken" : "a11y-tree-fixed", tree + "\n");
+        if (file === "a11y-lab.html") {
+          assert.match(tree, /- button\n/, "unnamed cart button");
+          assert.match(tree, /- img\n/, "unnamed image");
+        } else {
+          assert.match(tree, /- button "Cart"/);
+          assert.match(tree, /- searchbox "Search products"/);
+          assert.match(tree, /- button "Add Shimla Apple to cart"/);
+          assert.match(tree, /- status: 0 in cart/);
+        }
+        await ctx.close();
+      }
+    }],
+  ]],
 ];
 
 // A tiny static server for the localStorage check (file:// pages have an opaque origin).
@@ -752,6 +838,12 @@ for (const [name, checks] of problems) {
   } else writeFileSync(out, text);
   console.log(`${failed ? "FAIL" : "PASS"}  ${name} (${checks.length} checks)`);
   if (failed) problemsWithIssues++;
+}
+for (const [name, text] of reports) {
+  const out = path.join(here, "outputs", `${name}.txt`);
+  if (CHECK) {
+    if (!existsSync(out) || readFileSync(out, "utf8") !== text) { console.log(`DIFF  ${name}: run node run-tests.mjs and commit outputs/`); problemsWithIssues++; }
+  } else writeFileSync(out, text);
 }
 server.close();
 await browser.close();

@@ -8,6 +8,7 @@
     "check": "node --no-warnings run-tests.mjs --check"
   },
   "devDependencies": {
+    "axe-core": "4.14.0",
     "playwright": "1.63.0"
   }
 }

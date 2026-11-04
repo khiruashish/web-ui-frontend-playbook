@@ -41,7 +41,7 @@ jobs:
       - run: pip install -r requirements.txt
       - name: Generated E-commerce demo pages are up to date
         run: python3 scripts/gen_ecommerce_demos.py docs/ecommerce/demos && git diff --exit-code docs/ecommerce/demos
-      - name: Generated Bug Lab fix is up to date
+      - name: Generated Bug Lab and A11y Lab fixes are up to date
         run: python3 scripts/gen_bug_lab.py docs/devtools/demos && git diff --exit-code docs/devtools/demos
       - run: mkdocs build --strict
         env:
